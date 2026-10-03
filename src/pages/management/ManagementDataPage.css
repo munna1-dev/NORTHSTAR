@@ -1,0 +1,218 @@
+.management-data {
+  width: 100%;
+}
+
+.management-data__toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin: 22px 0;
+  flex-wrap: wrap;
+}
+
+.management-data__filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.management-data__search {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 280px;
+  padding: 10px 13px;
+  border: 1px solid var(--fs-border);
+  border-radius: 10px;
+  background: var(--fs-panel);
+}
+
+.management-data__search input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  color: inherit;
+  background: transparent;
+}
+
+.management-data__card {
+  overflow: hidden;
+  border: 1px solid var(--fs-border);
+  border-radius: 14px;
+  background: var(--fs-panel);
+}
+
+.management-data__table-wrap {
+  overflow-x: auto;
+}
+
+.management-data table {
+  width: 100%;
+  min-width: 850px;
+  border-collapse: collapse;
+}
+
+.management-data th,
+.management-data td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--fs-border);
+  white-space: nowrap;
+}
+
+.management-data th {
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--fs-muted);
+}
+
+.management-data td {
+  font-size: 14px;
+}
+
+.management-data tbody tr {
+  cursor: pointer;
+}
+
+.management-data tbody tr:hover {
+  background: rgba(214, 178, 94, .05);
+}
+
+.management-data__primary {
+  font-weight: 600;
+}
+
+.management-data__secondary {
+  margin-top: 3px;
+  font-size: 12px;
+  color: var(--fs-muted);
+}
+
+.management-data__badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 5px 9px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: capitalize;
+  background: rgba(255,255,255,.08);
+}
+
+.management-data__badge--active,
+.management-data__badge--completed,
+.management-data__badge--resolved {
+  color: #8ee6ae;
+  background: rgba(70, 190, 110, .12);
+}
+
+.management-data__badge--pending,
+.management-data__badge--under_review,
+.management-data__badge--in_progress {
+  color: #e7c56e;
+  background: rgba(214,178,94,.12);
+}
+
+.management-data__badge--failed,
+.management-data__badge--rejected,
+.management-data__badge--closed,
+.management-data__badge--cancelled,
+.management-data__badge--suspended,
+.management-data__badge--frozen {
+  color: #ff9d9d;
+  background: rgba(220,80,80,.12);
+}
+
+.management-data__empty {
+  min-height: 220px;
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  padding: 40px;
+  color: var(--fs-muted);
+  text-align: center;
+}
+
+.management-data__drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(0,0,0,.55);
+}
+
+.management-data__drawer-panel {
+  width: min(480px, 100%);
+  height: 100%;
+  overflow-y: auto;
+  padding: 28px;
+  background: var(--fs-panel);
+  border-left: 1px solid var(--fs-border);
+}
+
+.management-data__drawer-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.management-data__drawer-head h2 {
+  margin: 0;
+}
+
+.management-data__close {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.management-data__detail {
+  display: grid;
+  gap: 15px;
+}
+
+.management-data__detail-item {
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--fs-border);
+}
+
+.management-data__detail-item label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 11px;
+  color: var(--fs-muted);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.management-data__actions {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.management-data__error {
+  margin-bottom: 18px;
+  padding: 12px 15px;
+  border: 1px solid rgba(220,80,80,.35);
+  border-radius: 10px;
+  color: #ffb0b0;
+  background: rgba(220,80,80,.08);
+}
+
+@media (max-width: 700px) {
+  .management-data__search {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .management-data__drawer-panel {
+    padding: 20px;
+  }
+}

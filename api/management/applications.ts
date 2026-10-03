@@ -1,0 +1,375 @@
+import type { VercelRequest, VercelResponse } from '@vercel/node'
+import { randomInt } from 'node:crypto'
+import { requireManagement } from '../../src/server/auth/management'
+import { writeAuditLog } from '../../src/server/auth/audit'
+import { getDb } from '../../src/server/db/client'
+
+const VALID_STATUSES = new Set([
+  'pending',
+  'under_review',
+  'approved',
+  'rejected',
+  'cancelled',
+])
+
+export default async function handler(
+  req: VercelRequest,
+  res: VercelResponse,
+) {
+  try {
+    const user = await requireManagement(req)
+
+    if (!user) {
+      return res.status(403).json({
+        ok: false,
+        error: 'Management authorization required.',
+      })
+    }
+
+    const db = getDb()
+
+    if (req.method === 'GET') {
+      const requestedStatus = String(req.query.status ?? '').trim()
+
+      const values: string[] = []
+      let where = ''
+
+      if (requestedStatus) {
+        if (!VALID_STATUSES.has(requestedStatus)) {
+          return res.status(400).json({
+            ok: false,
+            error: 'Invalid application status.',
+          })
+        }
+
+        values.push(requestedStatus)
+        where = 'WHERE aa.status = ?'
+      }
+
+      const result = await db.query(
+        `
+          SELECT
+            aa.id,
+            aa.customer_id,
+            aa.account_type,
+            aa.first_name,
+            aa.last_name,
+            aa.email,
+            aa.phone,
+            aa.status,
+            aa.review_notes,
+            aa.reviewed_by,
+            aa.created_at,
+            aa.updated_at,
+            aa.reviewed_at,
+            c.customer_number,
+            c.status AS customer_status
+          FROM account_applications aa
+          LEFT JOIN customers c
+            ON c.id = aa.customer_id
+          ${where}
+          ORDER BY
+            CASE aa.status
+              WHEN 'pending' THEN 1
+              WHEN 'under_review' THEN 2
+              WHEN 'approved' THEN 3
+              WHEN 'rejected' THEN 4
+              WHEN 'cancelled' THEN 5
+              ELSE 6
+            END,
+            aa.created_at DESC
+          LIMIT 250
+        `,
+        values,
+      )
+
+      return res.status(200).json({
+        ok: true,
+        applications: result.rows,
+      })
+    }
+
+    if (req.method === 'PATCH') {
+      const applicationId = String(req.body?.applicationId ?? '').trim()
+      const status = String(req.body?.status ?? '').trim()
+      const reviewNotes =
+        req.body?.reviewNotes === undefined
+          ? null
+          : String(req.body.reviewNotes).trim()
+
+      if (!applicationId || !status) {
+        return res.status(400).json({
+          ok: false,
+          error: 'Application ID and status are required.',
+        })
+      }
+
+      if (!VALID_STATUSES.has(status)) {
+        return res.status(400).json({
+          ok: false,
+          error: 'Invalid application status.',
+        })
+      }
+
+      if (
+        status === 'rejected' &&
+        (!reviewNotes || reviewNotes.length < 3)
+      ) {
+        return res.status(400).json({
+          ok: false,
+          error: 'A review note is required when rejecting an application.',
+        })
+      }
+
+      const client = await db.connect()
+
+      try {
+        await client.query('BEGIN')
+
+        const existing = await client.query(
+          `
+            SELECT
+              id,
+              customer_id,
+              account_type,
+              first_name,
+              last_name,
+              email,
+              phone,
+              status
+            FROM account_applications
+            WHERE id = ?
+          `,
+          [applicationId],
+        )
+
+        if (existing.rowCount !== 1) {
+          await client.query('ROLLBACK')
+
+          return res.status(404).json({
+            ok: false,
+            error: 'Application not found.',
+          })
+        }
+
+        const application = existing.rows[0]
+
+        if (
+          application.status === 'approved' ||
+          application.status === 'rejected' ||
+          application.status === 'cancelled'
+        ) {
+          await client.query('ROLLBACK')
+
+          return res.status(409).json({
+            ok: false,
+            error: 'This application has already reached a final status.',
+          })
+        }
+
+        const allowedTransitions: Record<string, string[]> = {
+          pending: ['under_review', 'approved', 'rejected', 'cancelled'],
+          under_review: ['approved', 'rejected', 'cancelled'],
+        }
+
+        if (!allowedTransitions[application.status]?.includes(status)) {
+          await client.query('ROLLBACK')
+
+          return res.status(409).json({
+            ok: false,
+            error: `Application cannot move from ${application.status} to ${status}.`,
+          })
+        }
+
+        if (status === 'approved') {
+          let customerId = application.customer_id
+
+          if (!customerId) {
+            const existingCustomer = await client.query(
+              `
+                SELECT id
+                FROM customers
+                WHERE LOWER(email) = LOWER(?)
+                LIMIT 1
+              `,
+              [application.email],
+            )
+
+            if (existingCustomer.rowCount === 1) {
+              customerId = existingCustomer.rows[0].id
+            }
+          }
+
+          if (!customerId) {
+            await client.query('ROLLBACK')
+
+            return res.status(409).json({
+              ok: false,
+              error:
+                'This application has no existing customer account. Create the customer account through the approved onboarding flow before approving it.',
+            })
+          }
+
+          const existingAccount = await client.query(
+            `
+              SELECT account_number
+              FROM accounts
+              WHERE customer_id = ?
+                AND account_type = ?
+                AND status <> 'closed'
+              LIMIT 1
+            `,
+            [customerId, application.account_type],
+          )
+
+          if (existingAccount.rowCount === 1) {
+            await client.query('ROLLBACK')
+
+            return res.status(409).json({
+              ok: false,
+              error:
+                'This customer already has an active or pending account of the requested type.',
+            })
+          }
+
+          const accountNumber = await generateAccountNumber(client)
+
+          await client.query(
+            `
+              INSERT INTO accounts (
+                customer_id,
+                account_number,
+                account_type,
+                status,
+                currency,
+                available_balance,
+                current_balance
+              )
+              VALUES (?, ?, ?, 'active', 'USD', 0, 0)
+            `,
+            [
+              customerId,
+              accountNumber,
+              application.account_type,
+            ],
+          )
+
+          await client.query(
+            `
+              UPDATE account_applications
+              SET
+                customer_id = ?,
+                status = 'approved',
+                review_notes = ?,
+                reviewed_by = ?,
+                reviewed_at = CURRENT_TIMESTAMP,
+                updated_at = CURRENT_TIMESTAMP
+              WHERE id = ?
+            `,
+            [
+              customerId,
+              reviewNotes,
+              user.id,
+              applicationId,
+            ],
+          )
+        } else {
+          await client.query(
+            `
+              UPDATE account_applications
+              SET
+                status = ?,
+                review_notes = ?,
+                reviewed_by = ?,
+                reviewed_at = CASE
+                  WHEN ? IN ('rejected', 'cancelled')
+                    THEN CURRENT_TIMESTAMP
+                  ELSE reviewed_at
+                END,
+                updated_at = CURRENT_TIMESTAMP
+              WHERE id = ?
+            `,
+            [
+              status,
+              reviewNotes,
+              user.id,
+              applicationId,
+            ],
+          )
+        }
+
+        await client.query('COMMIT')
+      } catch (error) {
+        await client.query('ROLLBACK')
+        throw error
+      } finally {
+        client.release()
+      }
+
+      await writeAuditLog(
+        req,
+        user.id,
+        `application.${status}`,
+        'account_application',
+        applicationId,
+        `Account application ${status} by management user.`,
+        {
+          applicationId,
+          status,
+          reviewNotes,
+        },
+      )
+
+      return res.status(200).json({
+        ok: true,
+        message: `Application ${status}.`,
+      })
+    }
+
+    res.setHeader('Allow', 'GET, PATCH')
+
+    return res.status(405).json({
+      ok: false,
+      error: 'Method not allowed',
+    })
+  } catch (error) {
+    console.error('Management applications failed:', error)
+
+    return res.status(500).json({
+      ok: false,
+      error: 'Unable to process management application request.',
+    })
+  }
+}
+
+async function generateAccountNumber(
+  client: {
+    query: (
+      text: string,
+      values?: unknown[],
+    ) => Promise<{ rows: Array<Record<string, unknown>> }>
+  },
+): Promise<string> {
+  for (let attempt = 0; attempt < 10; attempt += 1) {
+    const candidate =
+      `40${randomInt(10000000, 100000000)}${randomInt(0, 100)
+        .toString()
+        .padStart(2, '0')}`
+
+    const result = await client.query(
+      `
+        SELECT 1
+        FROM accounts
+        WHERE account_number = ?
+        LIMIT 1
+      `,
+      [candidate],
+    )
+
+    if (result.rows.length === 0) {
+      return candidate
+    }
+  }
+
+  throw new Error('Unable to generate a unique account number.')
+}

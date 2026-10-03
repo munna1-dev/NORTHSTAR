@@ -1,0 +1,6 @@
+.app-shell{min-height:100vh;background:var(--fs-bg)}
+.app-shell__header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);border-bottom:1px solid var(--fs-border);backdrop-filter:blur(12px)}
+.app-shell__main{min-height:calc(100vh - 145px)}
+.app-shell__footer{border-top:1px solid var(--fs-border);background:var(--fs-white)}
+.app-shell__footer-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;width:min(1200px,calc(100% - 40px));margin:0 auto;padding:24px 0;color:var(--fs-muted);font-size:13px}
+@media(max-width:640px){.app-shell__footer-inner{width:min(100% - 28px,1200px);flex-direction:column;align-items:flex-start;gap:8px}}

@@ -1,0 +1,569 @@
+.management-applications {
+  display: grid;
+  gap: 22px;
+}
+
+.management-page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.management-page-header__eyebrow {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--fs-teal);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.14em;
+}
+
+.management-page-header h1 {
+  margin: 0;
+  color: var(--fs-navy);
+  font-size: clamp(25px, 3vw, 34px);
+  letter-spacing: -0.035em;
+}
+
+.management-page-header p {
+  max-width: 680px;
+  margin: 7px 0 0;
+  color: var(--fs-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.management-button {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+  transition:
+    transform 120ms ease,
+    background 120ms ease,
+    border-color 120ms ease;
+}
+
+.management-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.management-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.management-button--secondary {
+  background: var(--fs-white);
+  color: var(--fs-navy);
+  border-color: var(--fs-border);
+}
+
+.management-button--secondary:hover:not(:disabled) {
+  background: var(--fs-bg);
+}
+
+.management-button--success {
+  background: #0f766e;
+  color: white;
+}
+
+.management-button--danger {
+  background: #b42318;
+  color: white;
+}
+
+.management-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--fs-border);
+  border-radius: 9px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.management-alert svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+}
+
+.management-alert--error {
+  color: #8a1c13;
+  background: #fff5f4;
+  border-color: #f0c7c3;
+}
+
+.management-alert--success {
+  color: #126b55;
+  background: #f0faf6;
+  border-color: #c6e8dc;
+}
+
+.management-alert--warning {
+  color: #805b00;
+  background: #fff9e8;
+  border-color: #eedb9c;
+}
+
+.management-applications__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.management-applications__filters {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.management-filter {
+  min-height: 34px;
+  padding: 0 11px;
+  border: 1px solid var(--fs-border);
+  border-radius: 7px;
+  background: var(--fs-white);
+  color: var(--fs-muted);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.management-filter:hover {
+  color: var(--fs-navy);
+}
+
+.management-filter--active {
+  background: var(--fs-navy);
+  color: var(--fs-white);
+  border-color: var(--fs-navy);
+}
+
+.management-search {
+  min-width: min(100%, 330px);
+  height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 11px;
+  border: 1px solid var(--fs-border);
+  border-radius: 8px;
+  background: var(--fs-white);
+  color: var(--fs-muted);
+}
+
+.management-search input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--fs-text);
+  font: inherit;
+  font-size: 12px;
+}
+
+.management-applications__card {
+  overflow: hidden;
+  border: 1px solid var(--fs-border);
+  border-radius: 12px;
+  background: var(--fs-white);
+  box-shadow: var(--fs-shadow-sm);
+}
+
+.management-table-header {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  border-bottom: 1px solid var(--fs-border);
+}
+
+.management-table-header div {
+  display: grid;
+  gap: 3px;
+}
+
+.management-table-header strong {
+  color: var(--fs-navy);
+  font-size: 13px;
+}
+
+.management-table-header span {
+  color: var(--fs-muted);
+  font-size: 10px;
+}
+
+.management-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.management-table {
+  width: 100%;
+  min-width: 850px;
+  border-collapse: collapse;
+}
+
+.management-table th {
+  padding: 11px 16px;
+  background: #f8fafc;
+  color: var(--fs-muted);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.management-table td {
+  padding: 13px 16px;
+  border-top: 1px solid var(--fs-border);
+  color: var(--fs-text);
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+.management-table tbody tr:hover {
+  background: #fbfcfe;
+}
+
+.management-table__person {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.management-table__avatar {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #edf2f7;
+  color: var(--fs-navy);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.management-table__person > div:last-child {
+  display: grid;
+  gap: 3px;
+}
+
+.management-table__person strong {
+  color: var(--fs-navy);
+  font-size: 12px;
+}
+
+.management-table__person span,
+.management-table__muted,
+.management-table__date {
+  color: var(--fs-muted);
+  font-size: 10px;
+}
+
+.management-table__primary {
+  color: var(--fs-text);
+  font-weight: 700;
+}
+
+.management-status {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: #eef2f6;
+  color: #475467;
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: capitalize;
+}
+
+.management-status--pending {
+  background: #fff5d9;
+  color: #805b00;
+}
+
+.management-status--under_review {
+  background: #edf4ff;
+  color: #245b9c;
+}
+
+.management-status--approved {
+  background: #e9f8f1;
+  color: #126b55;
+}
+
+.management-status--rejected,
+.management-status--cancelled {
+  background: #fff0ef;
+  color: #8a1c13;
+}
+
+.management-icon-button {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--fs-border);
+  border-radius: 7px;
+  background: var(--fs-white);
+  color: var(--fs-navy);
+  cursor: pointer;
+}
+
+.management-icon-button:hover:not(:disabled) {
+  background: var(--fs-bg);
+}
+
+.management-icon-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.management-empty-state {
+  min-height: 260px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 8px;
+  padding: 30px;
+  color: var(--fs-muted);
+  text-align: center;
+}
+
+.management-empty-state strong {
+  color: var(--fs-navy);
+  font-size: 13px;
+}
+
+.management-empty-state span {
+  font-size: 11px;
+}
+
+.management-spin {
+  animation: management-spin 900ms linear infinite;
+}
+
+.management-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(15, 23, 42, 0.42);
+  z-index: 100;
+}
+
+.management-application-drawer {
+  width: min(620px, 100%);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--fs-white);
+  box-shadow: var(--fs-shadow-lg);
+}
+
+.management-drawer__header {
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--fs-border);
+}
+
+.management-drawer__header h2 {
+  margin: 0;
+  color: var(--fs-navy);
+  font-size: 18px;
+}
+
+.management-drawer__body {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.management-review-card {
+  display: grid;
+  gap: 18px;
+  padding: 16px;
+  border: 1px solid var(--fs-border);
+  border-radius: 10px;
+  background: #fbfcfe;
+}
+
+.management-review-card__identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.management-review-card__avatar {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--fs-navy);
+  color: var(--fs-white);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.management-review-card h3 {
+  margin: 0;
+  color: var(--fs-navy);
+  font-size: 15px;
+}
+
+.management-review-card p {
+  margin: 3px 0 0;
+  color: var(--fs-muted);
+  font-size: 11px;
+}
+
+.management-review-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.management-review-grid > div {
+  display: grid;
+  gap: 4px;
+}
+
+.management-review-grid span {
+  color: var(--fs-muted);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.management-review-grid strong {
+  color: var(--fs-text);
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+.management-field {
+  display: grid;
+  gap: 7px;
+}
+
+.management-field > span {
+  color: var(--fs-navy);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.management-field textarea {
+  width: 100%;
+  resize: vertical;
+  box-sizing: border-box;
+  padding: 11px;
+  border: 1px solid var(--fs-border);
+  border-radius: 8px;
+  outline: 0;
+  background: var(--fs-white);
+  color: var(--fs-text);
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.management-field textarea:focus {
+  border-color: var(--fs-teal);
+  box-shadow: 0 0 0 3px rgba(19, 118, 112, 0.08);
+}
+
+.management-field textarea:disabled {
+  background: #f8fafc;
+}
+
+.management-field small {
+  color: var(--fs-muted);
+  font-size: 9px;
+}
+
+.management-drawer__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.management-saving {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  color: var(--fs-muted);
+  font-size: 10px;
+}
+
+@keyframes management-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 700px) {
+  .management-page-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .management-page-header .management-button {
+    width: 100%;
+  }
+
+  .management-applications__toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .management-search {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .management-review-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .management-drawer__body {
+    padding: 16px;
+  }
+
+  .management-drawer__actions {
+    flex-direction: column;
+  }
+
+  .management-drawer__actions .management-button {
+    width: 100%;
+  }
+}
