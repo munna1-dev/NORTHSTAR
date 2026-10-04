@@ -100,13 +100,27 @@ async function request<T extends object>(
       : {}),
   })
 
-  const result = (await response.json()) as T
+  const contentType = response.headers.get("content-type") ?? ""
+  let result: T
+
+  if (contentType.includes("application/json")) {
+    result = (await response.json()) as T
+  } else {
+    const responseText = await response.text()
+
+    throw new Error(
+      response.ok
+        ? "The banking service returned an unexpected response."
+        : responseText.trim() ||
+            `Banking request failed (${response.status}).`,
+    )
+  }
 
   if (!response.ok) {
     throw new Error(
       "error" in result && typeof result.error === "string"
         ? result.error
-        : "Unable to complete the banking request.",
+        : `Banking request failed (${response.status}).`,
     )
   }
 

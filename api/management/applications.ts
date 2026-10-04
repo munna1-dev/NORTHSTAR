@@ -148,6 +148,7 @@ export default async function handler(
               status
             FROM account_applications
             WHERE id = $1
+            FOR UPDATE
           `,
           [applicationId],
         )
@@ -362,9 +363,7 @@ async function generateAccountNumber(
 ): Promise<string> {
   for (let attempt = 0; attempt < 10; attempt += 1) {
     const candidate =
-      `40${randomInt(10000000, 100000000)}${randomInt(0, 100)
-        .toString()
-        .padStart(2, '0')}`
+      `40${randomInt(1000000000, 10000000000)}`
 
     const result = await client.query(
       `

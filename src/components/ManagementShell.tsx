@@ -25,7 +25,12 @@ interface ManagementShellProps {
   children: ReactNode
 }
 
-const navigation = [
+const navigation: Array<{
+  label: string
+  href: string
+  icon: typeof LayoutDashboard
+  superManagerOnly?: boolean
+}> = [
   {
     label: 'Dashboard',
     href: '/management',
@@ -70,6 +75,7 @@ const navigation = [
     label: 'Staff Control',
     href: '/management/staff',
     icon: UserCog,
+    superManagerOnly: true,
   },
 ]
 
@@ -98,7 +104,13 @@ export function ManagementShell({
           <BrandMark />
           <div>
             <strong>NorthStarBank</strong>
-            <span>Management</span>
+            <span>
+              {customer.role === 'super_manager'
+                ? 'Super Manager'
+                : customer.role === 'developer'
+                  ? 'Developer'
+                  : 'Management'}
+            </span>
           </div>
           <button
             className="management-shell__close"
@@ -115,10 +127,16 @@ export function ManagementShell({
         </div>
 
         <nav className="management-shell__nav">
-          {navigation.map((item) => {
-            const Icon = item.icon
+          {navigation
+            .filter(
+              (item) =>
+                !item.superManagerOnly ||
+                customer.role === 'super_manager',
+            )
+            .map((item) => {
+              const Icon = item.icon
 
-            return (
+              return (
               <NavLink
                 key={item.href}
                 to={item.href}

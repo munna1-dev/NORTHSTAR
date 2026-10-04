@@ -32,3 +32,4 @@ dist-ssr
 
 # Local PostgreSQL migration backups
 *.postgres-backup
+.env.local

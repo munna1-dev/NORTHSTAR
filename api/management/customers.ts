@@ -20,10 +20,23 @@ export default async function handler(
   request: VercelRequest,
   response: VercelResponse,
 ) {
+  const requestedStatus =
+    typeof request.body === 'object' &&
+    request.body !== null &&
+    typeof (request.body as Record<string, unknown>).status === 'string'
+      ? ((request.body as Record<string, unknown>).status as string).trim()
+      : ''
+
   const permission: ManagementPermission =
     request.method === 'GET'
       ? 'customers.view'
-      : 'customers.view'
+      : requestedStatus === 'suspended'
+        ? 'customers.suspend'
+        : requestedStatus === 'closed'
+          ? 'customers.close'
+          : requestedStatus === 'active'
+            ? 'customers.reactivate'
+            : 'customers.view'
 
   const managementUser = await requirePermission(request, permission)
 
@@ -168,6 +181,7 @@ export default async function handler(
             role
           FROM customers
           WHERE id = $1
+          FOR UPDATE
         `,
         [customerId],
       )
@@ -179,12 +193,16 @@ export default async function handler(
 
       const customer = customerResult.rows[0]
 
-      if (customer.role === 'management' || customer.role === 'developer') {
+      if (
+        customer.role === 'management' ||
+        customer.role === 'developer' ||
+        customer.role === 'super_manager'
+      ) {
         await client.query('ROLLBACK')
         return sendError(
           response,
           403,
-          'Management staff accounts cannot be changed through customer controls.',
+          'Management, developer, and super manager accounts cannot be changed through customer controls.',
         )
       }
 

@@ -2,38 +2,44 @@ import { createHash, randomBytes, randomUUID } from 'node:crypto'
 import type { VercelRequest } from '@vercel/node'
 import { getDb } from '../db/client.js'
 
-const SESSION_COOKIE = 'fsbank_session'
+const SESSION_COOKIE = 'northstar_session'
+const LEGACY_SESSION_COOKIE = 'fsbank_session'
 const SESSION_DAYS = 7
 
 function hashToken(token: string): string {
   return createHash('sha256').update(token).digest('hex')
 }
 
-function parseCookies(request: VercelRequest): Record<string, string> {
-  const header = request.headers.cookie
-
-  if (!header) {
-    return {}
+export function getSessionToken(request: VercelRequest): string | null {
+  const cookieHeader = request.headers.cookie
+  if (!cookieHeader) {
+    return null
   }
 
-  return Object.fromEntries(
-    header.split(';').map((part) => {
-      const index = part.indexOf('=')
+  const cookies = cookieHeader.split(';')
 
-      if (index === -1) {
-        return [part.trim(), '']
-      }
+  for (const rawCookie of cookies) {
+    const separator = rawCookie.indexOf('=')
+    if (separator < 0) continue
 
-      const key = part.slice(0, index).trim()
-      const value = part.slice(index + 1).trim()
+    const name = rawCookie.slice(0, separator).trim()
+    const value = rawCookie.slice(separator + 1).trim()
 
-      return [key, decodeURIComponent(value)]
-    }),
-  )
-}
+    if (
+      name !== SESSION_COOKIE &&
+      name !== LEGACY_SESSION_COOKIE
+    ) {
+      continue
+    }
 
-export function getSessionToken(request: VercelRequest): string | null {
-  return parseCookies(request)[SESSION_COOKIE] ?? null
+    try {
+      return decodeURIComponent(value)
+    } catch {
+      return null
+    }
+  }
+
+  return null
 }
 
 export async function createSession(
@@ -171,6 +177,17 @@ export function sessionCookie(token: string): string {
 export function expiredSessionCookie(): string {
   return [
     `${SESSION_COOKIE}=`,
+    'Path=/',
+    'HttpOnly',
+    'Secure',
+    'SameSite=Lax',
+    'Max-Age=0',
+  ].join('; ')
+}
+
+export function expiredLegacySessionCookie(): string {
+  return [
+    `${LEGACY_SESSION_COOKIE}=`,
     'Path=/',
     'HttpOnly',
     'Secure',

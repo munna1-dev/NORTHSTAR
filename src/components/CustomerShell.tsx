@@ -1,3 +1,4 @@
+import "../pages/customer-portal.css";
 import {
   ArrowRightLeft,
   Bell,

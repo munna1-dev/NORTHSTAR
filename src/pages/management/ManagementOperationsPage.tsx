@@ -73,7 +73,7 @@ export function ManagementOperationsPage() {
                     <td>
                       {item.status === 'pending' ? (
                         <div className="management-data__actions">
-                          <button className="management-button management-button--primary" onClick={() => void decide(item, 'completed')}>Complete</button>
+                            {item.operation_type === 'payment' && (<button className="management-button management-button--primary" onClick={() => void decide(item, 'completed')}>Complete</button>)}
                           <button className="management-button management-button--danger" onClick={() => void decide(item, 'failed')}>Fail</button>
                           <button className="management-button management-button--secondary" onClick={() => void decide(item, 'cancelled')}>Cancel</button>
                         </div>

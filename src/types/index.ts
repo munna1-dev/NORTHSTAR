@@ -3,6 +3,7 @@ export type PortalRole =
   | 'customer'
   | 'management'
   | 'developer'
+  | 'super_manager'
 
 export type AccountType =
   | 'checking'
@@ -43,7 +44,7 @@ export interface UserProfile {
   firstName: string
   lastName: string
   email: string
-  phone: string
+  phone: string | null
   status: UserStatus
   role: PortalRole
 }

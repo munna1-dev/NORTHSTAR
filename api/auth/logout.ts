@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import {
   destroySession,
+  expiredLegacySessionCookie,
   expiredSessionCookie,
 } from '../../src/server/auth/session.js'
 
@@ -19,7 +20,10 @@ export default async function handler(
   try {
     await destroySession(req)
 
-    res.setHeader('Set-Cookie', expiredSessionCookie())
+    res.setHeader('Set-Cookie', [
+      expiredSessionCookie(),
+      expiredLegacySessionCookie(),
+    ])
 
     return res.status(200).json({
       ok: true,
