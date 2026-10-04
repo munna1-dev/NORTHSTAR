@@ -20,7 +20,7 @@ export const defaultCustomerPreferences: CustomerPreferences = {
   compactTransactions: false,
 }
 
-const STORAGE_KEY = "fsbank.customer.preferences.v1"
+const STORAGE_KEY = "northstarbank.customer.preferences.v1"
 
 function isCustomerPreferences(value: unknown): value is CustomerPreferences {
   if (!value || typeof value !== "object") {
