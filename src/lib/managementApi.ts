@@ -346,3 +346,179 @@ export async function getManagementAuditLogs(): Promise<
 
   return result.auditLogs
 }
+
+
+export interface ManagementStaffApplication {
+  id: string
+  customer_id: string | null
+  first_name: string
+  last_name: string
+  email: string
+  phone: string | null
+  employee_number: string | null
+  requested_department: string | null
+  requested_role: string | null
+  status: 'pending' | 'approved' | 'rejected' | 'cancelled'
+  application_notes: string | null
+  review_notes: string | null
+  reviewed_by: string | null
+  reviewed_at: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface ManagementStaffRole {
+  id: string
+  role_key: string
+  role_name: string
+  description: string | null
+  is_system_role: boolean
+  is_active: boolean
+  created_at: string
+  updated_at: string
+  staff_count: number
+}
+
+export interface ManagementPermission {
+  id: string
+  permission_key: string
+  permission_name: string
+  permission_group: string
+  description: string | null
+}
+
+export interface ManagementStaffMember {
+  id: string
+  customer_number: string
+  first_name: string
+  last_name: string
+  email: string
+  phone: string | null
+  status: string
+  role: string
+  staff_status: string | null
+  employee_number: string | null
+  department: string | null
+  approved_by: string | null
+  approved_at: string | null
+  blocked_by: string | null
+  blocked_at: string | null
+  block_reason: string | null
+  created_at: string
+  updated_at: string
+  roles: Array<{
+    id: string
+    roleKey: string
+    roleName: string
+  }>
+}
+
+export async function getManagementStaffApplications(): Promise<
+  ManagementStaffApplication[]
+> {
+  const result = await request<{
+    applications: ManagementStaffApplication[]
+  }>('/api/management/staff?section=applications')
+
+  return result.applications
+}
+
+export async function getManagementStaffMembers(): Promise<
+  ManagementStaffMember[]
+> {
+  const result = await request<{
+    staff: ManagementStaffMember[]
+  }>('/api/management/staff')
+
+  return result.staff
+}
+
+export async function getManagementStaffRoles(): Promise<
+  ManagementStaffRole[]
+> {
+  const result = await request<{
+    roles: ManagementStaffRole[]
+  }>('/api/management/staff?section=roles')
+
+  return result.roles
+}
+
+export async function getManagementPermissions(): Promise<
+  ManagementPermission[]
+> {
+  const result = await request<{
+    permissions: ManagementPermission[]
+  }>('/api/management/staff?section=permissions')
+
+  return result.permissions
+}
+
+export async function reviewManagementStaffApplication(
+  applicationId: string,
+  action: 'approve-application' | 'reject-application',
+  reviewNotes?: string,
+): Promise<void> {
+  await request('/api/management/staff', {
+    method: 'PATCH',
+    body: JSON.stringify({
+      applicationId,
+      action,
+      reviewNotes,
+    }),
+  })
+}
+
+export async function updateManagementStaffStatus(
+  customerId: string,
+  action:
+    | 'activate'
+    | 'suspend'
+    | 'block'
+    | 'reactivate'
+    | 'terminate',
+  reason?: string,
+): Promise<ManagementStaffMember> {
+  const result = await request<{
+    success: true
+    staff: ManagementStaffMember
+  }>('/api/management/staff', {
+    method: 'PATCH',
+    body: JSON.stringify({
+      customerId,
+      action,
+      reason,
+    }),
+  })
+
+  return result.staff
+}
+
+export async function assignManagementRole(
+  customerId: string,
+  roleKey: string,
+): Promise<void> {
+  await request('/api/management/staff', {
+    method: 'POST',
+    body: JSON.stringify({
+      action: 'assign-role',
+      customerId,
+      roleKey,
+    }),
+  })
+}
+
+export async function assignManagementPermission(
+  customerId: string,
+  permissionKey: string,
+  effect: 'allow' | 'deny',
+): Promise<void> {
+  await request('/api/management/staff', {
+    method: 'POST',
+    body: JSON.stringify({
+      action: 'assign-permission',
+      customerId,
+      permissionKey,
+      effect,
+    }),
+  })
+}

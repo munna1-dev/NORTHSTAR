@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { getDb } from '../../src/server/db/client'
 import { writeAuditLog } from '../../src/server/auth/audit'
-import { requireManagement } from '../../src/server/auth/management'
+import { requirePermission } from '../../src/server/auth/management'
 
 const ACCOUNT_STATUSES = ['active', 'pending', 'frozen', 'closed'] as const
 
@@ -13,13 +13,25 @@ export default async function handler(
   request: VercelRequest,
   response: VercelResponse,
 ) {
-  const managementUser = await requireManagement(request)
+  const db = getDb()
+
+  const managementUser =
+    request.method === 'GET'
+      ? await requirePermission(request, 'accounts.view')
+      : await requirePermission(
+          request,
+          request.body?.status === 'active'
+            ? 'accounts.activate'
+            : request.body?.status === 'frozen'
+              ? 'accounts.freeze'
+              : request.body?.status === 'closed'
+                ? 'accounts.close'
+                : 'accounts.view',
+        )
 
   if (!managementUser) {
-    return error(response, 401, 'Management authentication required.')
+    return error(response, 403, 'You do not have permission to perform this account action.')
   }
-
-  const db = getDb()
 
   if (request.method === 'GET') {
     const status =
@@ -147,7 +159,7 @@ export default async function handler(
           FROM accounts a
           INNER JOIN customers c
             ON c.id = a.customer_id
-          WHERE a.id = ?
+          WHERE a.id = $1
         `,
         [accountId],
       )
@@ -192,9 +204,9 @@ export default async function handler(
         `
           UPDATE accounts
           SET
-            status = ?,
+            status = $1,
             updated_at = CURRENT_TIMESTAMP
-          WHERE id = ?
+          WHERE id = $2
           RETURNING
             id,
             account_number,

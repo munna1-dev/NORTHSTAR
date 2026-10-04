@@ -199,8 +199,8 @@ export default async function handler(
             created_at,
             completed_at
           FROM payments
-          WHERE customer_id = ?
-            AND idempotency_key = ?
+          WHERE customer_id = $1
+            AND idempotency_key = $2
           LIMIT 1
         `,
         [customer.id, idempotencyKey],
@@ -232,7 +232,8 @@ export default async function handler(
             available_balance,
             current_balance
           FROM accounts
-          WHERE id = ?
+          WHERE id = $1
+          FOR UPDATE
         `,
         [accountId],
       )
@@ -278,7 +279,7 @@ export default async function handler(
       const balanceCheck = await client.query(
         `
           SELECT
-            (? <= ?) AS sufficient
+            ($1::numeric <= $2::numeric) AS sufficient
         `,
         [amount, String(account.available_balance)],
       )
@@ -314,16 +315,16 @@ export default async function handler(
             scheduled_for
           )
           VALUES (
-            ?,
-            ?,
-            ?,
-            NULLIF(?, ''),
-            ?,
-            ?,
-            NULLIF(?, ''),
+            $1,
+            $2,
+            $3,
+            NULLIF($4, ''),
+            $5,
+            $6,
+            NULLIF($7, ''),
             'pending',
-            ?,
-            ?
+            $8,
+            $9
           )
           RETURNING
             id,
@@ -366,14 +367,14 @@ export default async function handler(
             metadata
           )
           VALUES (
-            ?,
+            $1,
             'customer.payment.created',
             'payment',
-            ?,
-            ?,
-            ?,
-            ?,
-            ?
+            $2,
+            $3,
+            $4,
+            $5,
+            $6
           )
         `,
         [
@@ -416,9 +417,7 @@ export default async function handler(
       if (
         error instanceof Error &&
         'code' in error &&
-        ['SQLITE_CONSTRAINT_UNIQUE', 'SQLITE_CONSTRAINT'].includes(
-          (error as { code?: string }).code ?? '',
-        )
+        (error as { code?: string }).code === '23505'
       ) {
         try {
           const existing = await db.query(

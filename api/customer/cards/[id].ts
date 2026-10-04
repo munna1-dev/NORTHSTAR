@@ -84,8 +84,9 @@ export default async function handler(
             expiry_year,
             account_id
           FROM cards
-          WHERE id = ?
-            AND customer_id = ?
+          WHERE id = $1
+            AND customer_id = $2
+          FOR UPDATE
         `,
         [cardId, customer.id],
       )
@@ -132,10 +133,10 @@ export default async function handler(
         `
           UPDATE cards
           SET
-            status = ?,
+            status = $1,
             updated_at = CURRENT_TIMESTAMP
-          WHERE id = ?
-            AND customer_id = ?
+          WHERE id = $2
+            AND customer_id = $3
           RETURNING
             id,
             card_type,
@@ -165,14 +166,14 @@ export default async function handler(
             metadata
           )
           VALUES (
-            ?,
-            ?,
+            $1,
+            $2,
             'card',
-            ?,
-            ?,
-            ?,
-            ?,
-            ?
+            $3,
+            $4,
+            $5,
+            $6,
+            $7
           )
         `,
         [

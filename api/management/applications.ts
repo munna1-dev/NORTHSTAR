@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { randomInt } from 'node:crypto'
-import { requireManagement } from '../../src/server/auth/management'
+import { requirePermission, type ManagementPermission } from '../../src/server/auth/management'
 import { writeAuditLog } from '../../src/server/auth/audit'
 import { getDb } from '../../src/server/db/client'
 
@@ -17,12 +17,21 @@ export default async function handler(
   res: VercelResponse,
 ) {
   try {
-    const user = await requireManagement(req)
+    const permission: ManagementPermission =
+      req.method === 'GET'
+        ? 'applications.view'
+        : String(req.body?.status ?? '').trim() === 'approved'
+          ? 'applications.approve'
+          : String(req.body?.status ?? '').trim() === 'rejected'
+            ? 'applications.reject'
+            : 'applications.view'
+
+    const user = await requirePermission(req, permission)
 
     if (!user) {
       return res.status(403).json({
         ok: false,
-        error: 'Management authorization required.',
+        error: 'You do not have permission to access account applications.',
       })
     }
 
@@ -43,7 +52,7 @@ export default async function handler(
         }
 
         values.push(requestedStatus)
-        where = 'WHERE aa.status = ?'
+        where = 'WHERE aa.status = $1'
       }
 
       const result = await db.query(
@@ -138,7 +147,7 @@ export default async function handler(
               phone,
               status
             FROM account_applications
-            WHERE id = ?
+            WHERE id = $1
           `,
           [applicationId],
         )
@@ -189,7 +198,7 @@ export default async function handler(
               `
                 SELECT id
                 FROM customers
-                WHERE LOWER(email) = LOWER(?)
+                WHERE LOWER(email) = LOWER($1)
                 LIMIT 1
               `,
               [application.email],
@@ -214,8 +223,8 @@ export default async function handler(
             `
               SELECT account_number
               FROM accounts
-              WHERE customer_id = ?
-                AND account_type = ?
+              WHERE customer_id = $1
+                AND account_type = $2
                 AND status <> 'closed'
               LIMIT 1
             `,
@@ -245,7 +254,7 @@ export default async function handler(
                 available_balance,
                 current_balance
               )
-              VALUES (?, ?, ?, 'active', 'USD', 0, 0)
+              VALUES ($1, $2, $3, 'active', 'USD', 0, 0)
             `,
             [
               customerId,
@@ -258,13 +267,13 @@ export default async function handler(
             `
               UPDATE account_applications
               SET
-                customer_id = ?,
+                customer_id = $1,
                 status = 'approved',
-                review_notes = ?,
-                reviewed_by = ?,
+                review_notes = $2,
+                reviewed_by = $3,
                 reviewed_at = CURRENT_TIMESTAMP,
                 updated_at = CURRENT_TIMESTAMP
-              WHERE id = ?
+              WHERE id = $4
             `,
             [
               customerId,
@@ -278,21 +287,22 @@ export default async function handler(
             `
               UPDATE account_applications
               SET
-                status = ?,
-                review_notes = ?,
-                reviewed_by = ?,
+                status = $1,
+                review_notes = $2,
+                reviewed_by = $3,
                 reviewed_at = CASE
-                  WHEN ? IN ('rejected', 'cancelled')
+                  WHEN $4 IN ('rejected', 'cancelled')
                     THEN CURRENT_TIMESTAMP
                   ELSE reviewed_at
                 END,
                 updated_at = CURRENT_TIMESTAMP
-              WHERE id = ?
+              WHERE id = $5
             `,
             [
               status,
               reviewNotes,
               user.id,
+              status,
               applicationId,
             ],
           )
@@ -360,7 +370,7 @@ async function generateAccountNumber(
       `
         SELECT 1
         FROM accounts
-        WHERE account_number = ?
+        WHERE account_number = $1
         LIMIT 1
       `,
       [candidate],

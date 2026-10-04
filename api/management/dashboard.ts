@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { requireManagement } from '../../src/server/auth/management'
+import { requirePermission } from '../../src/server/auth/management'
 import { getDb } from '../../src/server/db/client'
 
 export default async function handler(
@@ -16,12 +16,12 @@ export default async function handler(
   }
 
   try {
-    const user = await requireManagement(req)
+    const user = await requirePermission(req, 'reports.view')
 
     if (!user) {
       return res.status(403).json({
         ok: false,
-        error: 'Management authorization required.',
+        error: 'You do not have permission to view management reports.',
       })
     }
 
@@ -55,7 +55,7 @@ export default async function handler(
           AS pending_payments,
 
         (SELECT COUNT(*) FROM audit_logs
-          WHERE created_at >= datetime('now', '-24 hours'))
+          WHERE created_at >= CURRENT_TIMESTAMP - INTERVAL '24 hours')
           AS audit_events_24h
     `)
 

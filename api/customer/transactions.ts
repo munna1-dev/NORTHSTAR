@@ -63,16 +63,16 @@ export default async function handler(
         JOIN accounts a
           ON a.id = t.account_id
         WHERE a.customer_id = $1
-          AND ($2 = '' OR a.id = $3)
+          AND ($2 = '' OR a.id = $2)
           AND (
-            $4 = ''
-            OR t.description LIKE '%' || $5 || '%'
-            OR t.reference LIKE '%' || $6 || '%'
-            OR t.transaction_type LIKE '%' || $7 || '%'
-            OR t.status LIKE '%' || $8 || '%'
+            $3 = ''
+            OR t.description ILIKE '%' || $3 || '%'
+            OR t.reference ILIKE '%' || $3 || '%'
+            OR t.transaction_type ILIKE '%' || $3 || '%'
+            OR t.status ILIKE '%' || $3 || '%'
           )
         ORDER BY t.created_at DESC
-        LIMIT $9
+        LIMIT $4
       `,
       [customer.id, accountId, search, limit],
     )

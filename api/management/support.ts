@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { getDb } from '../../src/server/db/client'
 import { writeAuditLog } from '../../src/server/auth/audit'
-import { requireManagement } from '../../src/server/auth/management'
+import { requirePermission, type ManagementPermission } from '../../src/server/auth/management'
 
 const STATUSES = ['open', 'in_progress', 'resolved', 'closed'] as const
 
@@ -13,10 +13,15 @@ export default async function handler(
   request: VercelRequest,
   response: VercelResponse,
 ) {
-  const managementUser = await requireManagement(request)
+  const permission: ManagementPermission =
+    request.method === 'GET'
+      ? 'support.view'
+      : 'support.manage'
+
+  const managementUser = await requirePermission(request, permission)
 
   if (!managementUser) {
-    return error(response, 401, 'Management authentication required.')
+    return error(response, 403, 'You do not have permission to access support controls.')
   }
 
   const db = getDb()

@@ -1,4 +1,4 @@
-import { randomBytes } from 'node:crypto'
+import { randomUUID } from 'node:crypto'
 import type { VercelRequest } from '@vercel/node'
 import { getDb } from '../db/client'
 
@@ -43,7 +43,7 @@ export async function writeAuditLog(
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
     `,
     [
-      randomBytes(16).toString('hex'),
+      randomUUID(),
       actorCustomerId,
       action,
       resourceType,

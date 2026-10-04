@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { getDb } from '../../src/server/db/client'
 import { writeAuditLog } from '../../src/server/auth/audit'
-import { requireManagement } from '../../src/server/auth/management'
+import { requirePermission, type ManagementPermission } from '../../src/server/auth/management'
 
 
 function error(response: VercelResponse, status: number, message: string) {
@@ -12,10 +12,15 @@ export default async function handler(
   request: VercelRequest,
   response: VercelResponse,
 ) {
-  const managementUser = await requireManagement(request)
+  const permission: ManagementPermission =
+    request.method === 'GET'
+      ? 'transfers.view'
+      : 'transfers.view'
+
+  const managementUser = await requirePermission(request, permission)
 
   if (!managementUser) {
-    return error(response, 401, 'Management authentication required.')
+    return error(response, 403, 'You do not have permission to access operations.')
   }
 
   const db = getDb()
@@ -119,7 +124,7 @@ export default async function handler(
             currency,
             description
           FROM ${table}
-          WHERE id = ?
+          WHERE id = $1
         `,
         [operationId],
       )
@@ -144,9 +149,8 @@ export default async function handler(
         `
           UPDATE ${table}
           SET
-            status = ?,
-            updated_at = CURRENT_TIMESTAMP
-          WHERE id = ?
+            status = $1
+          WHERE id = $2
           RETURNING *
         `,
         [status, operationId],

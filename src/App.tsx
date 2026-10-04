@@ -23,11 +23,13 @@ import { ProtectedRoute } from "./components/ProtectedRoute"
 import { ManagementRoute } from "./components/ManagementRoute"
 import { ManagementDashboardPage } from "./pages/management/ManagementDashboardPage"
 import { ManagementApplicationsPage } from "./pages/management/ManagementApplicationsPage"
+import { ManagementCustomersPage } from "./pages/management/ManagementCustomersPage"
 import { ManagementAccountsPage } from "./pages/management/ManagementAccountsPage"
 import { ManagementTransactionsPage } from "./pages/management/ManagementTransactionsPage"
 import { ManagementOperationsPage } from "./pages/management/ManagementOperationsPage"
 import { ManagementSupportPage } from "./pages/management/ManagementSupportPage"
 import { ManagementAuditPage } from "./pages/management/ManagementAuditPage"
+import ManagementStaffPage from "./pages/management/ManagementStaffPage"
 
 function App() {
   return (
@@ -85,6 +87,14 @@ function App() {
         />
 
         <Route
+          path="/management/customers"
+          element={
+            <ManagementRoute>
+              <ManagementCustomersPage />
+            </ManagementRoute>
+          }
+        />
+        <Route
           path="/management/accounts"
           element={
             <ManagementRoute>
@@ -121,6 +131,14 @@ function App() {
           element={
             <ManagementRoute>
               <ManagementAuditPage />
+            </ManagementRoute>
+          }
+        />
+        <Route
+          path="/management/staff"
+          element={
+            <ManagementRoute>
+              <ManagementStaffPage />
             </ManagementRoute>
           }
         />

@@ -1,4 +1,4 @@
-import { createHash, randomBytes } from 'node:crypto'
+import { createHash, randomBytes, randomUUID } from 'node:crypto'
 import type { VercelRequest } from '@vercel/node'
 import { getDb } from '../db/client'
 
@@ -69,7 +69,7 @@ export async function createSession(
       )
     `,
     [
-      randomBytes(16).toString('hex'),
+      randomUUID(),
       customerId,
       tokenHash,
       request.headers['user-agent'] ?? null,

@@ -51,9 +51,12 @@ export function ManagementRoute({
     )
   }
 
+  const customerRole = customer.role as string
+
   if (
-    customer.role !== 'management' &&
-    customer.role !== 'developer'
+    customerRole !== 'management' &&
+    customerRole !== 'developer' &&
+    customerRole !== 'super_manager'
   ) {
     return <Navigate to="/customer" replace />
   }

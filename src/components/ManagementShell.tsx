@@ -10,6 +10,7 @@ import {
   Menu,
   ReceiptText,
   ShieldCheck,
+  UserCog,
   Users,
   X,
 } from 'lucide-react'
@@ -64,6 +65,11 @@ const navigation = [
     label: 'Audit Log',
     href: '/management/audit',
     icon: FileClock,
+  },
+  {
+    label: 'Staff Control',
+    href: '/management/staff',
+    icon: UserCog,
   },
 ]
 

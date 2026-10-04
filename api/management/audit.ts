@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { getDb } from '../../src/server/db/client'
-import { requireManagement } from '../../src/server/auth/management'
+import { requirePermission } from '../../src/server/auth/management'
 
 function error(response: VercelResponse, status: number, message: string) {
   return response.status(status).json({ ok: false, error: message })
@@ -10,10 +10,10 @@ export default async function handler(
   request: VercelRequest,
   response: VercelResponse,
 ) {
-  const managementUser = await requireManagement(request)
+  const managementUser = await requirePermission(request, 'audit.view')
 
   if (!managementUser) {
-    return error(response, 401, 'Management authentication required.')
+    return error(response, 403, 'You do not have permission to view audit logs.')
   }
 
   if (request.method !== 'GET') {

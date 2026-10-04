@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { getDb } from '../../src/server/db/client'
 import { writeAuditLog } from '../../src/server/auth/audit'
-import { requireManagement } from '../../src/server/auth/management'
+import { requirePermission, type ManagementPermission } from '../../src/server/auth/management'
 
 const CUSTOMER_STATUSES = ['active', 'pending', 'suspended', 'closed'] as const
 
@@ -20,10 +20,15 @@ export default async function handler(
   request: VercelRequest,
   response: VercelResponse,
 ) {
-  const managementUser = await requireManagement(request)
+  const permission: ManagementPermission =
+    request.method === 'GET'
+      ? 'customers.view'
+      : 'customers.view'
+
+  const managementUser = await requirePermission(request, permission)
 
   if (!managementUser) {
-    return sendError(response, 401, 'Management authentication required.')
+    return sendError(response, 403, 'You do not have permission to access customer controls.')
   }
 
   const db = getDb()
@@ -162,7 +167,7 @@ export default async function handler(
             status,
             role
           FROM customers
-          WHERE id = ?
+          WHERE id = $1
         `,
         [customerId],
       )
@@ -211,7 +216,7 @@ export default async function handler(
             SET
               status = 'closed',
               updated_at = CURRENT_TIMESTAMP
-            WHERE customer_id = ?
+            WHERE customer_id = $1
               AND status <> 'closed'
           `,
           [customerId],
@@ -222,9 +227,9 @@ export default async function handler(
         `
           UPDATE customers
           SET
-            status = ?,
+            status = $1,
             updated_at = CURRENT_TIMESTAMP
-          WHERE id = ?
+          WHERE id = $2
           RETURNING
             id,
             customer_number,

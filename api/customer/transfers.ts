@@ -117,8 +117,8 @@ export default async function handler(
           created_at,
           completed_at
         FROM transfers
-        WHERE customer_id = ?
-          AND idempotency_key = ?
+        WHERE customer_id = $1
+          AND idempotency_key = $2
         LIMIT 1
       `,
       [customer.id, idempotencyKey],
@@ -165,8 +165,9 @@ export default async function handler(
           available_balance,
           current_balance
         FROM accounts
-        WHERE id IN (?, ?)
+        WHERE id IN ($1, $2)
         ORDER BY id
+        FOR UPDATE
       `,
       accountIds,
     )
@@ -235,7 +236,7 @@ export default async function handler(
     const balanceCheck = await client.query(
       `
         SELECT
-          (? <= ?) AS sufficient
+          ($1::numeric <= $2::numeric) AS sufficient
       `,
       [amount, sourceBalance],
     )
@@ -266,15 +267,15 @@ export default async function handler(
           completed_at
         )
         VALUES (
-          ?,
-          ?,
-          ?,
-          ?,
-          ?,
-          NULLIF(?, ''),
+          $1,
+          $2,
+          $3,
+          $4,
+          $5,
+          NULLIF($6, ''),
           'completed',
-          ?,
-          ?,
+          $7,
+          $8,
           CURRENT_TIMESTAMP
         )
         RETURNING
@@ -319,14 +320,14 @@ export default async function handler(
           metadata
         )
         VALUES (
-          ?,
-          ?,
+          $1,
+          $2,
           'transfer',
           'completed',
-          ?,
-          -?,
-          ?,
-          ?
+          $3,
+          -$4,
+          $5,
+          $6
         )
         RETURNING id
       `,
@@ -361,15 +362,15 @@ export default async function handler(
           metadata
         )
         VALUES (
-          ?,
-          ?,
+          $1,
+          $2,
           'transfer',
           'completed',
-          ?,
-          ?,
-          ?,
-          ?,
-          ?
+          $3,
+          $4,
+          $5,
+          $6,
+          $7
         )
         RETURNING id
       `,
@@ -394,8 +395,8 @@ export default async function handler(
     await client.query(
       `
         UPDATE transactions
-        SET related_transaction_id = ?
-        WHERE id = ?
+        SET related_transaction_id = $1
+        WHERE id = $2
       `,
       [creditTransactionId, debitTransactionId],
     )
@@ -404,10 +405,10 @@ export default async function handler(
       `
         UPDATE accounts
         SET
-          available_balance = available_balance - ?,
-          current_balance = current_balance - ?,
+          available_balance = available_balance - $1,
+          current_balance = current_balance - $2,
           updated_at = CURRENT_TIMESTAMP
-        WHERE id = ?
+        WHERE id = $3
         RETURNING
           available_balance,
           current_balance
@@ -419,10 +420,10 @@ export default async function handler(
       `
         UPDATE accounts
         SET
-          available_balance = available_balance + ?,
-          current_balance = current_balance + ?,
+          available_balance = available_balance + $1,
+          current_balance = current_balance + $2,
           updated_at = CURRENT_TIMESTAMP
-        WHERE id = ?
+        WHERE id = $3
       `,
       [amount, toAccountId],
     )
@@ -440,14 +441,14 @@ export default async function handler(
           metadata
         )
         VALUES (
-          ?,
+          $1,
           'customer.transfer.completed',
           'transfer',
-          ?,
-          ?,
-          ?,
-          ?,
-          ?
+          $2,
+          $3,
+          $4,
+          $5,
+          $6
         )
       `,
       [
@@ -507,9 +508,7 @@ export default async function handler(
     if (
       error instanceof Error &&
       'code' in error &&
-      ['SQLITE_CONSTRAINT_UNIQUE', 'SQLITE_CONSTRAINT'].includes(
-        (error as { code?: string }).code ?? '',
-      )
+      (error as { code?: string }).code === '23505'
     ) {
       try {
         const existing = await db.query(
