@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { getDb } from '../../src/server/db/client'
-import { writeAuditLog } from '../../src/server/auth/audit'
-import { requirePermission } from '../../src/server/auth/management'
+import { getDb } from '../../src/server/db/client.js'
+import { writeAuditLog } from '../../src/server/auth/audit.js'
+import { requirePermission } from '../../src/server/auth/management.js'
 
 const ACCOUNT_STATUSES = ['active', 'pending', 'frozen', 'closed'] as const
 

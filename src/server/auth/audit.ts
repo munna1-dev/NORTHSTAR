@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 import type { VercelRequest } from '@vercel/node'
-import { getDb } from '../db/client'
+import { getDb } from '../db/client.js'
 
 function getClientIp(request: VercelRequest): string | null {
   const forwarded = request.headers['x-forwarded-for']

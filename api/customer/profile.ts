@@ -2,7 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 import {
   customerResponse,
   requireCustomer,
-} from '../../src/server/auth/customer'
+} from '../../src/server/auth/customer.js'
 
 export default async function handler(
   req: VercelRequest,

@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { getDb } from '../../../src/server/db/client'
-import { requirePermission } from '../../../src/server/auth/management'
-import { writeAuditLog } from '../../../src/server/auth/audit'
+import { getDb } from '../../../src/server/db/client.js'
+import { requirePermission } from '../../../src/server/auth/management.js'
+import { writeAuditLog } from '../../../src/server/auth/audit.js'
 
 function json(response: VercelResponse, status: number, body: unknown) {
   return response.status(status).json(body)

@@ -1,5 +1,5 @@
 import type { VercelRequest } from '@vercel/node'
-import { getCustomerFromSession } from './session'
+import { getCustomerFromSession } from './session.js'
 
 export interface AuthenticatedCustomer {
   id: string

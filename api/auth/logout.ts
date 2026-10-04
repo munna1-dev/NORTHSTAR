@@ -2,7 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 import {
   destroySession,
   expiredSessionCookie,
-} from '../../src/server/auth/session'
+} from '../../src/server/auth/session.js'
 
 export default async function handler(
   req: VercelRequest,

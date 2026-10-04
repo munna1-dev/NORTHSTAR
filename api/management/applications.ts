@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { randomInt } from 'node:crypto'
-import { requirePermission, type ManagementPermission } from '../../src/server/auth/management'
-import { writeAuditLog } from '../../src/server/auth/audit'
-import { getDb } from '../../src/server/db/client'
+import { requirePermission, type ManagementPermission } from '../../src/server/auth/management.js'
+import { writeAuditLog } from '../../src/server/auth/audit.js'
+import { getDb } from '../../src/server/db/client.js'
 
 const VALID_STATUSES = new Set([
   'pending',

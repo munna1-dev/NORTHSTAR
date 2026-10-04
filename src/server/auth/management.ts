@@ -1,6 +1,6 @@
 import type { VercelRequest } from '@vercel/node'
-import { getCustomerFromSession } from './session'
-import { getDb } from '../db/client'
+import { getCustomerFromSession } from './session.js'
+import { getDb } from '../db/client.js'
 
 export type ManagementPermission =
   | 'customers.view'

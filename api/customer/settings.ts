@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { z } from 'zod'
-import { getDb } from '../../src/server/db/client'
-import { requireCustomer } from '../../src/server/auth/customer'
+import { getDb } from '../../src/server/db/client.js'
+import { requireCustomer } from '../../src/server/auth/customer.js'
 
 const preferencesSchema = z.object({
   emailAlerts: z.boolean(),

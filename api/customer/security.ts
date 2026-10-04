@@ -1,9 +1,9 @@
 import { createHash } from 'node:crypto'
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { z } from 'zod'
-import { getDb } from '../../src/server/db/client'
-import { requireCustomer } from '../../src/server/auth/customer'
-import { getSessionToken } from '../../src/server/auth/session'
+import { getDb } from '../../src/server/db/client.js'
+import { requireCustomer } from '../../src/server/auth/customer.js'
+import { getSessionToken } from '../../src/server/auth/session.js'
 
 function hashToken(token: string) {
   return createHash('sha256').update(token).digest('hex')

@@ -1,10 +1,10 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import bcrypt from 'bcryptjs'
-import { getDb } from '../../src/server/db/client'
+import { getDb } from '../../src/server/db/client.js'
 import {
   createSession,
   sessionCookie,
-} from '../../src/server/auth/session'
+} from '../../src/server/auth/session.js'
 
 export default async function handler(
   req: VercelRequest,

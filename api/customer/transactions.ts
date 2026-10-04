@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { requireCustomer } from '../../src/server/auth/customer'
-import { getDb } from '../../src/server/db/client'
+import { requireCustomer } from '../../src/server/auth/customer.js'
+import { getDb } from '../../src/server/db/client.js'
 
 export default async function handler(
   req: VercelRequest,

@@ -1,6 +1,6 @@
 import { createHash, randomBytes, randomUUID } from 'node:crypto'
 import type { VercelRequest } from '@vercel/node'
-import { getDb } from '../db/client'
+import { getDb } from '../db/client.js'
 
 const SESSION_COOKIE = 'fsbank_session'
 const SESSION_DAYS = 7

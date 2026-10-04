@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { getDb } from '../../src/server/db/client'
-import { requirePermission } from '../../src/server/auth/management'
+import { getDb } from '../../src/server/db/client.js'
+import { requirePermission } from '../../src/server/auth/management.js'
 
 function error(response: VercelResponse, status: number, message: string) {
   return response.status(status).json({ ok: false, error: message })

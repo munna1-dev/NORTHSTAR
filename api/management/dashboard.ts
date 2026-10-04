@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { requirePermission } from '../../src/server/auth/management'
-import { getDb } from '../../src/server/db/client'
+import { requirePermission } from '../../src/server/auth/management.js'
+import { getDb } from '../../src/server/db/client.js'
 
 export default async function handler(
   req: VercelRequest,

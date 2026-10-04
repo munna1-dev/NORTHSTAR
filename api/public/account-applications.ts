@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { z } from 'zod'
-import { getDb } from '../../src/server/db/client'
-import { getCustomerFromSession } from '../../src/server/auth/session'
+import { getDb } from '../../src/server/db/client.js'
+import { getCustomerFromSession } from '../../src/server/auth/session.js'
 
 const applicationSchema = z.object({
   accountType: z.enum(['checking', 'savings', 'business', 'credit']),
