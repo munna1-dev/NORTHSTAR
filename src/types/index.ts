@@ -1,6 +1,7 @@
 export type PortalRole =
   | 'public'
   | 'customer'
+  | 'staff'
   | 'management'
   | 'developer'
   | 'super_manager'
@@ -47,6 +48,10 @@ export interface UserProfile {
   phone: string | null
   status: UserStatus
   role: PortalRole
+  staffId?: string | null
+  staffStatus?: string | null
+  department?: string | null
+  permissions?: string[]
 }
 
 export interface BankAccount {

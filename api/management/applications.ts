@@ -17,14 +17,24 @@ export default async function handler(
   res: VercelResponse,
 ) {
   try {
+    const requestedStatus = String(req.body?.status ?? '').trim()
+
+    if (
+      req.method !== 'GET' &&
+      !['approved', 'rejected'].includes(requestedStatus)
+    ) {
+      return res.status(400).json({
+        ok: false,
+        error: 'This application action is not supported.',
+      })
+    }
+
     const permission: ManagementPermission =
       req.method === 'GET'
         ? 'applications.view'
-        : String(req.body?.status ?? '').trim() === 'approved'
+        : requestedStatus === 'approved'
           ? 'applications.approve'
-          : String(req.body?.status ?? '').trim() === 'rejected'
-            ? 'applications.reject'
-            : 'applications.view'
+          : 'applications.reject'
 
     const user = await requirePermission(req, permission)
 

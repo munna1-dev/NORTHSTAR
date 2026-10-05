@@ -7,10 +7,16 @@ import { ManagementShell } from './ManagementShell'
 
 interface ManagementRouteProps {
   children: ReactNode
+  permission?: string
+  permissions?: string[]
+  superManagerOnly?: boolean
 }
 
 export function ManagementRoute({
   children,
+  permission,
+  permissions,
+  superManagerOnly = false,
 }: ManagementRouteProps) {
   const location = useLocation()
   const [customer, setCustomer] = useState<UserProfile | null>(null)
@@ -54,11 +60,36 @@ export function ManagementRoute({
   const customerRole = customer.role as string
 
   if (
+    customerRole !== 'staff' &&
     customerRole !== 'management' &&
     customerRole !== 'developer' &&
     customerRole !== 'super_manager'
   ) {
     return <Navigate to="/customer" replace />
+  }
+
+  if (superManagerOnly && customerRole !== 'super_manager') {
+    return <Navigate to="/management" replace />
+  }
+
+  if (customerRole !== 'super_manager') {
+    const grantedPermissions = customer.permissions ?? []
+
+    if (
+      permission &&
+      !grantedPermissions.includes(permission)
+    ) {
+      return <Navigate to="/management" replace />
+    }
+
+    if (
+      permissions?.length &&
+      !permissions.some((item) =>
+        grantedPermissions.includes(item),
+      )
+    ) {
+      return <Navigate to="/management" replace />
+    }
   }
 
   return (

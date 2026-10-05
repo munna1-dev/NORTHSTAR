@@ -42,6 +42,9 @@ export type ManagementPermission =
   | 'audit.view'
   | 'security.view'
   | 'system.settings'
+  | 'dashboard.view'
+  | 'profile.view'
+  | 'profile.update'
 
 export interface ManagementUser {
   id: string
@@ -54,6 +57,7 @@ export interface ManagementUser {
   role: string
   two_factor_enabled: boolean
   staff_status: string | null
+  staff_id: string | null
   department: string | null
 }
 
@@ -66,7 +70,9 @@ export async function getManagementUser(
 
   if (
     customer.status !== 'active' ||
-    !['management', 'developer', 'super_manager'].includes(customer.role)
+    !['staff', 'management', 'developer', 'super_manager'].includes(
+      customer.role,
+    )
   ) {
     return null
   }
@@ -86,6 +92,7 @@ export async function getManagementUser(
         c.role,
         c.two_factor_enabled,
         c.staff_status,
+        c.staff_id,
         c.department
       FROM customers c
       WHERE c.id = $1
@@ -167,6 +174,70 @@ export async function hasManagementPermission(
   return result.rowCount === 1
 }
 
+export async function getEffectiveManagementPermissions(
+  user: ManagementUser,
+): Promise<string[]> {
+  const db = getDb()
+
+  const result = await db.query(
+    `
+      WITH role_permissions AS (
+        SELECT DISTINCT p.permission_key
+        FROM staff_role_assignments sra
+        JOIN management_roles r
+          ON r.id = sra.role_id
+        JOIN management_role_permissions rp
+          ON rp.role_id = r.id
+        JOIN management_permissions p
+          ON p.id = rp.permission_id
+        WHERE sra.customer_id = $1
+          AND r.is_active = TRUE
+      ),
+      overrides AS (
+        SELECT
+          p.permission_key,
+          spa.effect
+        FROM staff_permission_assignments spa
+        JOIN management_permissions p
+          ON p.id = spa.permission_id
+        WHERE spa.customer_id = $1
+      )
+      SELECT p.permission_key
+      FROM management_permissions p
+      WHERE
+        (
+          $2 = 'super_manager'
+          OR EXISTS (
+            SELECT 1
+            FROM role_permissions rp
+            WHERE rp.permission_key = p.permission_key
+          )
+          OR EXISTS (
+            SELECT 1
+            FROM overrides o
+            WHERE o.permission_key = p.permission_key
+              AND o.effect = 'allow'
+          )
+        )
+        AND (
+          $2 = 'super_manager'
+          OR NOT EXISTS (
+            SELECT 1
+            FROM overrides o
+            WHERE o.permission_key = p.permission_key
+              AND o.effect = 'deny'
+          )
+        )
+      ORDER BY p.permission_key
+    `,
+    [user.id, user.role],
+  )
+
+  return result.rows.map(
+    (row: { permission_key: string }) => row.permission_key,
+  )
+}
+
 export async function requirePermission(
   request: VercelRequest,
   permission: ManagementPermission,
@@ -215,6 +286,7 @@ export function managementResponse(user: ManagementUser) {
     role: user.role,
     twoFactorEnabled: user.two_factor_enabled,
     staffStatus: user.staff_status,
+    staffId: user.staff_id,
     department: user.department,
   }
 }

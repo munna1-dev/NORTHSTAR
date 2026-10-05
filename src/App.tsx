@@ -30,6 +30,7 @@ import { ManagementOperationsPage } from "./pages/management/ManagementOperation
 import { ManagementSupportPage } from "./pages/management/ManagementSupportPage"
 import { ManagementAuditPage } from "./pages/management/ManagementAuditPage"
 import ManagementStaffPage from "./pages/management/ManagementStaffPage"
+import { ManagementProfilePage } from "./pages/management/ManagementProfilePage"
 
 function App() {
   return (
@@ -72,7 +73,7 @@ function App() {
         <Route
           path="/management"
           element={
-            <ManagementRoute>
+            <ManagementRoute permission="dashboard.view">
               <ManagementDashboardPage />
             </ManagementRoute>
           }
@@ -80,7 +81,7 @@ function App() {
         <Route
           path="/management/applications"
           element={
-            <ManagementRoute>
+            <ManagementRoute permission="applications.view">
               <ManagementApplicationsPage />
             </ManagementRoute>
           }
@@ -89,7 +90,7 @@ function App() {
         <Route
           path="/management/customers"
           element={
-            <ManagementRoute>
+            <ManagementRoute permission="customers.view">
               <ManagementCustomersPage />
             </ManagementRoute>
           }
@@ -97,7 +98,7 @@ function App() {
         <Route
           path="/management/accounts"
           element={
-            <ManagementRoute>
+            <ManagementRoute permission="accounts.view">
               <ManagementAccountsPage />
             </ManagementRoute>
           }
@@ -105,7 +106,7 @@ function App() {
         <Route
           path="/management/transactions"
           element={
-            <ManagementRoute>
+            <ManagementRoute permission="transactions.view">
               <ManagementTransactionsPage />
             </ManagementRoute>
           }
@@ -113,7 +114,9 @@ function App() {
         <Route
           path="/management/operations"
           element={
-            <ManagementRoute>
+            <ManagementRoute
+              permissions={["transfers.view", "payments.view"]}
+            >
               <ManagementOperationsPage />
             </ManagementRoute>
           }
@@ -121,7 +124,7 @@ function App() {
         <Route
           path="/management/support"
           element={
-            <ManagementRoute>
+            <ManagementRoute permission="support.view">
               <ManagementSupportPage />
             </ManagementRoute>
           }
@@ -129,15 +132,23 @@ function App() {
         <Route
           path="/management/audit"
           element={
-            <ManagementRoute>
+            <ManagementRoute permission="audit.view">
               <ManagementAuditPage />
+            </ManagementRoute>
+          }
+        />
+        <Route
+          path="/management/profile"
+          element={
+            <ManagementRoute permission="profile.view">
+              <ManagementProfilePage />
             </ManagementRoute>
           }
         />
         <Route
           path="/management/staff"
           element={
-            <ManagementRoute>
+            <ManagementRoute superManagerOnly>
               <ManagementStaffPage />
             </ManagementRoute>
           }

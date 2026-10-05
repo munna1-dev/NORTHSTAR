@@ -15,18 +15,25 @@ export default async function handler(
 ) {
   const db = getDb()
 
+  const requestedStatus = String(request.body?.status ?? '').trim()
+
+  if (
+    request.method !== 'GET' &&
+    !['active', 'frozen', 'closed'].includes(requestedStatus)
+  ) {
+    return error(response, 400, 'This account action is not supported.')
+  }
+
   const managementUser =
     request.method === 'GET'
       ? await requirePermission(request, 'accounts.view')
       : await requirePermission(
           request,
-          request.body?.status === 'active'
+          requestedStatus === 'active'
             ? 'accounts.activate'
-            : request.body?.status === 'frozen'
+            : requestedStatus === 'frozen'
               ? 'accounts.freeze'
-              : request.body?.status === 'closed'
-                ? 'accounts.close'
-                : 'accounts.view',
+              : 'accounts.close',
         )
 
   if (!managementUser) {

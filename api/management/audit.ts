@@ -10,15 +10,15 @@ export default async function handler(
   request: VercelRequest,
   response: VercelResponse,
 ) {
+  if (request.method !== 'GET') {
+    response.setHeader('Allow', 'GET')
+    return error(response, 405, 'Method not allowed.')
+  }
+
   const managementUser = await requirePermission(request, 'audit.view')
 
   if (!managementUser) {
     return error(response, 403, 'You do not have permission to view audit logs.')
-  }
-
-  if (request.method !== 'GET') {
-    response.setHeader('Allow', 'GET')
-    return error(response, 405, 'Method not allowed.')
   }
 
   const db = getDb()

@@ -397,6 +397,7 @@ export interface ManagementStaffMember {
   status: string
   role: string
   staff_status: string | null
+  staff_id: string | null
   employee_number: string | null
   department: string | null
   approved_by: string | null
@@ -521,4 +522,47 @@ export async function assignManagementPermission(
       effect,
     }),
   })
+}
+
+export interface ManagementProfile {
+  id: string
+  customer_number: string
+  first_name: string
+  last_name: string
+  email: string
+  phone: string | null
+  role: string
+  status: string
+  staff_id: string | null
+  employee_number: string | null
+  department: string | null
+  staff_status: string | null
+  two_factor_enabled: boolean
+}
+
+export async function getManagementProfile(): Promise<ManagementProfile> {
+  const result = await request<{
+    ok: true
+    profile: ManagementProfile
+  }>('/api/management/profile')
+
+  return result.profile
+}
+
+export async function updateManagementProfile(
+  profile: Pick<ManagementProfile, 'first_name' | 'last_name' | 'phone'>,
+): Promise<ManagementProfile> {
+  const result = await request<{
+    ok: true
+    profile: ManagementProfile
+  }>('/api/management/profile', {
+    method: 'PATCH',
+    body: JSON.stringify({
+      firstName: profile.first_name,
+      lastName: profile.last_name,
+      phone: profile.phone ?? '',
+    }),
+  })
+
+  return result.profile
 }

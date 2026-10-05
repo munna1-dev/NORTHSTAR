@@ -147,14 +147,14 @@ export default function ManagementStaffPage() {
         setRoles(roleData)
         setPermissions(permissionData)
 
-        if (!roleKey && roleData.length > 0) {
+        if (roleData.length > 0) {
           setRoleKey(
             roleData.find((role) => role.role_key !== 'super_manager')?.role_key ??
               roleData[0].role_key,
           )
         }
 
-        if (!permissionKey && permissionData.length > 0) {
+        if (permissionData.length > 0) {
           setPermissionKey(permissionData[0].permission_key)
         }
       } catch (err) {
@@ -177,7 +177,7 @@ export default function ManagementStaffPage() {
     return () => {
       cancelled = true
     }
-  }, [permissionKey, roleKey])
+  }, [])
 
   const runAction = async (key: string, action: () => Promise<void>) => {
     setBusyKey(key)
@@ -447,6 +447,7 @@ export default function ManagementStaffPage() {
                 <thead>
                   <tr>
                     <th>Staff member</th>
+                    <th>Staff ID</th>
                     <th>Employee number</th>
                     <th>Department</th>
                     <th>Roles</th>
@@ -462,6 +463,11 @@ export default function ManagementStaffPage() {
                           {member.first_name} {member.last_name}
                         </strong>
                         <small>{member.email}</small>
+                      </td>
+                      <td>
+                        <strong className="management-staff__id">
+                          {member.staff_id || 'Not assigned'}
+                        </strong>
                       </td>
                       <td>{member.employee_number || '—'}</td>
                       <td>{member.department || '—'}</td>

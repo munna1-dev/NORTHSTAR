@@ -12,6 +12,7 @@ import {
   ShieldCheck,
   UserCog,
   Users,
+  UserRound,
   X,
 } from 'lucide-react'
 import { NavLink, useNavigate } from 'react-router-dom'
@@ -29,47 +30,62 @@ const navigation: Array<{
   label: string
   href: string
   icon: typeof LayoutDashboard
+  permissions?: string[]
   superManagerOnly?: boolean
 }> = [
   {
     label: 'Dashboard',
     href: '/management',
     icon: LayoutDashboard,
+    permissions: ['dashboard.view'],
   },
   {
     label: 'Applications',
     href: '/management/applications',
     icon: ClipboardCheck,
+    permissions: ['applications.view'],
   },
   {
     label: 'Customers',
     href: '/management/customers',
     icon: Users,
+    permissions: ['customers.view'],
   },
   {
     label: 'Accounts',
     href: '/management/accounts',
     icon: Building2,
+    permissions: ['accounts.view'],
   },
   {
     label: 'Transactions',
     href: '/management/transactions',
     icon: ReceiptText,
+    permissions: ['transactions.view'],
   },
   {
     label: 'Transfers & Payments',
     href: '/management/operations',
     icon: CreditCard,
+    permissions: ['transfers.view', 'payments.view'],
   },
   {
     label: 'Support',
     href: '/management/support',
     icon: Activity,
+    permissions: ['support.view'],
   },
   {
     label: 'Audit Log',
     href: '/management/audit',
     icon: FileClock,
+    permissions: ['audit.view'],
+  },
+  {
+    label: 'My Profile',
+    href: '/management/profile',
+    icon: UserRound,
+    permissions: ['profile.view'],
   },
   {
     label: 'Staff Control',
@@ -109,7 +125,9 @@ export function ManagementShell({
                 ? 'Super Manager'
                 : customer.role === 'developer'
                   ? 'Developer'
-                  : 'Management'}
+                  : customer.role === 'staff'
+                    ? 'Staff'
+                    : 'Management'}
             </span>
           </div>
           <button
@@ -128,11 +146,28 @@ export function ManagementShell({
 
         <nav className="management-shell__nav">
           {navigation
-            .filter(
-              (item) =>
-                !item.superManagerOnly ||
-                customer.role === 'super_manager',
-            )
+            .filter((item) => {
+              if (
+                item.superManagerOnly &&
+                customer.role !== 'super_manager'
+              ) {
+                return false
+              }
+
+              if (!item.permissions?.length) {
+                return true
+              }
+
+              if (customer.role === 'super_manager') {
+                return true
+              }
+
+              const permissions = customer.permissions ?? []
+
+              return item.permissions.some((permission) =>
+                permissions.includes(permission),
+              )
+            })
             .map((item) => {
               const Icon = item.icon
 
@@ -204,9 +239,13 @@ export function ManagementShell({
                 {customer.firstName} {customer.lastName}
               </strong>
               <span>
-                {customer.role === 'developer'
-                  ? 'Developer'
-                  : 'Management'}
+                {customer.role === 'super_manager'
+                  ? 'Super Manager'
+                  : customer.role === 'developer'
+                    ? 'Developer'
+                    : customer.role === 'staff'
+                      ? 'Staff'
+                      : 'Management'}
               </span>
             </div>
             <div className="management-shell__avatar">

@@ -16,7 +16,7 @@ export default async function handler(
   }
 
   try {
-    const user = await requirePermission(req, 'reports.view')
+    const user = await requirePermission(req, 'dashboard.view')
 
     if (!user) {
       return res.status(403).json({

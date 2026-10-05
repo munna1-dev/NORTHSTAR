@@ -27,6 +27,13 @@ export default async function handler(
       ? ((request.body as Record<string, unknown>).status as string).trim()
       : ''
 
+  if (
+    request.method !== 'GET' &&
+    !['suspended', 'closed', 'active'].includes(requestedStatus)
+  ) {
+    return sendError(response, 400, 'This customer action is not supported.')
+  }
+
   const permission: ManagementPermission =
     request.method === 'GET'
       ? 'customers.view'
@@ -34,9 +41,7 @@ export default async function handler(
         ? 'customers.suspend'
         : requestedStatus === 'closed'
           ? 'customers.close'
-          : requestedStatus === 'active'
-            ? 'customers.reactivate'
-            : 'customers.view'
+          : 'customers.reactivate'
 
   const managementUser = await requirePermission(request, permission)
 

@@ -13,6 +13,11 @@ export default async function handler(
   request: VercelRequest,
   response: VercelResponse,
 ) {
+  if (request.method !== 'GET' && request.method !== 'PATCH') {
+    response.setHeader('Allow', 'GET, PATCH')
+    return error(response, 405, 'Method not allowed.')
+  }
+
   const permission: ManagementPermission =
     request.method === 'GET'
       ? 'support.view'

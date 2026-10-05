@@ -132,6 +132,7 @@ export default async function handler(
           c.status,
           c.role,
           c.staff_status,
+          c.staff_id,
           c.employee_number,
           c.department,
           c.approved_by,
@@ -156,7 +157,7 @@ export default async function handler(
           ON sra.customer_id = c.id
         LEFT JOIN management_roles r
           ON r.id = sra.role_id
-        WHERE c.role IN ('management', 'developer', 'super_manager')
+        WHERE c.role IN ('staff', 'management', 'developer', 'super_manager')
            OR c.staff_status IS NOT NULL
         GROUP BY c.id
         ORDER BY c.created_at DESC
@@ -505,24 +506,35 @@ export default async function handler(
           }
         }
 
+        const staffIdResult = await client.query(
+          `
+            SELECT
+              'STF-' || LPAD(nextval('staff_id_sequence')::text, 6, '0') AS staff_id
+          `,
+        )
+
+        const staffId = staffIdResult.rows[0].staff_id as string
+
         await client.query(
           `
             UPDATE customers
             SET
-              role = 'management',
+              role = 'staff',
               staff_status = 'active',
-              employee_number = $1,
-              department = $2,
-              approved_by = $3,
+              staff_id = $1,
+              employee_number = $2,
+              department = $3,
+              approved_by = $4,
               approved_at = CURRENT_TIMESTAMP,
               blocked_by = NULL,
               blocked_at = NULL,
               block_reason = NULL,
               status = 'active',
               updated_at = CURRENT_TIMESTAMP
-            WHERE id = $4
+            WHERE id = $5
           `,
           [
+            staffId,
             employeeNumber,
             application.requested_department ?? null,
             user.id,
@@ -580,6 +592,7 @@ export default async function handler(
           {
             applicationId,
             customerId: application.customer_id,
+            staffId,
             role: requestedRole,
             department: application.requested_department ?? null,
             employeeNumber,
@@ -592,6 +605,7 @@ export default async function handler(
           applicationId,
           status: 'approved',
           customerId: application.customer_id,
+          staffId,
           role: roleResult.rows[0],
           employeeNumber,
           department: application.requested_department ?? null,
@@ -661,7 +675,7 @@ export default async function handler(
         WHERE id = $4
           AND id <> $2
           AND (
-            role IN ('management', 'developer', 'super_manager')
+            role IN ('staff', 'management', 'developer', 'super_manager')
             OR staff_status IS NOT NULL
           )
         RETURNING
@@ -673,6 +687,7 @@ export default async function handler(
           status,
           role,
           staff_status,
+          staff_id,
           employee_number,
           department,
           updated_at
