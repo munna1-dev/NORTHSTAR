@@ -48,6 +48,7 @@ export interface UserProfile {
   phone: string | null
   status: UserStatus
   role: PortalRole
+  profileImageUrl?: string | null
   staffId?: string | null
   staffStatus?: string | null
   department?: string | null

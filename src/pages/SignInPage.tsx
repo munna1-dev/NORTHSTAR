@@ -24,6 +24,9 @@ export function SignInPage() {
       ? location.state.from
       : "/customer"
 
+  const sessionExpired =
+    location.state?.sessionExpired === true
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setError("")
@@ -80,6 +83,19 @@ export function SignInPage() {
             transfers, and account services.
           </p>
         </div>
+
+        {sessionExpired && (
+          <div className="signin-session-expired" role="alert">
+            <ShieldCheck size={18} />
+            <div>
+              <strong>Your session has expired</strong>
+              <span>
+                For your security, you were signed out after 15 minutes
+                of inactivity. Please sign in again to continue.
+              </span>
+            </div>
+          </div>
+        )}
 
         <div className="signin-demo-notice">
           <ShieldCheck size={18} />

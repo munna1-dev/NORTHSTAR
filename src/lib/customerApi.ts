@@ -116,6 +116,12 @@ async function request<T extends object>(
     )
   }
 
+  if (response.status === 401) {
+    window.dispatchEvent(
+      new CustomEvent("northstar:auth-unauthorized"),
+    )
+  }
+
   if (!response.ok) {
     throw new Error(
       "error" in result && typeof result.error === "string"
@@ -617,4 +623,53 @@ export async function revokeOtherCustomerSessions(): Promise<number> {
   )
 
   return result.changed ?? 0
+}
+
+export async function changeCustomerPassword(
+  currentPassword: string,
+  newPassword: string,
+  confirmPassword: string,
+): Promise<{ message: string }> {
+  return request<{ ok: boolean; message: string }>(
+    '/api/customer/password',
+    {
+      method: 'POST',
+      body: {
+        currentPassword,
+        newPassword,
+        confirmPassword,
+      },
+    },
+  )
+}
+
+export async function uploadCustomerProfileImage(
+  customerId: string,
+  file: File,
+): Promise<UserProfile> {
+  const { upload } = await import("@vercel/blob/client")
+
+  const extension =
+    file.type === "image/jpeg"
+      ? "jpg"
+      : file.type === "image/png"
+        ? "png"
+        : "webp"
+
+  const pathname =
+    `customer-profile/${customerId}/profile-${Date.now()}.${extension}`
+
+  await upload(pathname, file, {
+    access: "private",
+    handleUploadUrl: "/api/customer/profile-image",
+    contentType: file.type,
+  })
+
+  return getCustomerProfile()
+}
+
+export async function removeCustomerProfileImage(): Promise<void> {
+  await request<{ ok: boolean }>("/api/customer/profile-image", {
+    method: "DELETE",
+  })
 }

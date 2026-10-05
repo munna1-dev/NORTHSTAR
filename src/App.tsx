@@ -31,10 +31,12 @@ import { ManagementSupportPage } from "./pages/management/ManagementSupportPage"
 import { ManagementAuditPage } from "./pages/management/ManagementAuditPage"
 import ManagementStaffPage from "./pages/management/ManagementStaffPage"
 import { ManagementProfilePage } from "./pages/management/ManagementProfilePage"
+import { SessionSecurity } from "./components/SessionSecurity"
 
 function App() {
   return (
     <BrowserRouter>
+      <SessionSecurity />
       <Routes>
         <Route path="/" element={<PublicHome />} />
         <Route path="/personal" element={<PersonalPage />} />

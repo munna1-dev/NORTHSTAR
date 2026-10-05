@@ -64,6 +64,39 @@
   line-height: 1.65;
 }
 
+.signin-session-expired {
+  display: flex;
+  gap: 11px;
+  margin-top: 24px;
+  padding: 14px;
+  border: 1px solid #e7c66a;
+  border-radius: 12px;
+  background: #fff9e8;
+  color: var(--fs-navy);
+}
+
+.signin-session-expired svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+  color: var(--fs-gold);
+}
+
+.signin-session-expired div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.signin-session-expired strong {
+  font-size: 13px;
+}
+
+.signin-session-expired span {
+  color: var(--fs-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
 .signin-demo-notice {
   display: flex;
   gap: 11px;

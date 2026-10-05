@@ -17,6 +17,12 @@ export async function getCurrentCustomer(): Promise<UserProfile | null> {
       },
     })
 
+    if (response.status === 401) {
+      window.dispatchEvent(
+        new CustomEvent('northstar:auth-unauthorized'),
+      )
+    }
+
     if (!response.ok) {
       return null
     }

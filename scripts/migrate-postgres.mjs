@@ -33,11 +33,12 @@ try {
     .sort()
 
   /*
-   * 001-003 are historical SQLite-era migrations.
-   * They are intentionally excluded from this PostgreSQL runner.
+   * 000 is the complete PostgreSQL foundation.
+   * 001-003 are historical SQLite-era migrations and remain excluded.
+   * 004+ are the current PostgreSQL feature migrations.
    */
   const postgresFiles = files.filter(
-    (file) => Number(file.slice(0, 3)) >= 4,
+    (file) => file.startsWith('000_') || Number(file.slice(0, 3)) >= 4,
   )
 
   for (const file of postgresFiles) {

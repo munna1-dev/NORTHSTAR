@@ -1,20 +1,38 @@
 import {
+  Camera,
+  CheckCircle2,
+  ImagePlus,
   Mail,
   Phone,
   ShieldCheck,
+  Trash2,
   UserRound,
 } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
-import { getCustomerProfile } from "../lib/customerApi"
+import {
+  getCustomerProfile,
+  removeCustomerProfileImage,
+  uploadCustomerProfileImage,
+} from "../lib/customerApi"
 import { signOutCustomer } from "../lib/session"
 import type { UserProfile } from "../types"
 import "./CustomerProfilePage.css"
 
+const MAX_PROFILE_IMAGE_SIZE = 5 * 1024 * 1024
+const ALLOWED_PROFILE_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+]
+
 export function CustomerProfilePage() {
   const [customer, setCustomer] = useState<UserProfile | null>(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState("")
+  const [imageBusy, setImageBusy] = useState(false)
+  const [imageMessage, setImageMessage] = useState("")
+  const [imageError, setImageError] = useState("")
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
     let mounted = true
@@ -33,7 +51,7 @@ export function CustomerProfilePage() {
           return
         }
 
-        setError(
+        setImageError(
           loadError instanceof Error
             ? loadError.message
             : "Unable to load your profile.",
@@ -52,6 +70,79 @@ export function CustomerProfilePage() {
     }
   }, [])
 
+  async function handleProfileImageChange(
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) {
+    const file = event.target.files?.[0]
+
+    event.target.value = ""
+
+    if (!file || !customer) {
+      return
+    }
+
+    setImageError("")
+    setImageMessage("")
+
+    if (!ALLOWED_PROFILE_IMAGE_TYPES.includes(file.type)) {
+      setImageError("Choose a JPEG, PNG, or WebP image.")
+      return
+    }
+
+    if (file.size > MAX_PROFILE_IMAGE_SIZE) {
+      setImageError("Profile images must be 5 MB or smaller.")
+      return
+    }
+
+    setImageBusy(true)
+
+    try {
+      const updatedCustomer = await uploadCustomerProfileImage(
+        customer.id,
+        file,
+      )
+
+      setCustomer(updatedCustomer)
+      setImageMessage("Profile picture updated successfully.")
+    } catch (uploadError) {
+      setImageError(
+        uploadError instanceof Error
+          ? uploadError.message
+          : "Unable to update your profile picture.",
+      )
+    } finally {
+      setImageBusy(false)
+    }
+  }
+
+  async function handleRemoveProfileImage() {
+    if (!customer?.profileImageUrl || imageBusy) {
+      return
+    }
+
+    setImageError("")
+    setImageMessage("")
+    setImageBusy(true)
+
+    try {
+      await removeCustomerProfileImage()
+
+      setCustomer({
+        ...customer,
+        profileImageUrl: null,
+      })
+      setImageMessage("Profile picture removed.")
+    } catch (removeError) {
+      setImageError(
+        removeError instanceof Error
+          ? removeError.message
+          : "Unable to remove your profile picture.",
+      )
+    } finally {
+      setImageBusy(false)
+    }
+  }
+
   async function handleSignOut() {
     await signOutCustomer()
     window.location.assign("/")
@@ -67,12 +158,14 @@ export function CustomerProfilePage() {
     )
   }
 
-  if (error || !customer) {
+  if (!customer) {
     return (
       <section className="customer-profile">
         <div className="customer-profile__error" role="alert">
           <strong>Unable to load your profile</strong>
-          <p>{error || "Your customer profile is unavailable."}</p>
+          <p>
+            {imageError || "Your customer profile is unavailable."}
+          </p>
           <button
             type="button"
             onClick={() => window.location.reload()}
@@ -87,6 +180,10 @@ export function CustomerProfilePage() {
   const initials =
     `${customer.firstName.charAt(0)}${customer.lastName.charAt(0)}`.toUpperCase()
 
+  const profileImageSrc = customer.profileImageUrl
+    ? `${customer.profileImageUrl}?v=${encodeURIComponent(customer.id)}`
+    : null
+
   return (
     <section className="customer-profile">
       <header className="customer-profile__hero">
@@ -96,26 +193,55 @@ export function CustomerProfilePage() {
           </span>
           <h1>Profile</h1>
           <p>
-            Review the personal information associated with your
-            NorthStarBank customer profile.
+            Review and manage the personal information associated with
+            your NorthStarBank customer profile.
           </p>
         </div>
       </header>
 
       <div className="customer-profile__grid">
         <section className="customer-profile__card customer-profile__identity">
-          <div className="customer-profile__avatar" aria-hidden="true">
-            {initials}
-          </div>
+          <div className="customer-profile__identity-main">
+            <div className="customer-profile__avatar-wrap">
+              <div className="customer-profile__avatar">
+                {profileImageSrc ? (
+                  <img
+                    src={profileImageSrc}
+                    alt={`${customer.firstName} ${customer.lastName}`}
+                  />
+                ) : (
+                  initials
+                )}
+              </div>
 
-          <div>
-            <span>Customer</span>
-            <h2>
-              {customer.firstName} {customer.lastName}
-            </h2>
-            <p>
-              Customer #{customer.customerNumber}
-            </p>
+              <button
+                className="customer-profile__avatar-button"
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={imageBusy}
+                aria-label="Change profile picture"
+                title="Change profile picture"
+              >
+                <Camera size={15} />
+              </button>
+
+              <input
+                ref={fileInputRef}
+                className="customer-profile__file-input"
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                onChange={handleProfileImageChange}
+                disabled={imageBusy}
+              />
+            </div>
+
+            <div className="customer-profile__identity-copy">
+              <span>Customer</span>
+              <h2>
+                {customer.firstName} {customer.lastName}
+              </h2>
+              <p>Customer #{customer.customerNumber}</p>
+            </div>
           </div>
 
           <span
@@ -123,6 +249,58 @@ export function CustomerProfilePage() {
           >
             {customer.status}
           </span>
+        </section>
+
+        <section className="customer-profile__card customer-profile__image-card">
+          <div className="customer-profile__section-heading">
+            <ImagePlus size={19} />
+            <div>
+              <span>PROFILE PICTURE</span>
+              <h2>Personalize your profile</h2>
+            </div>
+          </div>
+
+          <p className="customer-profile__muted-copy">
+            Use a clear personal photo. JPEG, PNG, and WebP images up
+            to 5 MB are supported.
+          </p>
+
+          <div className="customer-profile__image-actions">
+            <button
+              className="customer-profile__primary-button"
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={imageBusy}
+            >
+              <Camera size={16} />
+              {imageBusy ? "Updating…" : "Change picture"}
+            </button>
+
+            {customer.profileImageUrl ? (
+              <button
+                className="customer-profile__secondary-button customer-profile__secondary-button--danger"
+                type="button"
+                onClick={() => void handleRemoveProfileImage()}
+                disabled={imageBusy}
+              >
+                <Trash2 size={16} />
+                Remove
+              </button>
+            ) : null}
+          </div>
+
+          {imageMessage ? (
+            <div className="customer-profile__image-message" role="status">
+              <CheckCircle2 size={16} />
+              <span>{imageMessage}</span>
+            </div>
+          ) : null}
+
+          {imageError ? (
+            <div className="customer-profile__image-error" role="alert">
+              {imageError}
+            </div>
+          ) : null}
         </section>
 
         <section className="customer-profile__card">
@@ -202,8 +380,8 @@ export function CustomerProfilePage() {
             <div>
               <strong>Password and multi-factor authentication</strong>
               <p>
-                Password and MFA management will be available through
-                the dedicated security controls.
+                Manage your password and available security controls
+                from the dedicated security page.
               </p>
             </div>
 
@@ -231,7 +409,7 @@ export function CustomerProfilePage() {
           <button
             className="customer-profile__signout"
             type="button"
-            onClick={handleSignOut}
+            onClick={() => void handleSignOut()}
           >
             Sign out securely
           </button>

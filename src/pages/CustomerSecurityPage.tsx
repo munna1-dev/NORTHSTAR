@@ -3,6 +3,8 @@ import {
   ArrowLeft,
   CheckCircle2,
   Clock3,
+  Eye,
+  EyeOff,
   Laptop,
   LogOut,
   MonitorSmartphone,
@@ -13,6 +15,7 @@ import {
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import {
+  changeCustomerPassword,
   getCustomerSecurity,
   revokeCustomerSession,
   revokeOtherCustomerSessions,
@@ -29,6 +32,34 @@ function deviceIcon(session: CustomerSession) {
   return /mobile/i.test(session.device) ? Smartphone : Laptop
 }
 
+function validateNewPassword(password: string): string | null {
+  if (password.length < 12) {
+    return "New password must be at least 12 characters."
+  }
+
+  if (password.length > 128) {
+    return "New password must not exceed 128 characters."
+  }
+
+  if (!/[A-Z]/.test(password)) {
+    return "New password must contain an uppercase letter."
+  }
+
+  if (!/[a-z]/.test(password)) {
+    return "New password must contain a lowercase letter."
+  }
+
+  if (!/[0-9]/.test(password)) {
+    return "New password must contain a number."
+  }
+
+  if (!/[^A-Za-z0-9]/.test(password)) {
+    return "New password must contain a special character."
+  }
+
+  return null
+}
+
 export function CustomerSecurityPage() {
   const [sessions, setSessions] = useState<CustomerSession[]>([])
   const [events, setEvents] = useState<CustomerSecurityEvent[]>([])
@@ -37,6 +68,13 @@ export function CustomerSecurityPage() {
   const [working, setWorking] = useState("")
   const [message, setMessage] = useState("")
   const [error, setError] = useState("")
+
+  const [currentPassword, setCurrentPassword] = useState("")
+  const [newPassword, setNewPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false)
+  const [showNewPassword, setShowNewPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   async function load() {
     setError("")
@@ -109,6 +147,69 @@ export function CustomerSecurityPage() {
     }
   }
 
+  async function handlePasswordChange(
+    event: React.FormEvent<HTMLFormElement>,
+  ) {
+    event.preventDefault()
+
+    setMessage("")
+    setError("")
+
+    if (!currentPassword) {
+      setError("Enter your current password.")
+      return
+    }
+
+    if (!newPassword) {
+      setError("Enter a new password.")
+      return
+    }
+
+    const passwordError = validateNewPassword(newPassword)
+
+    if (passwordError) {
+      setError(passwordError)
+      return
+    }
+
+    if (newPassword !== confirmPassword) {
+      setError("New passwords do not match.")
+      return
+    }
+
+    if (currentPassword === newPassword) {
+      setError("New password must be different from your current password.")
+      return
+    }
+
+    setWorking("password")
+
+    try {
+      const result = await changeCustomerPassword(
+        currentPassword,
+        newPassword,
+        confirmPassword,
+      )
+
+      setCurrentPassword("")
+      setNewPassword("")
+      setConfirmPassword("")
+      setShowCurrentPassword(false)
+      setShowNewPassword(false)
+      setShowConfirmPassword(false)
+      setMessage(result.message)
+      await load()
+    } catch (reason: unknown) {
+      setError(
+        reason instanceof Error
+          ? reason.message
+          : "Unable to change your password.",
+      )
+    } finally {
+      setWorking("")
+    }
+  }
+
   return (
     <main className="customer-security-page">
       <header className="customer-security-header">
@@ -120,19 +221,20 @@ export function CustomerSecurityPage() {
         <span className="customer-security-kicker">SECURITY CENTER</span>
         <h1>Security &amp; Sessions</h1>
         <p>
-          Review active customer sessions and recent security activity.
+          Manage your password, review active customer sessions, and monitor
+          recent security activity.
         </p>
       </header>
 
       {message && (
-        <div className="customer-security-notice">
+        <div className="customer-security-notice" role="status">
           <CheckCircle2 size={18} />
           {message}
         </div>
       )}
 
       {error && (
-        <div className="customer-security-warning">
+        <div className="customer-security-warning" role="alert">
           <AlertTriangle size={19} />
           <div>
             <strong>Security request could not be completed</strong>
@@ -145,6 +247,158 @@ export function CustomerSecurityPage() {
         <p>Loading security information…</p>
       ) : (
         <section className="customer-security-grid">
+          <article className="customer-security-card customer-security-card--wide">
+            <div className="customer-security-card__header">
+              <div>
+                <span className="customer-security-card__eyebrow">
+                  Password security
+                </span>
+                <h2>Change your password</h2>
+              </div>
+              <ShieldCheck size={23} />
+            </div>
+
+            <p className="customer-security-card__description">
+              Use a strong password that you do not reuse on other services.
+              Changing your password signs out your other active sessions.
+            </p>
+
+            <form
+              className="customer-security-password-form"
+              onSubmit={(event) => void handlePasswordChange(event)}
+            >
+              <label className="customer-security-field">
+                <span>Current password</span>
+                <div className="customer-security-password-input">
+                  <input
+                    type={showCurrentPassword ? "text" : "password"}
+                    value={currentPassword}
+                    onChange={(event) =>
+                      setCurrentPassword(event.target.value)
+                    }
+                    autoComplete="current-password"
+                    disabled={working === "password"}
+                  />
+                  <button
+                    type="button"
+                    aria-label={
+                      showCurrentPassword
+                        ? "Hide current password"
+                        : "Show current password"
+                    }
+                    onClick={() =>
+                      setShowCurrentPassword((visible) => !visible)
+                    }
+                  >
+                    {showCurrentPassword ? (
+                      <EyeOff size={17} />
+                    ) : (
+                      <Eye size={17} />
+                    )}
+                  </button>
+                </div>
+              </label>
+
+              <label className="customer-security-field">
+                <span>New password</span>
+                <div className="customer-security-password-input">
+                  <input
+                    type={showNewPassword ? "text" : "password"}
+                    value={newPassword}
+                    onChange={(event) => setNewPassword(event.target.value)}
+                    autoComplete="new-password"
+                    disabled={working === "password"}
+                  />
+                  <button
+                    type="button"
+                    aria-label={
+                      showNewPassword
+                        ? "Hide new password"
+                        : "Show new password"
+                    }
+                    onClick={() => setShowNewPassword((visible) => !visible)}
+                  >
+                    {showNewPassword ? (
+                      <EyeOff size={17} />
+                    ) : (
+                      <Eye size={17} />
+                    )}
+                  </button>
+                </div>
+              </label>
+
+              <label className="customer-security-field">
+                <span>Confirm new password</span>
+                <div className="customer-security-password-input">
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    value={confirmPassword}
+                    onChange={(event) =>
+                      setConfirmPassword(event.target.value)
+                    }
+                    autoComplete="new-password"
+                    disabled={working === "password"}
+                  />
+                  <button
+                    type="button"
+                    aria-label={
+                      showConfirmPassword
+                        ? "Hide password confirmation"
+                        : "Show password confirmation"
+                    }
+                    onClick={() =>
+                      setShowConfirmPassword((visible) => !visible)
+                    }
+                  >
+                    {showConfirmPassword ? (
+                      <EyeOff size={17} />
+                    ) : (
+                      <Eye size={17} />
+                    )}
+                  </button>
+                </div>
+              </label>
+
+              <div className="customer-security-password-requirements">
+                <strong>Password requirements</strong>
+                <ul>
+                  <li>12–128 characters</li>
+                  <li>At least one uppercase letter</li>
+                  <li>At least one lowercase letter</li>
+                  <li>At least one number</li>
+                  <li>At least one special character</li>
+                </ul>
+              </div>
+
+              <div className="customer-security-password-actions">
+                <button
+                  className="customer-security-secondary-button"
+                  type="button"
+                  disabled={working === "password"}
+                  onClick={() => {
+                    setCurrentPassword("")
+                    setNewPassword("")
+                    setConfirmPassword("")
+                    setError("")
+                  }}
+                >
+                  Clear
+                </button>
+
+                <button
+                  className="customer-security-primary-button"
+                  type="submit"
+                  disabled={working === "password"}
+                >
+                  <ShieldCheck size={16} />
+                  {working === "password"
+                    ? "Updating password…"
+                    : "Update password"}
+                </button>
+              </div>
+            </form>
+          </article>
+
           <article className="customer-security-card customer-security-card--wide">
             <div className="customer-security-card__header">
               <div>

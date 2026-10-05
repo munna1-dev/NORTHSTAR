@@ -131,8 +131,17 @@ export function CustomerShell({ children, customer }: CustomerShellProps) {
 
           <div className="customer-shell__user">
             <div className="customer-shell__user-avatar">
-              {customer.firstName.charAt(0)}
-              {customer.lastName.charAt(0)}
+              {customer.profileImageUrl ? (
+                <img
+                  src={`${customer.profileImageUrl}?v=${encodeURIComponent(customer.id)}`}
+                  alt=""
+                />
+              ) : (
+                <>
+                  {customer.firstName.charAt(0)}
+                  {customer.lastName.charAt(0)}
+                </>
+              )}
             </div>
 
             <div>

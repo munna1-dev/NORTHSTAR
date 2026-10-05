@@ -11,6 +11,8 @@ export interface AuthenticatedCustomer {
   status: string
   role: string
   two_factor_enabled: boolean
+  profile_image_url: string | null
+  profile_image_path: string | null
 }
 
 export async function requireCustomer(
@@ -35,6 +37,9 @@ export function customerResponse(customer: AuthenticatedCustomer) {
     phone: customer.phone,
     status: customer.status,
     role: customer.role,
+    profileImageUrl: customer.profile_image_path
+      ? '/api/customer/profile-image'
+      : null,
     twoFactorEnabled: customer.two_factor_enabled,
   }
 }

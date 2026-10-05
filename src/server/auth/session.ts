@@ -5,6 +5,7 @@ import { getDb } from '../db/client.js'
 const SESSION_COOKIE = 'northstar_session'
 const LEGACY_SESSION_COOKIE = 'fsbank_session'
 const SESSION_DAYS = 7
+export const SESSION_INACTIVITY_MINUTES = 15
 
 function hashToken(token: string): string {
   return createHash('sha256').update(token).digest('hex')
@@ -105,41 +106,59 @@ export async function getCustomerFromSession(
 
   const result = await db.query(
     `
-      SELECT
-        c.id,
-        c.customer_number,
-        c.first_name,
-        c.last_name,
-        c.email,
-        c.phone,
-        c.status,
-        c.role,
-        c.two_factor_enabled
-      FROM customer_sessions s
-      JOIN customers c
-        ON c.id = s.customer_id
-      WHERE s.token_hash = $1
-        AND s.expires_at > CURRENT_TIMESTAMP
-        AND c.status = 'active'
-      LIMIT 1
+      UPDATE customer_sessions
+      SET last_seen_at = CURRENT_TIMESTAMP
+      WHERE token_hash = $1
+        AND expires_at > CURRENT_TIMESTAMP
+        AND last_seen_at > CURRENT_TIMESTAMP - INTERVAL '${SESSION_INACTIVITY_MINUTES} minutes'
+      RETURNING id, customer_id
     `,
     [tokenHash],
   )
 
   if (result.rowCount !== 1) {
+    await db.query(
+      `
+        DELETE FROM customer_sessions
+        WHERE token_hash = $1
+          AND (
+            expires_at <= CURRENT_TIMESTAMP
+            OR last_seen_at <= CURRENT_TIMESTAMP - INTERVAL '${SESSION_INACTIVITY_MINUTES} minutes'
+          )
+      `,
+      [tokenHash],
+    )
+
     return null
   }
 
-  await db.query(
+  const customerResult = await db.query(
     `
-      UPDATE customer_sessions
-      SET last_seen_at = CURRENT_TIMESTAMP
-      WHERE token_hash = $1
+      SELECT
+        id,
+        customer_number,
+        first_name,
+        last_name,
+        email,
+        phone,
+        status,
+        role,
+        two_factor_enabled,
+        profile_image_url,
+        profile_image_path
+      FROM customers
+      WHERE id = $1
+        AND status = 'active'
+      LIMIT 1
     `,
-    [tokenHash],
+    [result.rows[0].customer_id],
   )
 
-  return result.rows[0]
+  if (customerResult.rowCount !== 1) {
+    return null
+  }
+
+  return customerResult.rows[0]
 }
 
 export async function destroySession(
