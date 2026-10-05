@@ -33,17 +33,7 @@ function parseTokenPayload(
   return payload
 }
 
-function isUploadCompleted(
-  body: unknown,
-): body is {
-  type: 'blob.upload-completed'
-  payload: {
-    blob: {
-      pathname: string
-    }
-    tokenPayload?: string | null
-  }
-} {
+function isUploadCompleted(body: unknown): boolean {
   return (
     typeof body === 'object' &&
     body !== null &&
