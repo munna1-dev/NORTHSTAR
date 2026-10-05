@@ -131,15 +131,17 @@ export default async function handler(
     return error(response, 404, 'Management profile not found.')
   }
 
-  await writeAuditLog({
-    actorCustomerId: managementUser.id,
-    action: 'management.profile.update',
-    entityType: 'customer',
-    entityId: managementUser.id,
-    metadata: {
+  await writeAuditLog(
+    request,
+    managementUser.id,
+    'management.profile.update',
+    'customer',
+    managementUser.id,
+    'Management profile updated.',
+    {
       fields: ['first_name', 'last_name', 'phone'],
     },
-  })
+  )
 
   return response.status(200).json({
     ok: true,

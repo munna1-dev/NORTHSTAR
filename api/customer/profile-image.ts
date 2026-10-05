@@ -1,4 +1,5 @@
-import { del, get, handleUpload, head } from '@vercel/blob'
+import { del, get, head } from '@vercel/blob'
+import { handleUpload } from '@vercel/blob/client'
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { getDb } from '../../src/server/db/client.js'
 import { writeAuditLog } from '../../src/server/auth/audit.js'
