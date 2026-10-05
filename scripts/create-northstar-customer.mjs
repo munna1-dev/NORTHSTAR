@@ -106,9 +106,10 @@ try {
 
   await client.query(
     `INSERT INTO customer_preferences
-      (customer_id, email_notifications, sms_notifications,
-       transaction_alerts, marketing_emails, theme, language)
-     VALUES ($1, true, true, true, false, 'system', 'en')`,
+      (customer_id, email_alerts, transaction_alerts,
+       security_alerts, marketing_emails, product_updates,
+       language, currency, compact_transactions)
+     VALUES ($1, true, true, true, false, true, 'English', 'USD', false)`,
     [customerId],
   );
 

@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import { URL } from 'node:url'
 import pg from 'pg'
 
 const { Pool } = pg
@@ -10,10 +11,15 @@ if (!process.env.DATABASE_URL) {
   )
 }
 
+const databaseUrl = new URL(process.env.DATABASE_URL)
+databaseUrl.searchParams.delete('sslmode')
+databaseUrl.searchParams.delete('uselibpqcompat')
+
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: databaseUrl.toString(),
+  ssl: { rejectUnauthorized: false },
   max: 2,
-  connectionTimeoutMillis: 10000,
+  connectionTimeoutMillis: 15000,
 })
 
 const client = await pool.connect()
@@ -29,7 +35,7 @@ try {
   const databaseDir = path.resolve('database')
 
   const files = (await fs.readdir(databaseDir))
-    .filter((file) => /^\\d{3}_.*\\.sql$/.test(file))
+    .filter((file) => /^\d{3}_.*\.sql$/.test(file))
     .sort()
 
   /*

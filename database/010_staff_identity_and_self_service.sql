@@ -33,9 +33,13 @@ SELECT setval(
       )
       FROM customers
     ),
-    0
+    1
   ),
-  TRUE
+  EXISTS (
+    SELECT 1
+    FROM customers
+    WHERE staff_id ~ '^STF-[0-9]+$'
+  )
 );
 
 -- ============================================================
