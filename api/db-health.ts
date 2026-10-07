@@ -15,11 +15,26 @@ export default async function handler(
       database: 'healthy',
       timestamp: new Date().toISOString(),
     })
-  } catch {
+  } catch (error) {
+    const err = error as {
+      name?: string
+      message?: string
+      code?: string
+      detail?: string
+      hint?: string
+    }
+
     return res.status(503).json({
       ok: false,
       service: 'northstarbank-api',
       database: 'unavailable',
+      error: {
+        name: err.name ?? null,
+        message: err.message ?? null,
+        code: err.code ?? null,
+        detail: err.detail ?? null,
+        hint: err.hint ?? null,
+      },
       timestamp: new Date().toISOString(),
     })
   }
