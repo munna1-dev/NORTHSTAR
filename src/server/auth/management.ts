@@ -1,5 +1,5 @@
 import type { VercelRequest } from '@vercel/node'
-import { getCustomerFromSession } from './session.js'
+import { getStaffFromSession } from './staff-session.js'
 import { getDb } from '../db/client.js'
 
 export type ManagementPermission =
@@ -64,16 +64,9 @@ export interface ManagementUser {
 export async function getManagementUser(
   request: VercelRequest,
 ): Promise<ManagementUser | null> {
-  const customer = await getCustomerFromSession(request)
+  const staff = await getStaffFromSession(request)
 
-  if (!customer) return null
-
-  if (
-    customer.status !== 'active' ||
-    !['staff', 'management', 'developer', 'super_manager'].includes(
-      customer.role,
-    )
-  ) {
+  if (!staff) {
     return null
   }
 
@@ -82,27 +75,43 @@ export async function getManagementUser(
   const result = await db.query(
     `
       SELECT
-        c.id,
-        c.customer_number,
-        c.first_name,
-        c.last_name,
-        c.email,
-        c.phone,
-        c.status,
-        c.role,
-        c.two_factor_enabled,
-        c.staff_status,
-        c.staff_id,
-        c.department
-      FROM customers c
-      WHERE c.id = $1
-        AND c.status = 'active'
+        s.id,
+        s.staff_number AS customer_number,
+        s.first_name,
+        s.last_name,
+        s.email,
+        s.phone,
+        s.status,
+        COALESCE(
+          (
+            SELECT r.name
+            FROM staff_role_assignments_v2 sra
+            JOIN management_roles r
+              ON r.id = sra.role_id
+            WHERE sra.staff_id = s.id
+              AND r.is_active = TRUE
+            ORDER BY
+              CASE WHEN r.name = 'Super Manager' THEN 0 ELSE 1 END,
+              r.name
+            LIMIT 1
+          ),
+          'staff'
+        ) AS role,
+        s.two_factor_enabled,
+        s.status AS staff_status,
+        s.id AS staff_id,
+        s.department
+      FROM staff s
+      WHERE s.id = $1
+        AND s.status = 'active'
       LIMIT 1
     `,
-    [customer.id],
+    [staff.id],
   )
 
-  if (result.rowCount !== 1) return null
+  if (result.rowCount !== 1) {
+    return null
+  }
 
   return result.rows[0] as ManagementUser
 }
@@ -126,33 +135,33 @@ export async function hasManagementPermission(
   const result = await db.query(
     `
       WITH role_permissions AS (
-        SELECT p.permission_key
-        FROM staff_role_assignments sra
+        SELECT DISTINCT p.permission_key
+        FROM staff_role_assignments_v2 sra
         JOIN management_roles r
           ON r.id = sra.role_id
         JOIN management_role_permissions rp
           ON rp.role_id = r.id
         JOIN management_permissions p
           ON p.id = rp.permission_id
-        WHERE sra.customer_id = $1
+        WHERE sra.staff_id = $1
           AND r.is_active = TRUE
       ),
       overrides AS (
         SELECT
           p.permission_key,
           spa.effect
-        FROM staff_permission_assignments spa
+        FROM staff_permission_assignments_v2 spa
         JOIN management_permissions p
           ON p.id = spa.permission_id
-        WHERE spa.customer_id = $1
+        WHERE spa.staff_id = $1
       )
       SELECT 1
-      WHERE EXISTS (
+      WHERE NOT EXISTS (
         SELECT 1
         FROM overrides
         WHERE permission_key = $2
           AND effect = 'deny'
-      ) IS NOT TRUE
+      )
       AND (
         EXISTS (
           SELECT 1
@@ -177,37 +186,52 @@ export async function hasManagementPermission(
 export async function getEffectiveManagementPermissions(
   user: ManagementUser,
 ): Promise<string[]> {
+  if (user.role === 'super_manager') {
+    const db = getDb()
+
+    const result = await db.query(
+      `
+        SELECT permission_key
+        FROM management_permissions
+        ORDER BY permission_key
+      `,
+    )
+
+    return result.rows.map(
+      (row: { permission_key: string }) => row.permission_key,
+    )
+  }
+
   const db = getDb()
 
   const result = await db.query(
     `
       WITH role_permissions AS (
         SELECT DISTINCT p.permission_key
-        FROM staff_role_assignments sra
+        FROM staff_role_assignments_v2 sra
         JOIN management_roles r
           ON r.id = sra.role_id
         JOIN management_role_permissions rp
           ON rp.role_id = r.id
         JOIN management_permissions p
           ON p.id = rp.permission_id
-        WHERE sra.customer_id = $1
+        WHERE sra.staff_id = $1
           AND r.is_active = TRUE
       ),
       overrides AS (
         SELECT
           p.permission_key,
           spa.effect
-        FROM staff_permission_assignments spa
+        FROM staff_permission_assignments_v2 spa
         JOIN management_permissions p
           ON p.id = spa.permission_id
-        WHERE spa.customer_id = $1
+        WHERE spa.staff_id = $1
       )
       SELECT p.permission_key
       FROM management_permissions p
       WHERE
         (
-          $2 = 'super_manager'
-          OR EXISTS (
+          EXISTS (
             SELECT 1
             FROM role_permissions rp
             WHERE rp.permission_key = p.permission_key
@@ -219,18 +243,15 @@ export async function getEffectiveManagementPermissions(
               AND o.effect = 'allow'
           )
         )
-        AND (
-          $2 = 'super_manager'
-          OR NOT EXISTS (
-            SELECT 1
-            FROM overrides o
-            WHERE o.permission_key = p.permission_key
-              AND o.effect = 'deny'
-          )
+        AND NOT EXISTS (
+          SELECT 1
+          FROM overrides o
+          WHERE o.permission_key = p.permission_key
+            AND o.effect = 'deny'
         )
       ORDER BY p.permission_key
     `,
-    [user.id, user.role],
+    [user.id],
   )
 
   return result.rows.map(
@@ -244,7 +265,9 @@ export async function requirePermission(
 ): Promise<ManagementUser | null> {
   const user = await getManagementUser(request)
 
-  if (!user) return null
+  if (!user) {
+    return null
+  }
 
   if (await hasManagementPermission(user, permission)) {
     return user
@@ -259,7 +282,9 @@ export async function requireAnyPermission(
 ): Promise<ManagementUser | null> {
   const user = await getManagementUser(request)
 
-  if (!user) return null
+  if (!user) {
+    return null
+  }
 
   if (user.role === 'super_manager') {
     return user

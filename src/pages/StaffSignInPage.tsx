@@ -3,7 +3,7 @@ import type { FormEvent } from "react"
 import { ArrowRight, LockKeyhole, ShieldCheck } from "lucide-react"
 import { Link, useNavigate } from "react-router-dom"
 import { z } from "zod"
-import { signInCustomer, signOutCustomer } from "../lib/session"
+import { signInStaff } from "../lib/session"
 import "./SignInPage.css"
 
 const signInSchema = z.object({
@@ -38,28 +38,13 @@ export function StaffSignInPage() {
     setSubmitting(true)
 
     try {
-      const response = await signInCustomer(
+      const response = await signInStaff(
         result.data.email,
         result.data.password,
       )
 
       if (!response.ok) {
         setError(response.error ?? "Unable to sign in.")
-        return
-      }
-
-      const role = response.customer?.role
-
-      if (
-        role !== "staff" &&
-        role !== "management" &&
-        role !== "developer" &&
-        role !== "super_manager"
-      ) {
-        await signOutCustomer()
-        setError(
-          "This sign-in is restricted to NorthStarBank staff.",
-        )
         return
       }
 

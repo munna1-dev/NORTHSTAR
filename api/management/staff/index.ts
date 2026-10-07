@@ -83,9 +83,9 @@ export default async function handler(
             r.is_active,
             r.created_at,
             r.updated_at,
-            COUNT(DISTINCT sra.customer_id)::int AS staff_count
+            COUNT(DISTINCT sra.staff_id)::int AS staff_count
           FROM management_roles r
-          LEFT JOIN staff_role_assignments sra
+          LEFT JOIN staff_role_assignments_v2 sra
             ON sra.role_id = r.id
           GROUP BY
             r.id,
@@ -111,9 +111,10 @@ export default async function handler(
             permission_key,
             permission_name,
             permission_group,
-            description
+            description,
+            created_at
           FROM management_permissions
-          ORDER BY permission_group, permission_key
+          ORDER BY permission_group, permission_name
         `)
 
         return json(response, 200, {
@@ -123,25 +124,35 @@ export default async function handler(
 
       const result = await db.query(`
         SELECT
-          c.id,
-          c.customer_number,
-          c.first_name,
-          c.last_name,
-          c.email,
-          c.phone,
-          c.status,
-          c.role,
-          c.staff_status,
-          c.staff_id,
-          c.employee_number,
-          c.department,
-          c.approved_by,
-          c.approved_at,
-          c.blocked_by,
-          c.blocked_at,
-          c.block_reason,
-          c.created_at,
-          c.updated_at,
+          s.id,
+          s.staff_number,
+          s.first_name,
+          s.last_name,
+          s.email,
+          s.phone,
+          s.status,
+          COALESCE(
+            (
+              SELECT mr.role_key
+              FROM staff_role_assignments_v2 sr2
+              JOIN management_roles mr
+                ON mr.id = sr2.role_id
+              WHERE sr2.staff_id = s.id
+                AND mr.is_active = TRUE
+              ORDER BY sr2.assigned_at DESC
+              LIMIT 1
+            ),
+            'staff'
+          ) AS role,
+          s.employee_number,
+          s.department,
+          s.approved_by,
+          s.approved_at,
+          s.blocked_by,
+          s.blocked_at,
+          s.block_reason,
+          s.created_at,
+          s.updated_at,
           COALESCE(
             json_agg(
               DISTINCT jsonb_build_object(
@@ -152,15 +163,13 @@ export default async function handler(
             ) FILTER (WHERE r.id IS NOT NULL),
             '[]'::json
           ) AS roles
-        FROM customers c
-        LEFT JOIN staff_role_assignments sra
-          ON sra.customer_id = c.id
+        FROM staff s
+        LEFT JOIN staff_role_assignments_v2 sra
+          ON sra.staff_id = s.id
         LEFT JOIN management_roles r
           ON r.id = sra.role_id
-        WHERE c.role IN ('staff', 'management', 'developer', 'super_manager')
-           OR c.staff_status IS NOT NULL
-        GROUP BY c.id
-        ORDER BY c.created_at DESC
+        GROUP BY s.id
+        ORDER BY s.created_at DESC
         LIMIT 500
       `)
 
@@ -179,21 +188,35 @@ export default async function handler(
         return error(response, 400, 'Unsupported staff action.')
       }
 
-      const customerId =
-        typeof request.body?.customerId === 'string'
-          ? request.body.customerId.trim()
+      const staffId =
+        typeof request.body?.staffId === 'string'
+          ? request.body.staffId.trim()
           : ''
 
-      if (!customerId) {
-        return error(response, 400, 'customerId is required.')
+      if (!staffId) {
+        return error(response, 400, 'staffId is required.')
       }
 
-      if (customerId === user.id) {
+      if (staffId === user.id) {
         return error(
           response,
           400,
           'The Super Manager account cannot modify its own staff authorization.',
         )
+      }
+
+      const staffResult = await db.query(
+        `
+          SELECT id
+          FROM staff
+          WHERE id = $1
+          LIMIT 1
+        `,
+        [staffId],
+      )
+
+      if (staffResult.rowCount !== 1) {
+        return error(response, 404, 'Staff member not found.')
       }
 
       if (action === 'assign-role') {
@@ -234,24 +257,24 @@ export default async function handler(
 
         await db.query(
           `
-            INSERT INTO staff_role_assignments (
-              customer_id,
+            INSERT INTO staff_role_assignments_v2 (
+              staff_id,
               role_id,
               assigned_by
             )
             VALUES ($1, $2, $3)
-            ON CONFLICT (customer_id, role_id)
+            ON CONFLICT (staff_id, role_id)
             DO UPDATE SET
               assigned_by = EXCLUDED.assigned_by,
               assigned_at = CURRENT_TIMESTAMP
           `,
-          [customerId, roleResult.rows[0].id, user.id],
+          [staffId, roleResult.rows[0].id, user.id],
         )
 
         return json(response, 200, {
           success: true,
           action,
-          customerId,
+          staffId,
           role: roleResult.rows[0],
         })
       }
@@ -294,21 +317,21 @@ export default async function handler(
 
       await db.query(
         `
-          INSERT INTO staff_permission_assignments (
-            customer_id,
+          INSERT INTO staff_permission_assignments_v2 (
+            staff_id,
             permission_id,
             effect,
             assigned_by
           )
           VALUES ($1, $2, $3, $4)
-          ON CONFLICT (customer_id, permission_id)
+          ON CONFLICT (staff_id, permission_id)
           DO UPDATE SET
             effect = EXCLUDED.effect,
             assigned_by = EXCLUDED.assigned_by,
             assigned_at = CURRENT_TIMESTAMP
         `,
         [
-          customerId,
+          staffId,
           permissionResult.rows[0].id,
           effect,
           user.id,
@@ -318,12 +341,11 @@ export default async function handler(
       return json(response, 200, {
         success: true,
         action,
-        customerId,
+        staffId,
         permission: permissionResult.rows[0],
         effect,
       })
     }
-
     const action =
       typeof request.body?.action === 'string'
         ? request.body.action.trim()
@@ -492,12 +514,11 @@ export default async function handler(
           const employeeResult = await client.query(
             `
               SELECT id
-              FROM customers
+              FROM staff
               WHERE employee_number = $1
-                AND id <> $2
               LIMIT 1
             `,
-            [employeeNumber, application.customer_id],
+            [employeeNumber],
           )
 
           if (employeeResult.rowCount !== 0) {
@@ -506,35 +527,38 @@ export default async function handler(
           }
         }
 
-        const staffIdResult = await client.query(
+        const staffInsert = await client.query(
           `
+            INSERT INTO staff (
+              staff_number,
+              first_name,
+              last_name,
+              email,
+              phone,
+              password_hash,
+              status,
+              employee_number,
+              department,
+              approved_by,
+              approved_at
+            )
             SELECT
-              'STF-' || LPAD(nextval('staff_id_sequence')::text, 6, '0') AS staff_id
-          `,
-        )
-
-        const staffId = staffIdResult.rows[0].staff_id as string
-
-        await client.query(
-          `
-            UPDATE customers
-            SET
-              role = 'staff',
-              staff_status = 'active',
-              staff_id = $1,
-              employee_number = $2,
-              department = $3,
-              approved_by = $4,
-              approved_at = CURRENT_TIMESTAMP,
-              blocked_by = NULL,
-              blocked_at = NULL,
-              block_reason = NULL,
-              status = 'active',
-              updated_at = CURRENT_TIMESTAMP
-            WHERE id = $5
+              'STF-' || LPAD(nextval('staff_id_sequence')::text, 6, '0'),
+              first_name,
+              last_name,
+              email,
+              phone,
+              password_hash,
+              'active',
+              $1,
+              $2,
+              $3,
+              CURRENT_TIMESTAMP
+            FROM customers
+            WHERE id = $4
+            RETURNING id, staff_number
           `,
           [
-            staffId,
             employeeNumber,
             application.requested_department ?? null,
             user.id,
@@ -542,21 +566,29 @@ export default async function handler(
           ],
         )
 
+        if (staffInsert.rowCount !== 1) {
+          await client.query('ROLLBACK')
+          return error(response, 409, 'Unable to create the staff account.')
+        }
+
+        const staffId = staffInsert.rows[0].id as string
+        const staffNumber = staffInsert.rows[0].staff_number as string
+
         await client.query(
           `
-            INSERT INTO staff_role_assignments (
-              customer_id,
+            INSERT INTO staff_role_assignments_v2 (
+              staff_id,
               role_id,
               assigned_by
             )
             VALUES ($1, $2, $3)
-            ON CONFLICT (customer_id, role_id)
+            ON CONFLICT (staff_id, role_id)
             DO UPDATE SET
               assigned_by = EXCLUDED.assigned_by,
               assigned_at = CURRENT_TIMESTAMP
           `,
           [
-            application.customer_id,
+            staffId,
             roleResult.rows[0].id,
             user.id,
           ],
@@ -606,6 +638,7 @@ export default async function handler(
           status: 'approved',
           customerId: application.customer_id,
           staffId,
+          staffNumber,
           role: roleResult.rows[0],
           employeeNumber,
           department: application.requested_department ?? null,
@@ -617,17 +650,16 @@ export default async function handler(
         client.release()
       }
     }
-
-    const customerId =
-      typeof request.body?.customerId === 'string'
-        ? request.body.customerId.trim()
+    const staffId =
+      typeof request.body?.staffId === 'string'
+        ? request.body.staffId.trim()
         : ''
 
-    if (!customerId || !action) {
-      return error(response, 400, 'customerId and action are required.')
+    if (!staffId || !action) {
+      return error(response, 400, 'staffId and action are required.')
     }
 
-    if (customerId === user.id) {
+    if (staffId === user.id) {
       return error(
         response,
         400,
@@ -651,14 +683,9 @@ export default async function handler(
 
     const result = await db.query(
       `
-        UPDATE customers
+        UPDATE staff
         SET
-          staff_status = $1,
-          status = CASE
-            WHEN $1 = 'terminated' THEN 'closed'
-            WHEN $1 = 'blocked' THEN 'suspended'
-            ELSE 'active'
-          END,
+          status = $1,
           blocked_by = CASE
             WHEN $1 = 'blocked' THEN $2
             ELSE blocked_by
@@ -674,22 +701,21 @@ export default async function handler(
           updated_at = CURRENT_TIMESTAMP
         WHERE id = $4
           AND id <> $2
-          AND (
-            role IN ('staff', 'management', 'developer', 'super_manager')
-            OR staff_status IS NOT NULL
-          )
         RETURNING
           id,
-          customer_number,
+          staff_number,
           first_name,
           last_name,
           email,
+          phone,
           status,
-          role,
-          staff_status,
-          staff_id,
           employee_number,
           department,
+          approved_by,
+          approved_at,
+          blocked_by,
+          blocked_at,
+          block_reason,
           updated_at
       `,
       [
@@ -698,7 +724,7 @@ export default async function handler(
         typeof request.body?.reason === 'string'
           ? request.body.reason.trim() || null
           : null,
-        customerId,
+        staffId,
       ],
     )
 

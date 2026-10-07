@@ -16,13 +16,13 @@ import {
   X,
 } from 'lucide-react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import type { UserProfile } from '../types'
-import { signOutCustomer } from '../lib/session'
+import type { StaffProfile } from '../lib/session'
+import { signOutStaff } from '../lib/session'
 import { BrandMark } from './BrandMark'
 import './ManagementShell.css'
 
 interface ManagementShellProps {
-  customer: UserProfile
+  staff: StaffProfile
   children: ReactNode
 }
 
@@ -96,14 +96,14 @@ const navigation: Array<{
 ]
 
 export function ManagementShell({
-  customer,
+  staff,
   children,
 }: ManagementShellProps) {
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
 
   async function handleLogout() {
-    await signOutCustomer()
+    await signOutStaff()
     navigate('/staff', { replace: true })
   }
 
@@ -121,11 +121,11 @@ export function ManagementShell({
           <div>
             <strong>NorthStarBank</strong>
             <span>
-              {customer.role === 'super_manager'
+              {staff.role === 'super_manager'
                 ? 'Super Manager'
-                : customer.role === 'developer'
+                : staff.role === 'developer'
                   ? 'Developer'
-                  : customer.role === 'staff'
+                  : staff.role === 'staff'
                     ? 'Staff'
                     : 'Management'}
             </span>
@@ -149,7 +149,7 @@ export function ManagementShell({
             .filter((item) => {
               if (
                 item.superManagerOnly &&
-                customer.role !== 'super_manager'
+                staff.role !== 'super_manager'
               ) {
                 return false
               }
@@ -158,11 +158,11 @@ export function ManagementShell({
                 return true
               }
 
-              if (customer.role === 'super_manager') {
+              if (staff.role === 'super_manager') {
                 return true
               }
 
-              const permissions = customer.permissions ?? []
+              const permissions = staff.permissions ?? []
 
               return item.permissions.some((permission) =>
                 permissions.includes(permission),
@@ -236,21 +236,21 @@ export function ManagementShell({
           <div className="management-shell__user">
             <div>
               <strong>
-                {customer.firstName} {customer.lastName}
+                {staff.firstName} {staff.lastName}
               </strong>
               <span>
-                {customer.role === 'super_manager'
+                {staff.role === 'super_manager'
                   ? 'Super Manager'
-                  : customer.role === 'developer'
+                  : staff.role === 'developer'
                     ? 'Developer'
-                    : customer.role === 'staff'
+                    : staff.role === 'staff'
                       ? 'Staff'
                       : 'Management'}
               </span>
             </div>
             <div className="management-shell__avatar">
-              {customer.firstName.charAt(0)}
-              {customer.lastName.charAt(0)}
+              {staff.firstName.charAt(0)}
+              {staff.lastName.charAt(0)}
             </div>
           </div>
         </header>

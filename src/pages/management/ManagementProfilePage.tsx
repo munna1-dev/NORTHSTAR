@@ -302,15 +302,8 @@ export function ManagementProfilePage() {
             </div>
 
             <div>
-              <dt>Customer number</dt>
-              <dd>{profile.customer_number}</dd>
-            </div>
-
-            <div>
-              <dt>Staff ID</dt>
-              <dd className="management-profile__staff-id">
-                {profile.staff_id || 'Not assigned'}
-              </dd>
+              <dt>Staff number</dt>
+              <dd>{profile.staff_number}</dd>
             </div>
 
             <div>
@@ -334,11 +327,6 @@ export function ManagementProfilePage() {
             </div>
 
             <div>
-              <dt>Staff status</dt>
-              <dd>{profile.staff_status || 'Not applicable'}</dd>
-            </div>
-
-            <div>
               <dt>Two-factor authentication</dt>
               <dd>
                 {profile.two_factor_enabled ? 'Enabled' : 'Not enabled'}
@@ -349,8 +337,8 @@ export function ManagementProfilePage() {
           <div className="management-profile__security-note">
             <LockKeyhole size={17} />
             <span>
-              Staff ID, role, permissions, department, status, email and
-              security settings are controlled by authorized management.
+              Staff identity, role, permissions, department, status, email
+              and security settings are controlled by authorized management.
             </span>
           </div>
         </aside>

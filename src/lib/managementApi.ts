@@ -389,15 +389,13 @@ export interface ManagementPermission {
 
 export interface ManagementStaffMember {
   id: string
-  customer_number: string
+  staff_number: string
   first_name: string
   last_name: string
   email: string
   phone: string | null
   status: string
   role: string
-  staff_status: string | null
-  staff_id: string | null
   employee_number: string | null
   department: string | null
   approved_by: string | null
@@ -470,7 +468,7 @@ export async function reviewManagementStaffApplication(
 }
 
 export async function updateManagementStaffStatus(
-  customerId: string,
+  staffId: string,
   action:
     | 'activate'
     | 'suspend'
@@ -485,7 +483,7 @@ export async function updateManagementStaffStatus(
   }>('/api/management/staff', {
     method: 'PATCH',
     body: JSON.stringify({
-      customerId,
+      staffId,
       action,
       reason,
     }),
@@ -495,21 +493,21 @@ export async function updateManagementStaffStatus(
 }
 
 export async function assignManagementRole(
-  customerId: string,
+  staffId: string,
   roleKey: string,
 ): Promise<void> {
   await request('/api/management/staff', {
     method: 'POST',
     body: JSON.stringify({
       action: 'assign-role',
-      customerId,
+      staffId,
       roleKey,
     }),
   })
 }
 
 export async function assignManagementPermission(
-  customerId: string,
+  staffId: string,
   permissionKey: string,
   effect: 'allow' | 'deny',
 ): Promise<void> {
@@ -517,7 +515,7 @@ export async function assignManagementPermission(
     method: 'POST',
     body: JSON.stringify({
       action: 'assign-permission',
-      customerId,
+      staffId,
       permissionKey,
       effect,
     }),
@@ -526,18 +524,16 @@ export async function assignManagementPermission(
 
 export interface ManagementProfile {
   id: string
-  customer_number: string
+  staff_number: string
   first_name: string
   last_name: string
   email: string
   phone: string | null
-  role: string
   status: string
-  staff_id: string | null
   employee_number: string | null
   department: string | null
-  staff_status: string | null
   two_factor_enabled: boolean
+  role: string
 }
 
 export async function getManagementProfile(): Promise<ManagementProfile> {

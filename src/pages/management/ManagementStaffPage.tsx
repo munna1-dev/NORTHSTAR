@@ -64,12 +64,12 @@ export default function ManagementStaffPage() {
   const [busyKey, setBusyKey] = useState('')
   const [reviewId, setReviewId] = useState('')
   const [reviewNotes, setReviewNotes] = useState('')
-  const [roleCustomerId, setRoleCustomerId] = useState('')
+  const [roleStaffId, setRoleStaffId] = useState('')
   const [roleKey, setRoleKey] = useState('')
-  const [permissionCustomerId, setPermissionCustomerId] = useState('')
+  const [permissionStaffId, setPermissionStaffId] = useState('')
   const [permissionKey, setPermissionKey] = useState('')
   const [permissionEffect, setPermissionEffect] = useState<'allow' | 'deny'>('allow')
-  const [lifecycleCustomerId, setLifecycleCustomerId] = useState('')
+  const [lifecycleStaffId, setLifecycleStaffId] = useState('')
   const [lifecycleAction, setLifecycleAction] =
     useState<LifecycleAction>('activate')
   const [lifecycleReason, setLifecycleReason] = useState('')
@@ -80,7 +80,7 @@ export default function ManagementStaffPage() {
   )
 
   const activeStaff = useMemo(
-    () => staff.filter((member) => member.staff_status === 'active').length,
+    () => staff.filter((member) => member.status === 'active').length,
     [staff],
   )
 
@@ -216,46 +216,46 @@ export default function ManagementStaffPage() {
   }
 
   const applyRole = async () => {
-    if (!roleCustomerId || !roleKey) {
+    if (!roleStaffId || !roleKey) {
       setError('Select a staff member and a role.')
       return
     }
 
     await runAction('assign-role', async () => {
-      await assignManagementRole(roleCustomerId, roleKey)
-      setRoleCustomerId('')
+      await assignManagementRole(roleStaffId, roleKey)
+      setRoleStaffId('')
     })
   }
 
   const applyPermission = async () => {
-    if (!permissionCustomerId || !permissionKey) {
+    if (!permissionStaffId || !permissionKey) {
       setError('Select a staff member and a permission.')
       return
     }
 
     await runAction('assign-permission', async () => {
       await assignManagementPermission(
-        permissionCustomerId,
+        permissionStaffId,
         permissionKey,
         permissionEffect,
       )
-      setPermissionCustomerId('')
+      setPermissionStaffId('')
     })
   }
 
   const applyLifecycle = async () => {
-    if (!lifecycleCustomerId) {
+    if (!lifecycleStaffId) {
       setError('Select a staff member.')
       return
     }
 
     await runAction('lifecycle', async () => {
       await updateManagementStaffStatus(
-        lifecycleCustomerId,
+        lifecycleStaffId,
         lifecycleAction,
         lifecycleReason.trim() || undefined,
       )
-      setLifecycleCustomerId('')
+      setLifecycleStaffId('')
       setLifecycleReason('')
     })
   }
@@ -466,7 +466,7 @@ export default function ManagementStaffPage() {
                       </td>
                       <td>
                         <strong className="management-staff__id">
-                          {member.staff_id || 'Not assigned'}
+                          {member.id || 'Not assigned'}
                         </strong>
                       </td>
                       <td>{member.employee_number || '—'}</td>
@@ -481,8 +481,8 @@ export default function ManagementStaffPage() {
                         </div>
                       </td>
                       <td>
-                        <span className={`management-status management-status--${member.staff_status || 'pending'}`}>
-                          {statusLabel(member.staff_status)}
+                        <span className={`management-status management-status--${member.status || 'pending'}`}>
+                          {statusLabel(member.status)}
                         </span>
                       </td>
                       <td>{formatDate(member.created_at)}</td>
@@ -515,8 +515,8 @@ export default function ManagementStaffPage() {
                 <label>
                   Staff member
                   <select
-                    value={lifecycleCustomerId}
-                    onChange={(event) => setLifecycleCustomerId(event.target.value)}
+                    value={lifecycleStaffId}
+                    onChange={(event) => setLifecycleStaffId(event.target.value)}
                   >
                     <option value="">Select staff member</option>
                     {staff.map((member) => (
@@ -575,8 +575,8 @@ export default function ManagementStaffPage() {
                 <label>
                   Staff member
                   <select
-                    value={roleCustomerId}
-                    onChange={(event) => setRoleCustomerId(event.target.value)}
+                    value={roleStaffId}
+                    onChange={(event) => setRoleStaffId(event.target.value)}
                   >
                     <option value="">Select staff member</option>
                     {staff.map((member) => (
@@ -651,8 +651,8 @@ export default function ManagementStaffPage() {
                 <label>
                   Staff member
                   <select
-                    value={permissionCustomerId}
-                    onChange={(event) => setPermissionCustomerId(event.target.value)}
+                    value={permissionStaffId}
+                    onChange={(event) => setPermissionStaffId(event.target.value)}
                   >
                     <option value="">Select staff member</option>
                     {staff.map((member) => (

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
-import { getCurrentCustomer } from '../lib/session'
-import type { UserProfile } from '../types'
+import { getCurrentStaff } from '../lib/session'
+import type { StaffProfile } from '../lib/session'
 import { ManagementShell } from './ManagementShell'
 
 interface ManagementRouteProps {
@@ -19,18 +19,18 @@ export function ManagementRoute({
   superManagerOnly = false,
 }: ManagementRouteProps) {
   const location = useLocation()
-  const [customer, setCustomer] = useState<UserProfile | null>(null)
+  const [staff, setStaff] = useState<StaffProfile | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     let mounted = true
 
-    void getCurrentCustomer().then((result) => {
+    void getCurrentStaff().then((result) => {
       if (!mounted) {
         return
       }
 
-      setCustomer(result)
+      setStaff(result)
       setLoading(false)
     })
 
@@ -47,7 +47,7 @@ export function ManagementRoute({
     )
   }
 
-  if (!customer) {
+  if (!staff) {
     return (
       <Navigate
         to="/staff"
@@ -57,23 +57,23 @@ export function ManagementRoute({
     )
   }
 
-  const customerRole = customer.role as string
+  const staffRole = staff.role as string
 
   if (
-    customerRole !== 'staff' &&
-    customerRole !== 'management' &&
-    customerRole !== 'developer' &&
-    customerRole !== 'super_manager'
+    staffRole !== 'super_manager' &&
+    staffRole !== 'developer' &&
+    staffRole !== 'management' &&
+    staffRole !== 'staff'
   ) {
     return <Navigate to="/customer" replace />
   }
 
-  if (superManagerOnly && customerRole !== 'super_manager') {
+  if (superManagerOnly && staffRole !== 'super_manager') {
     return <Navigate to="/management" replace />
   }
 
-  if (customerRole !== 'super_manager') {
-    const grantedPermissions = customer.permissions ?? []
+  if (staffRole !== 'super_manager') {
+    const grantedPermissions = staff.permissions ?? []
 
     if (
       permission &&
@@ -93,7 +93,7 @@ export function ManagementRoute({
   }
 
   return (
-    <ManagementShell customer={customer}>
+    <ManagementShell staff={staff}>
       {children}
     </ManagementShell>
   )

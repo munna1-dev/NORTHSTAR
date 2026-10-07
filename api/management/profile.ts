@@ -45,21 +45,31 @@ export default async function handler(
     const result = await db.query(
       `
         SELECT
-          c.id,
-          c.customer_number,
-          c.first_name,
-          c.last_name,
-          c.email,
-          c.phone,
-          c.role,
-          c.status,
-          c.staff_id,
-          c.employee_number,
-          c.department,
-          c.staff_status,
-          c.two_factor_enabled
-        FROM customers c
-        WHERE c.id = $1
+          s.id,
+          s.staff_number,
+          s.first_name,
+          s.last_name,
+          s.email,
+          s.phone,
+          s.status,
+          s.employee_number,
+          s.department,
+          s.two_factor_enabled,
+          COALESCE(
+            (
+              SELECT mr.role_key
+              FROM staff_role_assignments_v2 sra
+              JOIN management_roles mr
+                ON mr.id = sra.role_id
+              WHERE sra.staff_id = s.id
+                AND mr.is_active = true
+              ORDER BY sra.assigned_at DESC
+              LIMIT 1
+            ),
+            'staff'
+          ) AS role
+        FROM staff s
+        WHERE s.id = $1
         LIMIT 1
       `,
       [managementUser.id],
@@ -102,7 +112,7 @@ export default async function handler(
 
   const result = await db.query(
     `
-      UPDATE customers
+      UPDATE staff
       SET
         first_name = $1,
         last_name = $2,
@@ -111,17 +121,14 @@ export default async function handler(
       WHERE id = $4
       RETURNING
         id,
-        customer_number,
+        staff_number,
         first_name,
         last_name,
         email,
         phone,
-        role,
         status,
-        staff_id,
         employee_number,
         department,
-        staff_status,
         two_factor_enabled
     `,
     [firstName, lastName, phone, managementUser.id],
@@ -135,7 +142,7 @@ export default async function handler(
     request,
     managementUser.id,
     'management.profile.update',
-    'customer',
+    'staff',
     managementUser.id,
     'Management profile updated.',
     {
