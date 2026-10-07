@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import { PublicHome } from "./pages/PublicHome"
 import { PersonalPage } from "./pages/PersonalPage"
 import { BusinessPage } from "./pages/BusinessPage"
@@ -44,7 +44,8 @@ function App() {
         <Route path="/business" element={<BusinessPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/support" element={<SupportPage />} />
-        <Route path="/signin" element={<SignInPage />} />
+        <Route path="/login" element={<SignInPage />} />
+        <Route path="/signin" element={<Navigate to="/login" replace />} />
         <Route path="/staff" element={<StaffSignInPage />} />
         <Route path="/open-account" element={<OpenAccountPage />} />
         <Route path="/customer" element={<ProtectedRoute><CustomerDashboardPage /></ProtectedRoute>} />
