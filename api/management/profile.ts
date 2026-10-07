@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { getDb } from '../../src/server/db/client.js'
 import { writeAuditLog } from '../../src/server/auth/audit.js'
-import { requirePermission } from '../../src/server/auth/management.js'
+import { hasManagementPermission, requirePermission } from '../../src/server/auth/management.js'
 
 function error(
   response: VercelResponse,
@@ -79,9 +79,14 @@ export default async function handler(
       return error(response, 404, 'Management profile not found.')
     }
 
+    const canUpdate = await hasManagementPermission(
+      managementUser,
+      'profile.update',
+    )
+
     return response.status(200).json({
       ok: true,
-      profile: result.rows[0],
+      profile: { ...result.rows[0], can_update: canUpdate },
     })
   }
 
@@ -152,6 +157,6 @@ export default async function handler(
 
   return response.status(200).json({
     ok: true,
-    profile: result.rows[0],
+    profile: { ...result.rows[0], can_update: true },
   })
 }

@@ -99,6 +99,7 @@ export interface ManagementCustomer {
   phone: string | null
   status: string
   role: string
+  can_update: boolean
   two_factor_enabled: boolean
   last_login_at: string | null
   created_at: string
@@ -396,6 +397,7 @@ export interface ManagementStaffMember {
   phone: string | null
   status: string
   role: string
+  can_update: boolean
   employee_number: string | null
   department: string | null
   approved_by: string | null
@@ -534,6 +536,7 @@ export interface ManagementProfile {
   department: string | null
   two_factor_enabled: boolean
   role: string
+  can_update: boolean
 }
 
 export async function getManagementProfile(): Promise<ManagementProfile> {

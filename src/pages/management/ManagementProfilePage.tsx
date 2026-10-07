@@ -12,7 +12,6 @@ import {
   updateManagementProfile,
   type ManagementProfile,
 } from '../../lib/managementApi'
-import { getCurrentCustomer } from '../../lib/session'
 import './ManagementProfilePage.css'
 
 function roleLabel(role: string): string {
@@ -44,10 +43,7 @@ export function ManagementProfilePage() {
 
     const loadProfile = async () => {
       try {
-        const [result, customer] = await Promise.all([
-          getManagementProfile(),
-          getCurrentCustomer(),
-        ])
+        const result = await getManagementProfile()
 
         if (cancelled) return
 
@@ -55,12 +51,7 @@ export function ManagementProfilePage() {
         setFirstName(result.first_name)
         setLastName(result.last_name)
         setPhone(result.phone ?? '')
-
-        const permissions = customer?.permissions ?? []
-        setCanUpdate(
-          result.role === 'super_manager' ||
-            permissions.includes('profile.update'),
-        )
+        setCanUpdate(result.can_update)
       } catch (loadError) {
         if (!cancelled) {
           setError(
@@ -105,6 +96,7 @@ export function ManagementProfilePage() {
       setFirstName(updated.first_name)
       setLastName(updated.last_name)
       setPhone(updated.phone ?? '')
+      setCanUpdate(updated.can_update)
       setSuccess('Your management profile has been updated.')
     } catch (saveError) {
       setError(
@@ -245,8 +237,7 @@ export function ManagementProfilePage() {
             <div className="management-profile__permission-note">
               <LockKeyhole size={17} />
               <span>
-                Your Super Manager has not granted you permission to update
-                your profile.
+                You do not have permission to update your management profile.
               </span>
             </div>
           )}
