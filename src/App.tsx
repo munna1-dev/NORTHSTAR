@@ -5,6 +5,7 @@ import { BusinessPage } from "./pages/BusinessPage"
 import { AboutPage } from "./pages/AboutPage"
 import { SupportPage } from "./pages/SupportPage"
 import { SignInPage } from "./pages/SignInPage"
+import { StaffSignInPage } from "./pages/StaffSignInPage"
 import { OpenAccountPage } from "./pages/OpenAccountPage"
 import { CustomerDashboardPage } from "./pages/CustomerDashboardPage"
 import { CustomerAccountsPage } from "./pages/CustomerAccountsPage"
@@ -44,6 +45,7 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/support" element={<SupportPage />} />
         <Route path="/signin" element={<SignInPage />} />
+        <Route path="/staff" element={<StaffSignInPage />} />
         <Route path="/open-account" element={<OpenAccountPage />} />
         <Route path="/customer" element={<ProtectedRoute><CustomerDashboardPage /></ProtectedRoute>} />
         <Route path="/customer/accounts" element={<ProtectedRoute><CustomerAccountsPage /></ProtectedRoute>} />
