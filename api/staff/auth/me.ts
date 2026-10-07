@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { getStaffFromSession } from '../../../src/server/auth/staff-session.js'
-import { query } from '../../../src/server/db/client.js'
+import { getDb } from '../../../src/server/db/client.js'
 
 export default async function handler(
   req: VercelRequest,
@@ -26,7 +26,7 @@ export default async function handler(
       })
     }
 
-    const result = await query<{
+    const result = await getDb().query<{
       role: string | null
       permissions: string[]
     }>(
