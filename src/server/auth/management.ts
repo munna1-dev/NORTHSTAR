@@ -84,7 +84,7 @@ export async function getManagementUser(
         s.status,
         COALESCE(
           (
-            SELECT r.name
+            SELECT r.role_key
             FROM staff_role_assignments_v2 sra
             JOIN management_roles r
               ON r.id = sra.role_id
