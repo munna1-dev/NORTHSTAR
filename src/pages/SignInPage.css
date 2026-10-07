@@ -221,3 +221,16 @@
     flex-direction: column;
   }
 }
+
+
+.signin-card__intro h1 {
+  max-width: 430px;
+  line-height: 1.08;
+}
+
+@media (min-width: 561px) {
+  .signin-card__intro h1 {
+    font-size: 32px;
+    letter-spacing: -.025em;
+  }
+}

@@ -50,7 +50,7 @@ export function ManagementRoute({
   if (!customer) {
     return (
       <Navigate
-        to="/signin"
+        to="/staff"
         replace
         state={{ from: location.pathname }}
       />

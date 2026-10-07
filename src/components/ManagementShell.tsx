@@ -104,7 +104,7 @@ export function ManagementShell({
 
   async function handleLogout() {
     await signOutCustomer()
-    navigate('/signin', { replace: true })
+    navigate('/staff', { replace: true })
   }
 
   return (

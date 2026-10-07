@@ -81,11 +81,11 @@ export function StaffSignInPage() {
 
         <div className="signin-card__intro">
           <span className="signin-card__eyebrow">
-            STAFF & MANAGEMENT
+            NORTHSTARBANK
           </span>
-          <h1 id="staff-signin-title">Staff sign in</h1>
+          <h1 id="staff-signin-title">BANK MANAGEMENT PORTAL</h1>
           <p>
-            Secure access for NorthStarBank staff, management,
+            Secure sign-in for NorthStarBank staff, management,
             developers, and Super Managers.
           </p>
         </div>
@@ -93,7 +93,7 @@ export function StaffSignInPage() {
         <div className="signin-demo-notice">
           <ShieldCheck size={18} />
           <div>
-            <strong>Protected staff access</strong>
+            <strong>Protected management access</strong>
             <span>
               Staff credentials are verified by the NorthStarBank
               authentication service before management access is granted.
@@ -138,14 +138,14 @@ export function StaffSignInPage() {
 
           <button type="submit" disabled={submitting}>
             <LockKeyhole size={17} />
-            {submitting ? "Signing in…" : "Sign in to staff portal"}
+            {submitting ? "Signing in…" : "Enter management portal"}
             {!submitting && <ArrowRight size={17} />}
           </button>
         </form>
 
         <div className="signin-card__footer">
           <Link to="/">Return to NorthStarBank</Link>
-          <span>NorthStarBank staff portal</span>
+          <span>Bank management portal</span>
         </div>
       </section>
     </main>
