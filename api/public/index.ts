@@ -7,8 +7,9 @@ export default async function handler(
   res: VercelResponse,
 ) {
   const pathname = new URL(req.url ?? '/', 'http://localhost').pathname
+  const queryPath = typeof req.query.path === 'string' ? req.query.path : ''
 
-  const parts = pathname
+  const parts = (queryPath || pathname)
     .replace(/^\/api\/public\/?/, '')
     .split('/')
     .filter(Boolean)
