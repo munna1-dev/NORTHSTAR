@@ -90,9 +90,7 @@ export async function getManagementUser(
               ON r.id = sra.role_id
             WHERE sra.staff_id = s.id
               AND r.is_active = TRUE
-            ORDER BY
-              CASE WHEN r.name = 'Super Manager' THEN 0 ELSE 1 END,
-              r.name
+            ORDER BY sra.assigned_at DESC
             LIMIT 1
           ),
           'staff'
