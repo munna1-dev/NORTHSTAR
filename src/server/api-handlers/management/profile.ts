@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { getDb } from '../../db/client.js'
-import { writeAuditLog } from '../../auth/audit.js'
+import { writeStaffAuditLog } from '../../auth/audit.js'
 import { hasManagementPermission, requirePermission } from '../../auth/management.js'
 
 function error(
@@ -143,7 +143,7 @@ export default async function handler(
     return error(response, 404, 'Management profile not found.')
   }
 
-  await writeAuditLog(
+  await writeStaffAuditLog(
     request,
     managementUser.id,
     'management.profile.update',

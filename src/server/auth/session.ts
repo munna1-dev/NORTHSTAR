@@ -5,7 +5,7 @@ import { getDb } from '../db/client.js'
 const SESSION_COOKIE = 'northstar_session'
 const LEGACY_SESSION_COOKIE = 'fsbank_session'
 const SESSION_DAYS = 7
-export const SESSION_INACTIVITY_MINUTES = 15
+export const SESSION_INACTIVITY_MINUTES = 10
 
 function hashToken(token: string): string {
   return createHash('sha256').update(token).digest('hex')

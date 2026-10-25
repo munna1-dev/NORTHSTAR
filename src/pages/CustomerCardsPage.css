@@ -483,3 +483,306 @@
     margin-left: 16px;
   }
 }
+
+/* Card request workflow */
+.customer-card-request,
+.customer-card-request-history {
+  margin: 28px 0;
+  padding: 26px;
+  border: 1px solid #dce4ec;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(16, 42, 67, 0.045);
+}
+
+.customer-card-request__heading {
+  margin-bottom: 22px;
+}
+
+.customer-card-request__heading h2 {
+  margin: 7px 0 8px;
+  color: #102a43;
+  font-size: 1.35rem;
+}
+
+.customer-card-request__heading p,
+.customer-card-request__disclaimer {
+  color: #526579;
+  line-height: 1.6;
+}
+
+.customer-card-request__fieldset {
+  min-width: 0;
+  margin: 0 0 24px;
+  padding: 0;
+  border: 0;
+}
+
+.customer-card-request__fieldset legend {
+  margin-bottom: 12px;
+  color: #102a43;
+  font-weight: 700;
+}
+
+.customer-card-request__designs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.customer-card-request__design {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid #dce4ec;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.customer-card-request__design.is-selected {
+  border-color: #1d5d8f;
+  box-shadow: 0 0 0 2px rgba(29, 93, 143, 0.12);
+}
+
+.customer-card-request__design input,
+.customer-card-request__formats input {
+  accent-color: #1d5d8f;
+}
+
+.customer-card-request__swatch {
+  display: grid;
+  width: 100%;
+  min-height: 76px;
+  place-items: center;
+  border-radius: 9px;
+  color: #fff;
+  background: #102a43;
+}
+
+.customer-card-request__design--savings .customer-card-request__swatch {
+  color: #fff;
+  background: linear-gradient(135deg, #a92332 0 45%, #fff 45% 70%, #c7a34a 70%);
+}
+
+.customer-card-request__design--checking .customer-card-request__swatch {
+  background: linear-gradient(135deg, #102a43 0 65%, #b42332 65%);
+}
+
+.customer-card-request__design--credit .customer-card-request__swatch {
+  background: linear-gradient(135deg, #292d32 0 65%, #b42332 65% 82%, #c7a34a 82%);
+}
+
+.customer-card-request__design--business .customer-card-request__swatch {
+  background: linear-gradient(135deg, #102a43 0 65%, #c7a34a 65% 82%, #fff 82%);
+}
+
+.customer-card-request__design strong {
+  color: #102a43;
+}
+
+.customer-card-request__design > span:last-child {
+  color: #526579;
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+
+.customer-card-request__formats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.customer-card-request__formats label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 15px;
+  border: 1px solid #dce4ec;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.customer-card-request__formats label span {
+  display: grid;
+  gap: 5px;
+}
+
+.customer-card-request__formats strong {
+  color: #102a43;
+}
+
+.customer-card-request__formats small,
+.customer-card-request__notes small {
+  color: #637589;
+}
+
+.customer-card-request__notes {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 18px;
+  color: #102a43;
+  font-weight: 700;
+}
+
+.customer-card-request__notes > span {
+  display: inline;
+  color: #637589;
+  font-weight: 400;
+}
+
+.customer-card-request__notes textarea {
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  padding: 12px;
+  border: 1px solid #cbd6e1;
+  border-radius: 9px;
+  color: #102a43;
+  font: inherit;
+}
+
+.customer-card-request__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 46px;
+  padding: 11px 18px;
+  border: 0;
+  border-radius: 9px;
+  color: #fff;
+  background: #102a43;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.customer-card-request__submit:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.customer-card-request__disclaimer {
+  margin: 12px 0 0;
+  font-size: 0.86rem;
+}
+
+.customer-card-request__alert,
+.customer-card-request__success {
+  margin-bottom: 18px;
+  padding: 13px 15px;
+  border-radius: 9px;
+  line-height: 1.5;
+}
+
+.customer-card-request__alert {
+  border: 1px solid #edc4c4;
+  color: #842029;
+  background: #fff5f5;
+}
+
+.customer-card-request__success {
+  border: 1px solid #b7dfca;
+  color: #17633b;
+  background: #f0faf4;
+}
+
+.customer-card-request__alert p {
+  margin: 5px 0;
+}
+
+.customer-card-request__alert button {
+  margin-top: 6px;
+  padding: 6px 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.customer-card-request-history__list {
+  display: grid;
+}
+
+.customer-card-request-history__item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 17px 0;
+  border-bottom: 1px solid #e7edf2;
+}
+
+.customer-card-request-history__item:last-child {
+  border-bottom: 0;
+}
+
+.customer-card-request-history__item strong {
+  color: #102a43;
+}
+
+.customer-card-request-history__item p {
+  margin: 6px 0 0;
+  color: #637589;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.customer-card-request-history__review {
+  color: #34495e !important;
+}
+
+.customer-card-request-history__status {
+  flex-shrink: 0;
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: #725316;
+  background: #fff5d8;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.customer-card-request-history__status--approved,
+.customer-card-request-history__status--issued {
+  color: #17633b;
+  background: #e8f7ee;
+}
+
+.customer-card-request-history__status--rejected,
+.customer-card-request-history__status--cancelled {
+  color: #842029;
+  background: #fff0f0;
+}
+
+.customer-card-request-history__empty {
+  padding: 14px 0;
+  color: #637589;
+}
+
+@media (max-width: 760px) {
+  .customer-card-request,
+  .customer-card-request-history {
+    padding: 19px;
+  }
+
+  .customer-card-request__designs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .customer-card-request__formats {
+    grid-template-columns: 1fr;
+  }
+
+  .customer-card-request-history__item {
+    flex-direction: column;
+  }
+}

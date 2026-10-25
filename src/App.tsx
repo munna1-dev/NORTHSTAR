@@ -24,6 +24,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute"
 import { ManagementRoute } from "./components/ManagementRoute"
 import { ManagementDashboardPage } from "./pages/management/ManagementDashboardPage"
 import { ManagementApplicationsPage } from "./pages/management/ManagementApplicationsPage"
+import { ManagementCardRequestsPage } from "./pages/management/ManagementCardRequestsPage"
 import { ManagementCustomersPage } from "./pages/management/ManagementCustomersPage"
 import { ManagementAccountsPage } from "./pages/management/ManagementAccountsPage"
 import { ManagementTransactionsPage } from "./pages/management/ManagementTransactionsPage"
@@ -47,6 +48,7 @@ function App() {
         <Route path="/login" element={<SignInPage />} />
         <Route path="/signin" element={<Navigate to="/login" replace />} />
         <Route path="/staff" element={<StaffSignInPage />} />
+        <Route path="/admin" element={<StaffSignInPage />} />
         <Route path="/open-account" element={<OpenAccountPage />} />
         <Route path="/customer" element={<ProtectedRoute><CustomerDashboardPage /></ProtectedRoute>} />
         <Route path="/customer/accounts" element={<ProtectedRoute><CustomerAccountsPage /></ProtectedRoute>} />
@@ -105,6 +107,14 @@ function App() {
           element={
             <ManagementRoute permission="accounts.view">
               <ManagementAccountsPage />
+            </ManagementRoute>
+          }
+        />
+        <Route
+          path="/management/card-requests"
+          element={
+            <ManagementRoute permission="cards.view">
+              <ManagementCardRequestsPage />
             </ManagementRoute>
           }
         />

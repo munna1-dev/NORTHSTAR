@@ -58,6 +58,12 @@ const navigation: Array<{
     permissions: ['accounts.view'],
   },
   {
+    label: 'Card Requests',
+    href: '/management/card-requests',
+    icon: CreditCard,
+    permissions: ['cards.view'],
+  },
+  {
     label: 'Transactions',
     href: '/management/transactions',
     icon: ReceiptText,
@@ -117,7 +123,7 @@ export function ManagementShell({
         }
       >
         <div className="management-shell__brand">
-          <BrandMark />
+          <BrandMark compact />
           <div>
             <strong>NorthStarBank</strong>
             <span>

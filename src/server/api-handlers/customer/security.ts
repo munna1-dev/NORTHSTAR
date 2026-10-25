@@ -107,7 +107,7 @@ export default async function handler(
           AND expires_at > CURRENT_TIMESTAMP
         ORDER BY last_seen_at DESC
       `,
-      [customer.id, currentHash],
+      [currentHash, customer.id],
     )
 
     const eventsResult = await db.query(

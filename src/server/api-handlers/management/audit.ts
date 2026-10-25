@@ -35,13 +35,27 @@ export default async function handler(
       l.metadata,
       l.created_at,
       c.customer_number AS actor_customer_number,
-      c.first_name AS actor_first_name,
-      c.last_name AS actor_last_name,
-      c.email AS actor_email,
-      c.role AS actor_role
+      s.staff_number AS actor_staff_number,
+      COALESCE(c.first_name, s.first_name) AS actor_first_name,
+      COALESCE(c.last_name, s.last_name) AS actor_last_name,
+      COALESCE(c.email, s.email) AS actor_email,
+      COALESCE(
+        c.role::text,
+        (
+          SELECT mr.role_key
+          FROM staff_role_assignments_v2 sr
+          JOIN management_roles mr ON mr.id = sr.role_id
+          WHERE sr.staff_id = s.id
+            AND mr.is_active = TRUE
+          ORDER BY sr.assigned_at DESC
+          LIMIT 1
+        )
+      ) AS actor_role
     FROM audit_logs l
     LEFT JOIN customers c
       ON c.id = l.actor_customer_id
+    LEFT JOIN staff s
+      ON s.id::text = l.metadata->>'actorStaffId'
     ORDER BY l.created_at DESC
     LIMIT 500
   `)

@@ -1,10 +1,21 @@
 import "./BrandMark.css"
 
-export function BrandMark({ compact = false, className = "" }: { compact?: boolean; className?: string }) {
+export function BrandMark({
+  compact = false,
+  className = "",
+}: {
+  compact?: boolean
+  className?: string
+}) {
   return (
-    <div className={`brand-mark ${className}`.trim()}>
-      <span className="brand-mark__icon" aria-hidden="true">N</span>
-      {!compact && <span className="brand-mark__name">NORTHSTAR</span>}
-    </div>
+    <span
+      className={`brand-mark ${compact ? "brand-mark--compact" : ""} ${className}`.trim()}
+    >
+      <img
+        className="brand-mark__image"
+        src="/northstarbank-logo.svg"
+        alt="NorthStarBank — Banking with direction"
+      />
+    </span>
   )
 }

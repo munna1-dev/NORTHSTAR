@@ -422,3 +422,437 @@ svg {
     padding: 20px;
   }
 }
+
+
+/* NORTHSTARBANK_OFFICIAL_BRAND_OVERRIDE_V1 */
+:root {
+  --fs-navy: #B5121B;
+  --fs-blue: #870D14;
+  --fs-teal: #B5121B;
+  --fs-gold: #C9A227;
+  --fs-bg: #FFFFFF;
+  --fs-white: #FFFFFF;
+  --fs-text: #111111;
+  --fs-muted: #555555;
+  --fs-border: #E6DCC2;
+  --fs-border-strong: #C9A227;
+  --fs-radius-sm: 6px;
+  --fs-radius-md: 10px;
+  --fs-radius-lg: 14px;
+}
+
+html,
+body,
+button,
+input,
+select,
+textarea {
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+body {
+  font-size: 14px;
+  color: #111111;
+}
+
+.signin-card__brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.signin-card__brand-logo {
+  display: block;
+  width: min(260px, 100%);
+  height: auto;
+  object-fit: contain;
+}
+
+.signin-card__icon {
+  display: none !important;
+}
+
+.brand-mark {
+  color: #B5121B;
+}
+
+.brand-mark__icon {
+  background: #B5121B;
+  color: #C9A227;
+}
+
+.brand-mark__image {
+  max-width: 100%;
+}
+
+.customer-shell {
+  background: #FFFFFF;
+  color: #111111;
+}
+
+.customer-shell__brand-logo {
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.management-shell {
+  background: #FFFFFF;
+  color: #111111;
+}
+
+.management-shell__sidebar,
+.management-shell__sidebar-inner {
+  background: #B5121B;
+}
+
+.public-nav a:hover,
+.public-nav__links a:hover {
+  color: #B5121B;
+}
+
+.public-nav__actions .public-nav__button--primary,
+.home-button--primary {
+  border-color: #B5121B;
+  background: #B5121B;
+  color: #FFFFFF;
+}
+
+.public-nav__actions .public-nav__button--primary:hover,
+.home-button--primary:hover {
+  background: #870D14;
+}
+
+.open-account-form > button {
+  border-color: #B5121B;
+  background: #B5121B;
+  color: #FFFFFF;
+}
+
+.open-account-form > button:hover:not(:disabled) {
+  background: #870D14;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #C9A227;
+  outline-offset: 2px;
+}
+
+
+/* NORTHSTARBANK_COMPLETE_SITE_DESIGN_V2: official NorthStarBank design system */
+:root {
+  --ns-red: #B5121B;
+  --ns-red-dark: #870D14;
+  --ns-gold: #C9A227;
+  --ns-gold-light: #F8F0D5;
+  --ns-white: #FFFFFF;
+  --ns-black: #111111;
+  --ns-muted: #555555;
+  --ns-border: #E6DCC2;
+  --ns-surface: #FFFFFF;
+  --ns-page: #FFFFFF;
+
+  --fs-navy: var(--ns-red);
+  --fs-blue: var(--ns-red-dark);
+  --fs-teal: var(--ns-red);
+  --fs-gold: var(--ns-gold);
+  --fs-bg: var(--ns-page);
+  --fs-white: var(--ns-white);
+  --fs-text: var(--ns-black);
+  --fs-muted: var(--ns-muted);
+  --fs-border: var(--ns-border);
+  --fs-border-strong: var(--ns-gold);
+}
+
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+body {
+  color: var(--ns-black);
+  background: var(--ns-page);
+  font-size: 14px;
+}
+
+button,
+input,
+select,
+textarea {
+  font-size: 14px;
+}
+
+a {
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  text-decoration-color: currentColor;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--ns-black);
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--ns-border);
+}
+
+/* Shared panels, cards, and content surfaces */
+.signin-card,
+.open-account-form,
+.open-account-success,
+.customer-shell__content,
+.customer-shell__panel,
+.management-shell__content,
+.management-shell__panel {
+  border-color: var(--ns-border);
+}
+
+/* Official logo sizing */
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--ns-red);
+}
+
+.brand-mark__image {
+  display: block;
+  width: 210px;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.brand-mark--compact .brand-mark__image {
+  width: 160px;
+  max-width: 100%;
+  height: auto;
+}
+
+.signin-card__brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.signin-card__brand-logo {
+  display: block;
+  width: min(260px, 100%);
+  height: auto;
+}
+
+/* Public navigation */
+.public-nav {
+  color: var(--ns-black);
+}
+
+.public-nav__links a {
+  color: var(--ns-black);
+}
+
+.public-nav__links a:hover,
+.public-nav__links a[aria-current="page"] {
+  color: var(--ns-red);
+}
+
+.public-nav__actions .public-nav__button--primary,
+.home-button--primary,
+.open-account-form > button,
+.signin-card button[type="submit"] {
+  border-color: var(--ns-red);
+  background: var(--ns-red);
+  color: var(--ns-white);
+}
+
+.public-nav__actions .public-nav__button--primary:hover,
+.home-button--primary:hover,
+.open-account-form > button:hover:not(:disabled),
+.signin-card button[type="submit"]:hover:not(:disabled) {
+  border-color: var(--ns-red-dark);
+  background: var(--ns-red-dark);
+}
+
+.public-nav__actions .public-nav__button,
+.home-button--secondary {
+  border-color: var(--ns-gold);
+  background: var(--ns-white);
+  color: var(--ns-red);
+}
+
+/* Registration and authentication */
+.signin-page,
+.open-account-page {
+  color: var(--ns-black);
+}
+
+.signin-card,
+.open-account-form,
+.open-account-success {
+  background: var(--ns-white);
+  border-color: var(--ns-border);
+}
+
+.signin-card__icon {
+  display: none !important;
+}
+
+.signin-card__eyebrow,
+.open-account-header > span,
+.open-account-success > span {
+  color: var(--ns-red);
+}
+
+.open-account-form input,
+.open-account-form select,
+.signin-card input,
+.signin-card select,
+.signin-card textarea {
+  color: var(--ns-black);
+  background: var(--ns-white);
+  border-color: var(--ns-border);
+}
+
+.open-account-form input:focus,
+.open-account-form select:focus,
+.signin-card input:focus,
+.signin-card select:focus,
+.signin-card textarea:focus {
+  border-color: var(--ns-gold);
+}
+
+/* Customer portal */
+.customer-shell {
+  color: var(--ns-black);
+  background: var(--ns-page);
+}
+
+.customer-shell__header,
+.customer-shell__topbar {
+  background: var(--ns-white);
+  border-color: var(--ns-border);
+}
+
+.customer-shell__nav a[aria-current="page"],
+.customer-shell__nav a.active {
+  color: var(--ns-red);
+  background: var(--ns-gold-light);
+}
+
+.customer-shell__nav a:hover {
+  color: var(--ns-red);
+  background: #FFF9E9;
+}
+
+/* Management portal */
+.management-shell {
+  color: var(--ns-black);
+  background: var(--ns-page);
+}
+
+.management-shell__sidebar {
+  background: var(--ns-red);
+  color: var(--ns-white);
+}
+
+.management-shell__sidebar a[aria-current="page"],
+.management-shell__sidebar a.active {
+  color: var(--ns-white);
+  background: var(--ns-red-dark);
+  box-shadow: inset 3px 0 0 var(--ns-gold);
+}
+
+.management-shell__topbar {
+  color: var(--ns-black);
+  background: var(--ns-white);
+  border-color: var(--ns-border);
+}
+
+/* Buttons: retain existing sizing and component-specific layouts */
+button {
+  accent-color: var(--ns-red);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Tables */
+table {
+  border-color: var(--ns-border);
+}
+
+thead th {
+  color: var(--ns-black);
+  background: var(--ns-gold-light);
+  border-color: var(--ns-border);
+}
+
+tbody td {
+  border-color: var(--ns-border);
+}
+
+tbody tr:hover {
+  background: #FFFCF4;
+}
+
+/* Status indicators and notices */
+[role="alert"] {
+  border-color: var(--ns-border);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ns-gold);
+  outline-offset: 2px;
+}
+
+/* Responsive logo and form sizing */
+img {
+  max-width: 100%;
+}
+
+@media (max-width: 600px) {
+  .brand-mark__image {
+    width: min(180px, 100%);
+  }
+
+  .brand-mark--compact .brand-mark__image {
+    width: min(145px, 100%);
+  }
+
+  .signin-card__brand-logo {
+    width: min(230px, 100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

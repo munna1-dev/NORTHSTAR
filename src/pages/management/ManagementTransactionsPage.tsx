@@ -58,7 +58,7 @@ export function ManagementTransactionsPage() {
               <tbody>
                 {items.map((item) => (
                   <tr key={item.id}>
-                    <td><div className="management-data__primary">{item.transaction_reference}</div><div className="management-data__secondary">{item.description || 'Ledger transaction'}</div></td>
+                    <td><div className="management-data__primary">{item.reference}</div><div className="management-data__secondary">{item.description || 'Ledger transaction'}</div></td>
                     <td>{item.first_name} {item.last_name}<div className="management-data__secondary">{item.customer_number}</div></td>
                     <td>{item.account_number}</td>
                     <td>{item.transaction_type}</td>

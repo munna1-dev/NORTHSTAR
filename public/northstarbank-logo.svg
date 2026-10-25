@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" role="img" aria-labelledby="title desc">
+<title id="title">NorthStarBank</title>
+<desc id="desc">A red North Star within a shield, representing direction, security and financial confidence.</desc>
+<rect width="320" height="80" rx="12" fill="#fff"/>
+<path d="M40 7 65 17 65 39Q65 58 40 72 15 58 15 39L15 17Z" fill="#B5121B"/>
+<path d="M40 17 44 32 59 32 47 41 52 56 40 47 28 56 33 41 21 32 36 32Z" fill="#fff"/>
+<text x="80" y="39" font-family="Tahoma,Arial,sans-serif" font-size="22" font-weight="700" fill="#B5121B">NorthStarBank</text>
+<text x="81" y="57" font-family="Tahoma,Arial,sans-serif" font-size="9" letter-spacing="1.5" fill="#111">BANKING WITH DIRECTION</text>
+</svg>

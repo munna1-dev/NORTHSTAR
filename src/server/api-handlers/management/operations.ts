@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { randomUUID } from 'node:crypto'
 import { getDb } from '../../db/client.js'
-import { writeAuditLog } from '../../auth/audit.js'
+import { writeStaffAuditLog } from '../../auth/audit.js'
 import {
   hasManagementPermission,
   requireAnyPermission,
@@ -394,7 +394,7 @@ export default async function handler(
       await client.query('COMMIT')
 
       try {
-        await writeAuditLog(
+        await writeStaffAuditLog(
           request,
           managementUser.id,
           `${operationType}.status_changed`,

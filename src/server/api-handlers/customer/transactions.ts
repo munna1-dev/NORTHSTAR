@@ -63,7 +63,7 @@ export default async function handler(
         JOIN accounts a
           ON a.id = t.account_id
         WHERE a.customer_id = $1
-          AND ($2 = '' OR a.id = $2)
+          AND ($2 = '' OR a.id::text = $2)
           AND (
             $3 = ''
             OR t.description ILIKE '%' || $3 || '%'

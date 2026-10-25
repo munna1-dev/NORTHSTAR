@@ -8,10 +8,13 @@ import {
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import {
+  createCustomerCardRequest,
+  getCustomerCardRequests,
   getCustomerCards,
   getCustomerProfile,
   updateCustomerCardStatus,
 } from "../lib/customerApi"
+import type { CustomerCardRequest } from "../lib/customerApi"
 import type { BankCard, UserProfile } from "../types"
 import "./CustomerCardsPage.css"
 
@@ -89,6 +92,20 @@ export function CustomerCardsPage() {
   const [error, setError] = useState<string | null>(null)
   const [updatingCardId, setUpdatingCardId] = useState<string | null>(null)
 
+  const [requests, setRequests] = useState<CustomerCardRequest[]>([])
+  const [requestsLoading, setRequestsLoading] = useState(true)
+  const [requestError, setRequestError] = useState<string | null>(null)
+  const [requestMessage, setRequestMessage] = useState<string | null>(null)
+  const [requestCategory, setRequestCategory] = useState<
+    CustomerCardRequest["card_category"]
+  >("savings")
+  const [requestFormat, setRequestFormat] = useState<
+    CustomerCardRequest["card_format"]
+  >("physical")
+  const [requestNotes, setRequestNotes] = useState("")
+  const [submittingRequest, setSubmittingRequest] = useState(false)
+
+
   async function loadCards() {
     setLoading(true)
     setError(null)
@@ -154,6 +171,99 @@ export function CustomerCardsPage() {
       cancelled = true
     }
   }, [])
+
+
+  async function loadRequests() {
+    setRequestsLoading(true)
+    setRequestError(null)
+
+    try {
+      setRequests(await getCustomerCardRequests())
+    } catch (loadError) {
+      setRequestError(
+        loadError instanceof Error
+          ? loadError.message
+          : "Unable to load your card requests.",
+      )
+    } finally {
+      setRequestsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function loadInitialRequests() {
+      try {
+        const result = await getCustomerCardRequests()
+        if (!cancelled) {
+          setRequests(result)
+          setRequestError(null)
+        }
+      } catch (loadError) {
+        if (!cancelled) {
+          setRequestError(
+            loadError instanceof Error
+              ? loadError.message
+              : "Unable to load your card requests.",
+          )
+        }
+      } finally {
+        if (!cancelled) {
+          setRequestsLoading(false)
+        }
+      }
+    }
+
+    void loadInitialRequests()
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  async function submitCardRequest(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setSubmittingRequest(true)
+    setRequestError(null)
+    setRequestMessage(null)
+
+    try {
+      const created = await createCustomerCardRequest({
+        cardCategory: requestCategory,
+        cardFormat: requestFormat,
+        customerNotes: requestNotes.trim() || undefined,
+      })
+
+      setRequests((current) => [
+        created,
+        ...current.filter((item) => item.id !== created.id),
+      ])
+      setRequestNotes("")
+      setRequestMessage(
+        "Your card request has been submitted for management review.",
+      )
+    } catch (submitError) {
+      setRequestError(
+        submitError instanceof Error
+          ? submitError.message
+          : "Unable to submit your card request.",
+      )
+    } finally {
+      setSubmittingRequest(false)
+    }
+  }
+
+  function cardRequestStatus(status: CustomerCardRequest["status"]) {
+    switch (status) {
+      case "pending": return "Pending review"
+      case "approved": return "Approved"
+      case "rejected": return "Rejected"
+      case "issued": return "Issued"
+      case "cancelled": return "Cancelled"
+      default: return status
+    }
+  }
 
   async function toggleCard(card: BankCard) {
     if (card.status !== "active" && card.status !== "locked") {
@@ -246,6 +356,145 @@ export function CustomerCardsPage() {
           </div>
         </section>
       )}
+
+
+      <section className="customer-card-request" aria-labelledby="card-request-title">
+        <div className="customer-card-request__heading">
+          <span className="customer-cards-kicker">CARD APPLICATION</span>
+          <h2 id="card-request-title">Request a new card</h2>
+          <p>Choose a standard NorthStarBank design and how you would like to receive your card.</p>
+        </div>
+
+        {requestError && (
+          <div className="customer-card-request__alert" role="alert">
+            <strong>Card request issue</strong>
+            <p>{requestError}</p>
+            <button type="button" onClick={() => void loadRequests()}>
+              Refresh requests
+            </button>
+          </div>
+        )}
+
+        {requestMessage && (
+          <div className="customer-card-request__success" role="status">
+            {requestMessage}
+          </div>
+        )}
+
+        <form onSubmit={submitCardRequest}>
+          <fieldset className="customer-card-request__fieldset">
+            <legend>Choose your card design</legend>
+            <div className="customer-card-request__designs">
+              {([
+                { id: "savings", title: "Savings", description: "Red, white & gold" },
+                { id: "checking", title: "Checking", description: "Deep navy, white & red" },
+                { id: "credit", title: "Credit", description: "Charcoal, red & gold" },
+                { id: "business", title: "Business", description: "Navy, white & gold" },
+              ] as const).map((option) => (
+                <label
+                  key={option.id}
+                  className={`customer-card-request__design customer-card-request__design--${option.id}${requestCategory === option.id ? " is-selected" : ""}`}
+                >
+                  <input
+                    type="radio"
+                    name="cardCategory"
+                    value={option.id}
+                    checked={requestCategory === option.id}
+                    onChange={() => setRequestCategory(option.id)}
+                  />
+                  <span className="customer-card-request__swatch" aria-hidden="true">
+                    <CreditCard size={25} />
+                  </span>
+                  <strong>{option.title}</strong>
+                  <span>{option.description}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset className="customer-card-request__fieldset">
+            <legend>Card format</legend>
+            <div className="customer-card-request__formats">
+              <label>
+                <input
+                  type="radio"
+                  name="cardFormat"
+                  value="physical"
+                  checked={requestFormat === "physical"}
+                  onChange={() => setRequestFormat("physical")}
+                />
+                <span><strong>Physical card</strong><small>A card for in-person use</small></span>
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="cardFormat"
+                  value="virtual"
+                  checked={requestFormat === "virtual"}
+                  onChange={() => setRequestFormat("virtual")}
+                />
+                <span><strong>Virtual card</strong><small>A digital card, subject to availability</small></span>
+              </label>
+            </div>
+          </fieldset>
+
+          <label className="customer-card-request__notes">
+            Notes <span>(optional)</span>
+            <textarea
+              value={requestNotes}
+              onChange={(event) => setRequestNotes(event.target.value)}
+              maxLength={500}
+              rows={3}
+              placeholder="Add any relevant information for the card team."
+            />
+            <small>{requestNotes.length}/500 characters</small>
+          </label>
+
+          <button
+            type="submit"
+            className="customer-card-request__submit"
+            disabled={submittingRequest}
+          >
+            <CreditCard size={18} />
+            {submittingRequest ? "Submitting request…" : "Submit card request"}
+          </button>
+          <p className="customer-card-request__disclaimer">
+            Submission does not issue a card. Management must review your request, and an approved card becomes available only after the separate issuance process is completed.
+          </p>
+        </form>
+      </section>
+
+      <section className="customer-card-request-history" aria-labelledby="card-request-history-title">
+        <div className="customer-card-request__heading">
+          <h2 id="card-request-history-title">Your card requests</h2>
+          <p>Track the review status of your submitted applications.</p>
+        </div>
+
+        {requestsLoading ? (
+          <p className="customer-card-request-history__empty">Loading your requests…</p>
+        ) : requests.length === 0 ? (
+          <p className="customer-card-request-history__empty">You have not submitted any card requests yet.</p>
+        ) : (
+          <div className="customer-card-request-history__list">
+            {requests.map((item) => (
+              <article className="customer-card-request-history__item" key={item.id}>
+                <div>
+                  <strong>{formatCardType(item.card_category)} card</strong>
+                  <p>{item.card_format === "physical" ? "Physical" : "Virtual"} · Submitted {item.created_at ? new Date(item.created_at).toLocaleDateString() : "date unavailable"}</p>
+                  {item.review_notes && (
+                    <p className="customer-card-request-history__review">
+                      Management note: {item.review_notes}
+                    </p>
+                  )}
+                </div>
+                <span className={`customer-card-request-history__status customer-card-request-history__status--${item.status}`}>
+                  {cardRequestStatus(item.status)}
+                </span>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
 
       {loading ? (
         <section className="customer-cards-list" aria-label="Loading cards">

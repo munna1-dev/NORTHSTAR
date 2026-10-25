@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { getDb } from '../../../db/client.js'
 import { requirePermission } from '../../../auth/management.js'
-import { writeAuditLog } from '../../../auth/audit.js'
+import { writeStaffAuditLog } from '../../../auth/audit.js'
 
 function json(response: VercelResponse, status: number, body: unknown) {
   return response.status(status).json(body)
@@ -432,7 +432,7 @@ export default async function handler(
 
           await client.query('COMMIT')
 
-          await writeAuditLog(
+          await writeStaffAuditLog(
             request,
             user.id,
             'staff_application.rejected',
@@ -460,6 +460,35 @@ export default async function handler(
             409,
             'This staff application is not linked to an existing customer account.',
           )
+        }
+
+        const applicationEmail =
+          typeof application.email === 'string'
+            ? application.email.trim().toLowerCase()
+            : '';
+
+        const linkedCustomer = await client.query(
+          'SELECT email FROM customers WHERE id = $1 LIMIT 1',
+          [application.customer_id],
+        );
+
+        const customerEmail =
+          typeof linkedCustomer.rows[0]?.email === 'string'
+            ? linkedCustomer.rows[0].email.trim().toLowerCase()
+            : '';
+
+        if (
+          !applicationEmail.endsWith('@northstarbank.site') ||
+          linkedCustomer.rowCount !== 1 ||
+          !customerEmail.endsWith('@northstarbank.site') ||
+          customerEmail !== applicationEmail
+        ) {
+          await client.query('ROLLBACK');
+          return error(
+            response,
+            400,
+            'Staff application and linked customer must use the same @northstarbank.site email address.',
+          );
         }
 
         const requestedRole =
@@ -614,7 +643,7 @@ export default async function handler(
 
         await client.query('COMMIT')
 
-        await writeAuditLog(
+        await writeStaffAuditLog(
           request,
           user.id,
           'staff_application.approved',

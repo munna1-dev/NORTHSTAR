@@ -19,16 +19,23 @@ export default async function handler(
   }
 
   try {
-    const email = String(req.body?.email ?? '')
-      .trim()
-      .toLowerCase()
+    const identifier = String(
+      req.body?.identifier ?? req.body?.email ?? '',
+    ).trim().toLowerCase()
 
     const password = String(req.body?.password ?? '')
 
-    if (!email || !password) {
+    if (!identifier || !password) {
       return res.status(400).json({
         ok: false,
-        error: 'Email and password are required.',
+        error: 'Username/email and password are required.',
+      })
+    }
+
+    if (identifier.endsWith('@northstarbank.site')) {
+      return res.status(403).json({
+        ok: false,
+        error: 'NorthStarBank staff and management accounts must use the staff sign-in portal.',
       })
     }
 
@@ -48,10 +55,11 @@ export default async function handler(
           role,
           two_factor_enabled
         FROM customers
-        WHERE LOWER(email) = $1
+        WHERE LOWER(${identifier.includes('@') ? 'email' : 'username'}) = $1
+          AND role = 'customer'
         LIMIT 1
       `,
-      [email],
+      [identifier],
     )
 
     if (result.rowCount !== 1) {

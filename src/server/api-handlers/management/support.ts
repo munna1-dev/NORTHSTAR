@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { getDb } from '../../db/client.js'
-import { writeAuditLog } from '../../auth/audit.js'
+import { writeStaffAuditLog } from '../../auth/audit.js'
 import { requirePermission, type ManagementPermission } from '../../auth/management.js'
 
 const STATUSES = ['open', 'in_progress', 'resolved', 'closed'] as const
@@ -107,7 +107,7 @@ export default async function handler(
     }
 
     try {
-      await writeAuditLog(
+      await writeStaffAuditLog(
         request,
         managementUser.id,
         'support.status_changed',

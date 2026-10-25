@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import bcrypt from 'bcryptjs'
+import { createHash, randomBytes } from 'node:crypto'
 import { getDb } from '../../../db/client.js'
 import {
   createStaffSession,
@@ -33,6 +34,13 @@ export default async function handler(
       })
     }
 
+    if (!email.endsWith('@northstarbank.site')) {
+      return res.status(403).json({
+        ok: false,
+        error: 'Staff sign-in requires an @northstarbank.site email address.',
+      })
+    }
+
     const db = getDb()
 
     const result = await db.query(
@@ -47,6 +55,7 @@ export default async function handler(
           password_hash,
           status,
           two_factor_enabled,
+          mfa_secret_encrypted,
           employee_number,
           department,
           profile_image_url,
@@ -83,6 +92,37 @@ export default async function handler(
       return res.status(401).json({
         ok: false,
         error: 'Invalid email or password.',
+      })
+    }
+
+    if (staff.two_factor_enabled) {
+      if (!staff.mfa_secret_encrypted) {
+        return res.status(403).json({
+          ok: false,
+          error: 'MFA is enabled but its authenticator is not configured. Contact your system administrator.',
+        })
+      }
+
+      const challengeToken = randomBytes(32).toString('hex')
+      const tokenHash = createHash('sha256').update(challengeToken).digest('hex')
+
+      await db.query(
+        `DELETE FROM staff_mfa_challenges
+         WHERE staff_id = $1
+           AND (expires_at <= CURRENT_TIMESTAMP OR consumed_at IS NOT NULL)`,
+        [staff.id],
+      )
+
+      await db.query(
+        `INSERT INTO staff_mfa_challenges (staff_id, token_hash, expires_at)
+         VALUES ($1, $2, CURRENT_TIMESTAMP + INTERVAL '5 minutes')`,
+        [staff.id, tokenHash],
+      )
+
+      return res.status(200).json({
+        ok: true,
+        mfaRequired: true,
+        challengeToken,
       })
     }
 

@@ -413,7 +413,7 @@ export default async function handler(
           available_balance,
           current_balance
       `,
-      [amount, fromAccountId],
+      [amount, amount, fromAccountId],
     )
 
     await client.query(
@@ -425,7 +425,7 @@ export default async function handler(
           updated_at = CURRENT_TIMESTAMP
         WHERE id = $3
       `,
-      [amount, toAccountId],
+      [amount, amount, toAccountId],
     )
 
     await client.query(

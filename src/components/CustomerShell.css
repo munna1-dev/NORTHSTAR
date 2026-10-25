@@ -257,3 +257,13 @@
     gap: 4px;
   }
 }
+
+
+/* Official logo in the customer banking header. */
+.customer-shell__brand-logo {
+  display: block;
+  width: 210px;
+  max-width: min(55vw, 210px);
+  height: auto;
+  object-fit: contain;
+}

@@ -32,7 +32,7 @@
   "rewrites": [
     {
       "source": "/api/staff/:path*",
-      "destination": "/api/management/auth/:path*"
+      "destination": "/api/management/:path*"
     },
     {
       "source": "/api/health",

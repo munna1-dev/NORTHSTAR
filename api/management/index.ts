@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
 import accounts from '../../src/server/api-handlers/management/accounts.js'
+import cardRequests from '../../src/server/api-handlers/management/card-requests.js'
 import applications from '../../src/server/api-handlers/management/applications.js'
 import audit from '../../src/server/api-handlers/management/audit.js'
 import customers from '../../src/server/api-handlers/management/customers.js'
@@ -13,6 +14,8 @@ import transactions from '../../src/server/api-handlers/management/transactions.
 import staffLogin from '../../src/server/api-handlers/staff/auth/login.js'
 import staffLogout from '../../src/server/api-handlers/staff/auth/logout.js'
 import staffMe from '../../src/server/api-handlers/staff/auth/me.js'
+import staffVerifyMfa from '../../src/server/api-handlers/staff/auth/verify-mfa.js'
+import staffMfaSetup, { confirmStaffMfaEnrollment } from '../../src/server/api-handlers/staff/auth/mfa-setup.js'
 import health from '../../src/server/api-handlers/health.js'
 import dbHealth from '../../src/server/api-handlers/db-health.js'
 
@@ -34,6 +37,12 @@ export default async function handler(
     if (parts[1] === 'login') return staffLogin(req, res)
     if (parts[1] === 'logout') return staffLogout(req, res)
     if (parts[1] === 'me') return staffMe(req, res)
+    if (parts[1] === 'verify-mfa') return staffVerifyMfa(req, res)
+  }
+
+  if (resource === 'auth' && parts.length === 3 && parts[1] === 'mfa') {
+    if (parts[2] === 'setup') return staffMfaSetup(req, res)
+    if (parts[2] === 'confirm') return confirmStaffMfaEnrollment(req, res)
   }
 
   if (resource === 'system' && parts.length === 2) {
@@ -51,6 +60,10 @@ export default async function handler(
 
   if (resource === 'audit' && parts.length === 1) {
     return audit(req, res)
+  }
+
+  if (resource === 'card-requests' && parts.length === 1) {
+    return cardRequests(req, res)
   }
 
   if (resource === 'customers' && parts.length === 1) {

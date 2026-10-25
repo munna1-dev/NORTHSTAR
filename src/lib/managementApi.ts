@@ -202,7 +202,7 @@ export async function updateManagementAccountStatus(
 
 export interface ManagementTransaction {
   id: string
-  transaction_reference: string
+  reference: string
   transaction_type: string
   status: string
   amount: string
@@ -564,4 +564,56 @@ export async function updateManagementProfile(
   })
 
   return result.profile
+}
+
+export interface ManagementCardRequest {
+  id: string
+  customer_id: string
+  account_id: string | null
+  card_category: 'savings' | 'checking' | 'credit' | 'business'
+  card_format: 'physical' | 'virtual'
+  status: 'pending' | 'approved' | 'rejected' | 'issued' | 'cancelled'
+  customer_notes: string | null
+  review_notes: string | null
+  reviewed_by: string | null
+  reviewed_at: string | null
+  issued_card_id: string | null
+  issued_at: string | null
+  created_at: string
+  updated_at: string
+  customer_number: string
+  first_name: string
+  last_name: string
+  email: string
+  account_number: string | null
+}
+
+export async function getManagementCardRequests(
+  status?: string,
+): Promise<ManagementCardRequest[]> {
+  const query = status
+    ? `?status=${encodeURIComponent(status)}`
+    : ''
+
+  const result = await request<{
+    ok: true
+    requests: ManagementCardRequest[]
+  }>(`/api/management/card-requests${query}`)
+
+  return result.requests
+}
+
+export async function reviewManagementCardRequest(
+  requestId: string,
+  status: 'approved' | 'rejected',
+  reviewNotes?: string,
+): Promise<void> {
+  await request('/api/management/card-requests', {
+    method: 'PATCH',
+    body: JSON.stringify({
+      requestId,
+      status,
+      reviewNotes,
+    }),
+  })
 }

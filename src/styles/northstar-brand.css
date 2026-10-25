@@ -1,0 +1,302 @@
+
+/* NorthStarBank official brand system */
+:root {
+  --ns-red: #B5121B;
+  --ns-red-dark: #870D14;
+  --ns-red-light: #FCEBED;
+  --ns-white: #FFFFFF;
+  --ns-black: #111111;
+  --ns-gray: #5F6368;
+  --ns-border: #E3E5E8;
+  --primary: var(--ns-red);
+  --primary-color: var(--ns-red);
+  --brand-primary: var(--ns-red);
+  --color-primary: var(--ns-red);
+  --accent: var(--ns-red);
+  --font-family: Tahoma, Arial, sans-serif;
+}
+html, body {
+  font-family: Tahoma, Arial, sans-serif !important;
+  font-size: 14px;
+  color: var(--ns-black);
+}
+body, body * {
+  font-family: Tahoma, Arial, sans-serif !important;
+}
+body {
+  background-color: #F7F8FA;
+}
+p, label, input, select, textarea, button, table, th, td,
+nav, aside, main, section, article, li, a, small, span {
+  font-size: 14px;
+}
+p, label, th, td, li, small {
+  color: var(--ns-black);
+}
+a {
+  color: var(--ns-red);
+}
+a:hover {
+  color: var(--ns-red-dark);
+}
+button, [role="button"], input[type="submit"] {
+  background-color: var(--ns-red);
+  border-color: var(--ns-red);
+}
+button:hover, [role="button"]:hover, input[type="submit"]:hover {
+  background-color: var(--ns-red-dark);
+  border-color: var(--ns-red-dark);
+}
+input, select, textarea {
+  color: var(--ns-black);
+  background-color: var(--ns-white);
+  border-color: var(--ns-border);
+}
+input:focus, select:focus, textarea:focus {
+  outline-color: var(--ns-red);
+  border-color: var(--ns-red);
+}
+table th {
+  background-color: #F7F8FA;
+}
+:focus-visible {
+  outline: 2px solid var(--ns-red);
+  outline-offset: 2px;
+}
+img, svg {
+  max-width: 100%;
+}
+@media (max-width: 640px) {
+  body { overflow-wrap: anywhere; }
+  table { max-width: 100%; }
+}
+
+/* NORTHSTAR_GLOBAL_BRAND_STANDARD_V2
+   Official identity: red, white, charcoal and neutral grey.
+   Shared by public, customer, authentication and management screens.
+*/
+:root {
+  --ns-red: #B5121B;
+  --ns-red-dark: #870D14;
+  --ns-red-light: #FCEBED;
+  --ns-white: #FFFFFF;
+  --ns-black: #111111;
+  --ns-gray: #5F6368;
+  --ns-border: #E3E5E8;
+  --ns-page-bg: #F7F8FA;
+
+  --primary: var(--ns-red);
+  --primary-color: var(--ns-red);
+  --brand-primary: var(--ns-red);
+  --color-primary: var(--ns-red);
+  --accent: var(--ns-red);
+
+  --font-family: Tahoma, Arial, sans-serif;
+}
+
+html,
+body,
+#root {
+  font-family: Tahoma, Arial, sans-serif;
+  font-size: 14px;
+}
+
+body {
+  color: var(--ns-black);
+  background: var(--ns-page-bg);
+}
+
+button,
+input,
+select,
+textarea,
+table,
+th,
+td {
+  font-family: Tahoma, Arial, sans-serif;
+  font-size: 14px;
+}
+
+a {
+  text-decoration-color: currentColor;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ns-red);
+  outline-offset: 2px;
+}
+
+/* Consistent logo sizing across shared layouts */
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  max-width: 100%;
+}
+
+.brand-mark__image {
+  display: block;
+  width: 210px;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.brand-mark--compact .brand-mark__image {
+  width: 40px;
+  height: 40px;
+}
+
+.customer-shell__brand-logo {
+  display: block;
+  width: 210px;
+  max-width: min(55vw, 210px);
+  height: auto;
+  object-fit: contain;
+}
+
+/* Keep images and layouts within smaller screens */
+img,
+svg {
+  max-width: 100%;
+}
+
+@media (max-width: 640px) {
+  .brand-mark__image {
+    width: 165px;
+  }
+
+  .customer-shell__brand-logo {
+    width: 165px;
+  }
+
+  body {
+    overflow-wrap: anywhere;
+  }
+}
+
+/* NORTHSTAR_RED_WHITE_GOLD_V3 */
+:root {
+  color-scheme: light;
+
+  --ns-red: #B5121B;
+  --ns-red-dark: #870D14;
+  --ns-red-light: #FCEBED;
+
+  --ns-white: #FFFFFF;
+  --ns-gold: #C9A227;
+  --ns-gold-light: #F8F0D5;
+
+  --ns-black: #111111;
+  --ns-text: #111111;
+  --ns-border: #C9A227;
+
+  --primary: var(--ns-red);
+  --primary-color: var(--ns-red);
+  --brand-primary: var(--ns-red);
+  --color-primary: var(--ns-red);
+  --accent: var(--ns-gold);
+  --font-family: Tahoma, Arial, sans-serif;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  background: var(--ns-white);
+  color: var(--ns-black);
+  font-family: Tahoma, Arial, sans-serif;
+  font-size: 14px;
+}
+
+body,
+body * {
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+body {
+  color: var(--ns-black);
+}
+
+p, label, th, td, li, small,
+h1, h2, h3, h4, h5, h6,
+legend, summary, dt, dd {
+  color: var(--ns-black);
+}
+
+a {
+  color: var(--ns-red);
+}
+
+a:hover {
+  color: var(--ns-red-dark);
+}
+
+button,
+[role="button"],
+input[type="submit"],
+input[type="button"] {
+  background-color: var(--ns-red);
+  color: var(--ns-white);
+  border-color: var(--ns-red);
+}
+
+button:hover,
+[role="button"]:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover {
+  background-color: var(--ns-red-dark);
+  color: var(--ns-white);
+  border-color: var(--ns-gold);
+}
+
+input,
+select,
+textarea {
+  background-color: var(--ns-white);
+  color: var(--ns-black);
+  border-color: var(--ns-gold);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline-color: var(--ns-gold);
+  border-color: var(--ns-red);
+}
+
+table th {
+  background-color: var(--ns-white);
+  color: var(--ns-black);
+  border-color: var(--ns-gold);
+}
+
+hr {
+  border-color: var(--ns-gold);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ns-gold);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--ns-gold-light);
+  color: var(--ns-black);
+}
+
+/* Preserve official logo artwork and image assets. */
+img {
+  max-width: 100%;
+}
+
+@media (max-width: 640px) {
+  body {
+    overflow-wrap: anywhere;
+  }
+
+  table {
+    max-width: 100%;
+  }
+}
+/* END NORTHSTAR_RED_WHITE_GOLD_V3 */

@@ -111,12 +111,11 @@ export function CustomerShell({ children, customer }: CustomerShellProps) {
       <header className="customer-shell__header">
         <div className="customer-shell__header-inner">
           <Link to="/customer" className="customer-shell__brand">
-            <span className="customer-shell__brand-mark">NS</span>
-
-            <span>
-              <strong>NORTHSTAR</strong>
-              <small>Customer Banking</small>
-            </span>
+            <img
+              className="customer-shell__brand-logo"
+              src="/northstarbank-logo.svg"
+              alt="NorthStarBank — Customer Banking"
+            />
           </Link>
 
           <button

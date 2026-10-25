@@ -5,6 +5,7 @@ import beneficiaries from '../../src/server/api-handlers/customer/beneficiaries/
 import beneficiaryById from '../../src/server/api-handlers/customer/beneficiaries/[id].js'
 import cards from '../../src/server/api-handlers/customer/cards/index.js'
 import cardById from '../../src/server/api-handlers/customer/cards/[id].js'
+import cardRequests from '../../src/server/api-handlers/customer/cards/requests.js'
 import notifications from '../../src/server/api-handlers/customer/notifications/index.js'
 import notificationById from '../../src/server/api-handlers/customer/notifications/[id].js'
 import notificationsReadAll from '../../src/server/api-handlers/customer/notifications/read-all.js'
@@ -52,6 +53,10 @@ export default async function handler(
       req.query.id = id
       return cardById(req, res)
     }
+  }
+
+  if (resource === 'cards' && parts.length === 2 && action === 'requests') {
+    return cardRequests(req, res)
   }
 
   if (resource === 'notifications') {

@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { getDb } from '../../db/client.js'
-import { writeAuditLog } from '../../auth/audit.js'
+import { writeStaffAuditLog } from '../../auth/audit.js'
 import { requirePermission, type ManagementPermission } from '../../auth/management.js'
 
 const CUSTOMER_STATUSES = ['active', 'pending', 'suspended', 'closed'] as const
@@ -273,7 +273,7 @@ export default async function handler(
       await client.query('COMMIT')
 
       try {
-        await writeAuditLog(
+        await writeStaffAuditLog(
           request,
           managementUser.id,
           'customer.status_changed',
