@@ -1,0 +1,173 @@
+/* NorthStarBank shared visual overrides — presentation only */
+:root {
+  --ns-lemon: #B9E769;
+  --ns-green: #176B3A;
+  --ns-deep: #12552E;
+  --ns-soft: #EAF5E9;
+  --ns-page: #F5F8F5;
+  --ns-white: #FFFFFF;
+  --ns-text: #17251C;
+  --ns-muted: #637267;
+  --ns-border: #DCE7DC;
+}
+
+.customer-shell,
+.management-shell {
+  background: var(--ns-page) !important;
+  color: var(--ns-text);
+}
+
+.customer-shell__header,
+.customer-shell__sidebar,
+.customer-shell__footer,
+.management-shell__topbar {
+  background: var(--ns-white) !important;
+  border-color: var(--ns-border) !important;
+}
+
+.customer-shell__nav-link:hover {
+  background: var(--ns-soft) !important;
+  color: var(--ns-green) !important;
+}
+
+.customer-shell__nav-link--active {
+  background: #EAF5DE !important;
+  color: var(--ns-deep) !important;
+  box-shadow: inset 3px 0 0 var(--ns-lemon);
+}
+
+.management-shell__sidebar {
+  background: var(--ns-deep) !important;
+}
+
+.management-shell__nav-link--active {
+  background: rgba(185, 231, 105, .16) !important;
+  box-shadow: inset 3px 0 0 var(--ns-lemon);
+}
+
+.management-page,
+.management-shell__content {
+  color: var(--ns-text);
+  min-width: 0;
+}
+
+.management-page h1,
+.management-page h2,
+.management-page h3 {
+  color: var(--ns-deep);
+}
+
+.management-card {
+  background: var(--ns-white);
+  border: 1px solid var(--ns-border);
+  border-radius: 14px;
+}
+
+.management-table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--ns-border);
+  border-radius: 12px;
+  background: var(--ns-white);
+}
+
+.management-table thead th,
+.management-table th {
+  background: #F0F8E5;
+  color: var(--ns-deep);
+  border-color: var(--ns-border);
+}
+
+.management-table td {
+  color: var(--ns-text);
+  border-color: var(--ns-border);
+}
+
+.management-table tbody tr:hover {
+  background: #F7FAF3;
+}
+
+.management-button--primary,
+.management-button--approve,
+.management-button--success {
+  background: var(--ns-green);
+  border-color: var(--ns-green);
+  color: var(--ns-white);
+}
+
+.management-button--secondary {
+  background: var(--ns-white);
+  border-color: var(--ns-border);
+  color: var(--ns-green);
+}
+
+.management-button--danger {
+  background: #FFF7F6;
+  border-color: #E8B8B3;
+  color: #A52820;
+}
+
+.management-drawer {
+  background: var(--ns-white);
+  color: var(--ns-text);
+  border-left: 1px solid var(--ns-border);
+}
+
+.management-drawer__header {
+  border-bottom: 1px solid var(--ns-border);
+}
+
+.management-drawer__header h2,
+.management-drawer__section h3 {
+  color: var(--ns-deep);
+}
+
+.management-detail-grid > div {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--ns-border);
+  border-radius: 10px;
+  background: #FAFCF9;
+}
+
+.management-detail-grid span {
+  color: var(--ns-muted);
+}
+
+.management-detail-grid strong {
+  color: var(--ns-text);
+  overflow-wrap: anywhere;
+}
+
+.management-page input:focus,
+.management-page select:focus,
+.management-page textarea:focus {
+  border-color: var(--ns-green);
+  outline: 3px solid rgba(23, 107, 58, .12);
+}
+
+.management-page button:focus-visible,
+.customer-shell button:focus-visible,
+.customer-shell a:focus-visible {
+  outline: 3px solid rgba(23, 107, 58, .28);
+  outline-offset: 2px;
+}
+
+@media (max-width: 760px) {
+  .management-table-wrap {
+    overflow-x: auto;
+  }
+  .management-drawer {
+    max-width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
+}

@@ -1,8 +1,8 @@
 :root {
-  --fs-navy: #0B1736;
-  --fs-blue: #164A8A;
+  --fs-navy: #12552E;
+  --fs-blue: #247A49;
   --fs-teal: #00A6A6;
-  --fs-gold: #D6B25E;
+  --fs-gold: #B9E769;
 
   --fs-bg: #F5F7FA;
   --fs-white: #FFFFFF;
@@ -424,154 +424,64 @@ svg {
 }
 
 
-/* NORTHSTARBANK_OFFICIAL_BRAND_OVERRIDE_V1 */
+/* NORTHSTARBANK_SHARED_DESIGN_SYSTEM_V3 */
 :root {
-  --fs-navy: #B5121B;
-  --fs-blue: #870D14;
-  --fs-teal: #B5121B;
-  --fs-gold: #C9A227;
-  --fs-bg: #FFFFFF;
-  --fs-white: #FFFFFF;
-  --fs-text: #111111;
-  --fs-muted: #555555;
-  --fs-border: #E6DCC2;
-  --fs-border-strong: #C9A227;
-  --fs-radius-sm: 6px;
-  --fs-radius-md: 10px;
-  --fs-radius-lg: 14px;
-}
+  color-scheme: light;
 
-html,
-body,
-button,
-input,
-select,
-textarea {
-  font-family: Tahoma, Arial, sans-serif;
-}
+  --ns-lemon: #B9E769;
+  --ns-green: #176B3A;
+  --ns-green-dark: #12552E;
+  --ns-green-soft: #EAF5E9;
+  --ns-green-pale: #F4F9F1;
 
-body {
-  font-size: 14px;
-  color: #111111;
-}
-
-.signin-card__brand {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 24px;
-}
-
-.signin-card__brand-logo {
-  display: block;
-  width: min(260px, 100%);
-  height: auto;
-  object-fit: contain;
-}
-
-.signin-card__icon {
-  display: none !important;
-}
-
-.brand-mark {
-  color: #B5121B;
-}
-
-.brand-mark__icon {
-  background: #B5121B;
-  color: #C9A227;
-}
-
-.brand-mark__image {
-  max-width: 100%;
-}
-
-.customer-shell {
-  background: #FFFFFF;
-  color: #111111;
-}
-
-.customer-shell__brand-logo {
-  max-width: 100%;
-  object-fit: contain;
-}
-
-.management-shell {
-  background: #FFFFFF;
-  color: #111111;
-}
-
-.management-shell__sidebar,
-.management-shell__sidebar-inner {
-  background: #B5121B;
-}
-
-.public-nav a:hover,
-.public-nav__links a:hover {
-  color: #B5121B;
-}
-
-.public-nav__actions .public-nav__button--primary,
-.home-button--primary {
-  border-color: #B5121B;
-  background: #B5121B;
-  color: #FFFFFF;
-}
-
-.public-nav__actions .public-nav__button--primary:hover,
-.home-button--primary:hover {
-  background: #870D14;
-}
-
-.open-account-form > button {
-  border-color: #B5121B;
-  background: #B5121B;
-  color: #FFFFFF;
-}
-
-.open-account-form > button:hover:not(:disabled) {
-  background: #870D14;
-}
-
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid #C9A227;
-  outline-offset: 2px;
-}
-
-
-/* NORTHSTARBANK_COMPLETE_SITE_DESIGN_V2: official NorthStarBank design system */
-:root {
-  --ns-red: #B5121B;
-  --ns-red-dark: #870D14;
-  --ns-gold: #C9A227;
-  --ns-gold-light: #F8F0D5;
   --ns-white: #FFFFFF;
-  --ns-black: #111111;
-  --ns-muted: #555555;
-  --ns-border: #E6DCC2;
+  --ns-page: #F5F8F5;
   --ns-surface: #FFFFFF;
-  --ns-page: #FFFFFF;
+  --ns-text: #17251C;
+  --ns-muted: #637267;
+  --ns-border: #DCE7DC;
+  --ns-border-strong: #B8CDB8;
 
-  --fs-navy: var(--ns-red);
-  --fs-blue: var(--ns-red-dark);
-  --fs-teal: var(--ns-red);
-  --fs-gold: var(--ns-gold);
+  --fs-navy: var(--ns-green-dark);
+  --fs-blue: var(--ns-green);
+  --fs-teal: var(--ns-green);
+  --fs-gold: var(--ns-lemon);
   --fs-bg: var(--ns-page);
   --fs-white: var(--ns-white);
-  --fs-text: var(--ns-black);
+  --fs-text: var(--ns-text);
   --fs-muted: var(--ns-muted);
   --fs-border: var(--ns-border);
-  --fs-border-strong: var(--ns-gold);
+  --fs-border-strong: var(--ns-border-strong);
+
+  --fs-success: #237A45;
+  --fs-warning: #946400;
+  --fs-danger: #B42332;
+
+  --fs-sans: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+  --fs-shadow-sm: 0 1px 3px rgba(20, 55, 30, .06);
+  --fs-shadow-md: 0 8px 24px rgba(20, 55, 30, .08);
+  --fs-shadow-lg: 0 18px 45px rgba(20, 55, 30, .14);
+
+  --fs-radius-sm: 7px;
+  --fs-radius-md: 11px;
+  --fs-radius-lg: 16px;
+  --fs-radius-xl: 22px;
+
+  font-family: var(--fs-sans);
+  color: var(--ns-text);
+  background: var(--ns-page);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 html {
-  color-scheme: light;
+  min-width: 320px;
+  min-height: 100%;
+  background: var(--ns-page);
   scroll-behavior: smooth;
+  color-scheme: light;
 }
 
 body,
@@ -579,13 +489,17 @@ button,
 input,
 select,
 textarea {
-  font-family: Tahoma, Arial, sans-serif;
+  font-family: var(--fs-sans);
 }
 
 body {
-  color: var(--ns-black);
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  color: var(--ns-text);
   background: var(--ns-page);
   font-size: 14px;
+  line-height: 1.55;
 }
 
 button,
@@ -593,19 +507,50 @@ input,
 select,
 textarea {
   font-size: 14px;
+  line-height: 1.45;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: .62;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--ns-text);
+  font-family: var(--fs-sans);
+  font-weight: 750;
+  line-height: 1.22;
+  letter-spacing: -.025em;
+  overflow-wrap: anywhere;
+}
+
+p, li, label, small, td, th {
+  line-height: 1.55;
+}
+
+p {
+  color: inherit;
 }
 
 a {
-  text-decoration-color: transparent;
+  color: var(--ns-green);
   text-underline-offset: 3px;
 }
 
 a:hover {
-  text-decoration-color: currentColor;
+  color: var(--ns-green-dark);
 }
 
-h1, h2, h3, h4, h5, h6 {
-  color: var(--ns-black);
+img, svg {
+  max-width: 100%;
 }
 
 hr {
@@ -613,233 +558,220 @@ hr {
   border-top: 1px solid var(--ns-border);
 }
 
-/* Shared panels, cards, and content surfaces */
-.signin-card,
-.open-account-form,
-.open-account-success,
-.customer-shell__content,
-.customer-shell__panel,
-.management-shell__content,
-.management-shell__panel {
-  border-color: var(--ns-border);
+::selection {
+  color: var(--ns-green-dark);
+  background: var(--ns-lemon);
 }
 
-/* Official logo sizing */
+:focus-visible {
+  outline: 3px solid rgba(185, 231, 105, .9);
+  outline-offset: 3px;
+}
+
+/* Consistent brand marks */
 .brand-mark {
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
-  color: var(--ns-red);
+  max-width: 100%;
 }
 
-.brand-mark__image {
+.brand-mark__image,
+.customer-shell__brand-logo,
+.signin-card__brand-logo {
   display: block;
-  width: 210px;
   max-width: 100%;
   height: auto;
   object-fit: contain;
 }
 
-.brand-mark--compact .brand-mark__image {
-  width: 160px;
-  max-width: 100%;
-  height: auto;
+/* Shared customer and management surfaces */
+.customer-shell,
+.management-shell {
+  color: var(--ns-text);
+  background: var(--ns-page);
 }
 
-.signin-card__brand {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
+.customer-shell__content,
+.management-shell__content {
+  min-width: 0;
 }
 
-.signin-card__brand-logo {
-  display: block;
-  width: min(260px, 100%);
-  height: auto;
-}
-
-/* Public navigation */
-.public-nav {
-  color: var(--ns-black);
-}
-
-.public-nav__links a {
-  color: var(--ns-black);
-}
-
-.public-nav__links a:hover,
-.public-nav__links a[aria-current="page"] {
-  color: var(--ns-red);
-}
-
-.public-nav__actions .public-nav__button--primary,
-.home-button--primary,
-.open-account-form > button,
-.signin-card button[type="submit"] {
-  border-color: var(--ns-red);
-  background: var(--ns-red);
+.management-shell__sidebar {
+  background: var(--ns-green-dark);
   color: var(--ns-white);
 }
 
-.public-nav__actions .public-nav__button--primary:hover,
-.home-button--primary:hover,
-.open-account-form > button:hover:not(:disabled),
-.signin-card button[type="submit"]:hover:not(:disabled) {
-  border-color: var(--ns-red-dark);
-  background: var(--ns-red-dark);
+.management-shell__nav-link--active {
+  color: var(--ns-white);
+  background: rgba(185, 231, 105, .17);
+  box-shadow: inset 3px 0 0 var(--ns-lemon);
 }
 
-.public-nav__actions .public-nav__button,
-.home-button--secondary {
-  border-color: var(--ns-gold);
+.management-shell__security svg {
+  color: var(--ns-lemon);
+}
+
+.management-shell__menu {
+  color: var(--ns-green-dark);
+}
+
+.management-shell__avatar {
+  background: var(--ns-green);
+  color: var(--ns-white);
+}
+
+/* Shared form controls */
+input,
+select,
+textarea {
+  max-width: 100%;
+  color: var(--ns-text);
   background: var(--ns-white);
-  color: var(--ns-red);
+  border-color: var(--ns-border-strong);
+  border-radius: var(--fs-radius-sm);
 }
 
-/* Registration and authentication */
-.signin-page,
-.open-account-page {
-  color: var(--ns-black);
+input::placeholder,
+textarea::placeholder {
+  color: #849187;
+  opacity: 1;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--ns-green);
+  outline: 3px solid rgba(23, 107, 58, .12);
+}
+
+/* Shared tables remain readable on narrow screens */
+table {
+  width: 100%;
+  border-color: var(--ns-border);
+  border-collapse: collapse;
+}
+
+thead th {
+  color: var(--ns-green-dark);
+  background: var(--ns-green-soft);
+  border-color: var(--ns-border);
+  font-weight: 700;
+  text-align: left;
+}
+
+tbody td {
+  color: var(--ns-text);
+  border-color: var(--ns-border);
+}
+
+tbody tr:hover {
+  background: var(--ns-green-pale);
+}
+
+/* Public and authentication pages */
+.signin-page {
+  background:
+    radial-gradient(circle at 12% 10%, rgba(185, 231, 105, .18), transparent 32%),
+    var(--ns-page);
 }
 
 .signin-card,
 .open-account-form,
 .open-account-success {
-  background: var(--ns-white);
   border-color: var(--ns-border);
-}
-
-.signin-card__icon {
-  display: none !important;
+  border-radius: var(--fs-radius-xl);
+  box-shadow: var(--fs-shadow-md);
 }
 
 .signin-card__eyebrow,
-.open-account-header > span,
-.open-account-success > span {
-  color: var(--ns-red);
+.management-shell__title span {
+  color: var(--ns-green);
 }
 
-.open-account-form input,
-.open-account-form select,
-.signin-card input,
-.signin-card select,
-.signin-card textarea {
-  color: var(--ns-black);
-  background: var(--ns-white);
-  border-color: var(--ns-border);
-}
-
-.open-account-form input:focus,
-.open-account-form select:focus,
-.signin-card input:focus,
-.signin-card select:focus,
-.signin-card textarea:focus {
-  border-color: var(--ns-gold);
-}
-
-/* Customer portal */
-.customer-shell {
-  color: var(--ns-black);
-  background: var(--ns-page);
-}
-
-.customer-shell__header,
-.customer-shell__topbar {
-  background: var(--ns-white);
-  border-color: var(--ns-border);
-}
-
-.customer-shell__nav a[aria-current="page"],
-.customer-shell__nav a.active {
-  color: var(--ns-red);
-  background: var(--ns-gold-light);
-}
-
-.customer-shell__nav a:hover {
-  color: var(--ns-red);
-  background: #FFF9E9;
-}
-
-/* Management portal */
-.management-shell {
-  color: var(--ns-black);
-  background: var(--ns-page);
-}
-
-.management-shell__sidebar {
-  background: var(--ns-red);
+.signin-form > button,
+.open-account-form > button,
+.home-button--primary,
+.public-nav__actions .public-nav__button--primary {
+  background: var(--ns-green);
+  border-color: var(--ns-green);
   color: var(--ns-white);
 }
 
-.management-shell__sidebar a[aria-current="page"],
-.management-shell__sidebar a.active {
-  color: var(--ns-white);
-  background: var(--ns-red-dark);
-  box-shadow: inset 3px 0 0 var(--ns-gold);
+.signin-form > button:hover:not(:disabled),
+.open-account-form > button:hover:not(:disabled),
+.home-button--primary:hover,
+.public-nav__actions .public-nav__button--primary:hover {
+  background: var(--ns-green-dark);
+  border-color: var(--ns-green-dark);
 }
 
-.management-shell__topbar {
-  color: var(--ns-black);
-  background: var(--ns-white);
+.signin-secondary-button {
+  color: var(--ns-green);
+  background: var(--ns-green-soft);
   border-color: var(--ns-border);
 }
 
-/* Buttons: retain existing sizing and component-specific layouts */
-button {
-  accent-color: var(--ns-red);
+/* Shared responsive safeguards */
+.customer-shell,
+.management-shell,
+.customer-shell__main,
+.management-shell__main,
+main,
+section,
+article {
+  min-width: 0;
 }
 
-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-/* Tables */
-table {
-  border-color: var(--ns-border);
-}
-
-thead th {
-  color: var(--ns-black);
-  background: var(--ns-gold-light);
-  border-color: var(--ns-border);
-}
-
-tbody td {
-  border-color: var(--ns-border);
-}
-
-tbody tr:hover {
-  background: #FFFCF4;
-}
-
-/* Status indicators and notices */
-[role="alert"] {
-  border-color: var(--ns-border);
-}
-
-:focus-visible {
-  outline: 2px solid var(--ns-gold);
-  outline-offset: 2px;
-}
-
-/* Responsive logo and form sizing */
-img {
-  max-width: 100%;
-}
-
-@media (max-width: 600px) {
-  .brand-mark__image {
-    width: min(180px, 100%);
+@media (max-width: 900px) {
+  .management-shell__topbar {
+    gap: 12px;
   }
 
-  .brand-mark--compact .brand-mark__image {
-    width: min(145px, 100%);
+  .management-shell__content {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    font-size: 14px;
+  }
+
+  .management-shell__content {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .customer-shell__content {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .brand-mark__image {
+    width: min(165px, 100%);
+  }
+
+  .customer-shell__brand-logo {
+    width: min(165px, 100%);
   }
 
   .signin-card__brand-logo {
     width: min(230px, 100%);
+  }
+
+  table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    max-width: 100%;
   }
 }
 
@@ -851,8 +783,479 @@ img {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
+    animation-duration: .01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* NORTHSTARBANK_LEMON_GREEN_SHARED_DESIGN_V4 */
+
+
+/* NORTHSTARBANK_LEMON_GREEN_SHARED_DESIGN_V4 */
+
+:root {
+  --fs-navy: #176B3A;
+  --fs-blue: #247A49;
+  --fs-teal: #176B3A;
+  --fs-gold: #B9E769;
+
+  --fs-bg: #F5F8F5;
+  --fs-white: #FFFFFF;
+  --fs-text: #17251C;
+  --fs-muted: #637267;
+
+  --fs-success: #176B3A;
+  --fs-warning: #946B12;
+  --fs-danger: #B42318;
+
+  --fs-border: #DCE7DC;
+  --fs-border-strong: #BFCFC0;
+
+  --fs-shadow-sm: 0 2px 8px rgba(18, 85, 46, .05);
+  --fs-shadow-md: 0 10px 28px rgba(18, 85, 46, .09);
+  --fs-shadow-lg: 0 20px 48px rgba(18, 85, 46, .14);
+
+  --fs-radius-sm: 8px;
+  --fs-radius-md: 12px;
+  --fs-radius-lg: 18px;
+  --fs-radius-xl: 22px;
+
+  --fs-sans: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+
+  font-family: var(--fs-sans);
+  color: var(--fs-text);
+  background: var(--fs-bg);
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  background: var(--fs-bg);
+  color: var(--fs-text);
+  font-family: var(--fs-sans);
+  line-height: 1.55;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: var(--fs-sans);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(23, 107, 58, .24);
+  outline-offset: 3px;
+}
+
+/* Public website */
+.public-nav {
+  width: min(1240px, calc(100% - 48px));
+}
+
+.public-nav__links a:hover {
+  color: #176B3A;
+}
+
+.public-nav__actions button,
+.public-nav__button {
+  border-radius: 9px;
+  font-weight: 700;
+}
+
+.public-nav__actions .public-nav__button--primary {
+  background: #176B3A;
+  border-color: #176B3A;
+  color: #FFFFFF;
+}
+
+.public-nav__actions .public-nav__button--primary:hover {
+  background: #12552E;
+}
+
+.home-hero {
+  width: min(1240px, calc(100% - 48px));
+}
+
+.home-hero__eyebrow {
+  border: 1px solid #DCE7DC;
+  border-radius: 999px;
+  background: #F0F8E5;
+  color: #176B3A;
+}
+
+.home-hero h1,
+.home-features h2 {
+  color: #17251C;
+}
+
+.home-hero p,
+.home-features p {
+  color: #637267;
+}
+
+.home-button {
+  border-radius: 10px;
+}
+
+.home-button--primary {
+  background: #176B3A;
+  border-color: #176B3A;
+  color: #FFFFFF;
+}
+
+.home-button--primary:hover {
+  background: #12552E;
+}
+
+.home-button--secondary {
+  border-color: #BFCFC0;
+  color: #176B3A;
+}
+
+.home-card {
+  background: linear-gradient(145deg, #176B3A, #12552E);
+  border: 1px solid rgba(185, 231, 105, .3);
+  border-radius: 18px;
+  box-shadow: var(--fs-shadow-lg);
+}
+
+.home-features article {
+  border-color: var(--fs-border);
+  border-radius: 16px;
+  box-shadow: var(--fs-shadow-sm);
+}
+
+.home-feature__icon {
+  background: #F0F8E5;
+  color: #176B3A;
+}
+
+/* Sign-in and account forms */
+.signin-page {
+  background:
+    radial-gradient(circle at 12% 10%, rgba(185, 231, 105, .20), transparent 34%),
+    var(--fs-bg);
+}
+
+.signin-card {
+  border-color: var(--fs-border);
+  border-radius: 20px;
+  box-shadow: var(--fs-shadow-md);
+}
+
+.signin-card__brand,
+.signin-card__intro h1,
+.signin-form label,
+.signin-card__footer a {
+  color: #176B3A;
+}
+
+.signin-card__icon {
+  background: #176B3A;
+  color: #B9E769;
+}
+
+.signin-card__eyebrow {
+  color: #176B3A;
+}
+
+.signin-demo-notice {
+  border-color: #DCE7DC;
+  background: #F0F8E5;
+  color: #17251C;
+}
+
+.signin-demo-notice svg {
+  color: #176B3A;
+}
+
+.signin-form input,
+.open-account-form input,
+.open-account-form select {
+  min-height: 46px;
+  border-color: #BFCFC0;
+  border-radius: 9px;
+  color: #17251C;
+  background: #FFFFFF;
+}
+
+.signin-form input:focus,
+.open-account-form input:focus,
+.open-account-form select:focus {
+  border-color: #176B3A;
+  box-shadow: 0 0 0 3px rgba(23, 107, 58, .12);
+}
+
+.signin-form button[type="submit"],
+.open-account-form > button {
+  min-height: 48px;
+  border-radius: 10px;
+  background: #176B3A;
+  color: #FFFFFF;
+}
+
+.signin-form button[type="submit"]:hover:not(:disabled),
+.open-account-form > button:hover:not(:disabled) {
+  background: #12552E;
+}
+
+.signin-secondary-button {
+  border: 1px solid var(--fs-border);
+  border-radius: 9px;
+  background: #F0F8E5;
+  color: #176B3A;
+}
+
+.signin-error {
+  color: #B42318;
+}
+
+/* Customer portal */
+.customer-shell {
+  background: #F5F8F5;
+  color: #17251C;
+}
+
+.customer-shell__header {
+  background: rgba(255, 255, 255, .97);
+  border-color: #DCE7DC;
+}
+
+.customer-shell__brand,
+.customer-shell__brand-mark {
+  color: #176B3A;
+}
+
+.customer-shell__brand-mark {
+  background: #176B3A;
+  color: #B9E769;
+}
+
+.customer-shell__sidebar {
+  background: #FFFFFF;
+  border-color: #DCE7DC;
+}
+
+.customer-shell__nav-link {
+  color: #53665A;
+  border-radius: 9px;
+}
+
+.customer-shell__nav-link:hover {
+  background: #F0F8E5;
+  color: #176B3A;
+}
+
+.customer-shell__nav-link--active {
+  background: #EAF5DE;
+  color: #12552E;
+  box-shadow: inset 3px 0 0 #B9E769;
+}
+
+.customer-shell__menu-button {
+  border-color: #DCE7DC;
+  background: #FFFFFF;
+  color: #176B3A;
+}
+
+.customer-shell__footer {
+  background: #FFFFFF;
+  border-color: #DCE7DC;
+  color: #637267;
+}
+
+/* Management portal */
+.management-shell {
+  background: #F5F8F5;
+}
+
+.management-shell__sidebar {
+  background: #12552E;
+  border-color: rgba(255, 255, 255, .12);
+}
+
+.management-shell__brand {
+  border-color: rgba(255, 255, 255, .12);
+}
+
+.management-shell__section-label {
+  color: rgba(255, 255, 255, .58);
+}
+
+.management-shell__nav-link {
+  border-radius: 9px;
+}
+
+.management-shell__nav-link:hover {
+  background: rgba(255, 255, 255, .10);
+}
+
+.management-shell__nav-link--active {
+  background: rgba(185, 231, 105, .16);
+  color: #FFFFFF;
+  box-shadow: inset 3px 0 0 #B9E769;
+}
+
+.management-shell__security svg {
+  color: #B9E769;
+}
+
+.management-shell__topbar {
+  background: #FFFFFF;
+  border-color: #DCE7DC;
+}
+
+.management-shell__title span {
+  color: #176B3A;
+}
+
+.management-shell__title strong {
+  color: #17251C;
+}
+
+.management-shell__menu {
+  border-color: #DCE7DC;
+  color: #176B3A;
+}
+
+.management-shell__avatar {
+  background: #176B3A;
+  color: #B9E769;
+}
+
+.management-shell__content {
+  color: #17251C;
+}
+
+/* Shared cards, forms, tables and action controls */
+input,
+select,
+textarea {
+  color: #17251C;
+  background: #FFFFFF;
+  border-color: #BFCFC0;
+  border-radius: 8px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #849187;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #176B3A;
+  outline: 3px solid rgba(23, 107, 58, .12);
+}
+
+table {
+  border-color: #DCE7DC;
+}
+
+thead th {
+  background: #F0F8E5;
+  color: #12552E;
+  border-color: #DCE7DC;
+}
+
+tbody td {
+  color: #17251C;
+  border-color: #DCE7DC;
+}
+
+tbody tr:hover {
+  background: #F5FAEF;
+}
+
+/* Prevent layout overflow on small screens */
+.customer-shell,
+.management-shell,
+.customer-shell__content,
+.management-shell__content,
+.management-shell__main,
+main,
+section,
+article {
+  min-width: 0;
+}
+
+@media (max-width: 760px) {
+  .home-hero,
+  .home-features {
+    width: calc(100% - 32px);
+  }
+
+  .home-hero {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .home-card {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .customer-shell__header-inner {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .customer-shell__brand-logo {
+    width: min(165px, 55vw);
+  }
+}
+
+@media (max-width: 560px) {
+  .signin-page {
+    padding: 28px 14px 42px;
+  }
+
+  .signin-card {
+    padding: 22px 18px;
+  }
+
+  .signin-card__intro {
+    margin-top: 26px;
+  }
+
+  .signin-card__intro h1 {
+    font-size: clamp(25px, 7vw, 32px);
+    overflow-wrap: anywhere;
+  }
+
+  .home-hero h1 {
+    font-size: clamp(34px, 9vw, 44px);
+  }
+
+  .management-shell__topbar {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .management-shell__content {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }
