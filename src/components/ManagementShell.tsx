@@ -26,80 +26,52 @@ interface ManagementShellProps {
   children: ReactNode
 }
 
-const navigation: Array<{
-  label: string
-  href: string
-  icon: typeof LayoutDashboard
-  permissions?: string[]
-  superManagerOnly?: boolean
-}> = [
+type NavigationItem = {
+  label: string;
+  href: string;
+  icon: typeof LayoutDashboard;
+  permissions?: string[];
+  superManagerOnly?: boolean;
+};
+
+const navigationGroups: Array<{ label: string; items: NavigationItem[] }> = [
   {
-    label: 'Dashboard',
-    href: '/management',
-    icon: LayoutDashboard,
-    permissions: ['dashboard.view'],
+    label: "OVERVIEW",
+    items: [
+      { label: "Dashboard", href: "/management", icon: LayoutDashboard, permissions: ["dashboard.view"] },
+    ],
   },
   {
-    label: 'Applications',
-    href: '/management/applications',
-    icon: ClipboardCheck,
-    permissions: ['applications.view'],
+    label: "CUSTOMER OPERATIONS",
+    items: [
+      { label: "Applications", href: "/management/applications", icon: ClipboardCheck, permissions: ["applications.view"] },
+      { label: "Customers", href: "/management/customers", icon: Users, permissions: ["customers.view"] },
+      { label: "Accounts", href: "/management/accounts", icon: Building2, permissions: ["accounts.view"] },
+      { label: "Card Requests", href: "/management/card-requests", icon: CreditCard, permissions: ["cards.view"] },
+    ],
   },
   {
-    label: 'Customers',
-    href: '/management/customers',
-    icon: Users,
-    permissions: ['customers.view'],
+    label: "FINANCIAL OPERATIONS",
+    items: [
+      { label: "Transactions", href: "/management/transactions", icon: ReceiptText, permissions: ["transactions.view"] },
+      { label: "Transfers & Payments", href: "/management/operations", icon: CreditCard, permissions: ["transfers.view", "payments.view"] },
+    ],
   },
   {
-    label: 'Accounts',
-    href: '/management/accounts',
-    icon: Building2,
-    permissions: ['accounts.view'],
+    label: "SERVICE & GOVERNANCE",
+    items: [
+      { label: "Support", href: "/management/support", icon: Activity, permissions: ["support.view"] },
+      { label: "Audit Log", href: "/management/audit", icon: FileClock, permissions: ["audit.view"] },
+    ],
   },
   {
-    label: 'Card Requests',
-    href: '/management/card-requests',
-    icon: CreditCard,
-    permissions: ['cards.view'],
+    label: "ADMINISTRATION",
+    items: [
+      { label: "My Profile", href: "/management/profile", icon: UserRound, permissions: ["profile.view"] },
+      { label: "Staff Control", href: "/management/staff", icon: UserCog, superManagerOnly: true },
+    ],
   },
-  {
-    label: 'Transactions',
-    href: '/management/transactions',
-    icon: ReceiptText,
-    permissions: ['transactions.view'],
-  },
-  {
-    label: 'Transfers & Payments',
-    href: '/management/operations',
-    icon: CreditCard,
-    permissions: ['transfers.view', 'payments.view'],
-  },
-  {
-    label: 'Support',
-    href: '/management/support',
-    icon: Activity,
-    permissions: ['support.view'],
-  },
-  {
-    label: 'Audit Log',
-    href: '/management/audit',
-    icon: FileClock,
-    permissions: ['audit.view'],
-  },
-  {
-    label: 'My Profile',
-    href: '/management/profile',
-    icon: UserRound,
-    permissions: ['profile.view'],
-  },
-  {
-    label: 'Staff Control',
-    href: '/management/staff',
-    icon: UserCog,
-    superManagerOnly: true,
-  },
-]
+];
 
 export function ManagementShell({
   staff,
@@ -146,53 +118,45 @@ export function ManagementShell({
           </button>
         </div>
 
-        <div className="management-shell__section-label">
-          OPERATIONS
-        </div>
-
         <nav className="management-shell__nav">
-          {navigation
-            .filter((item) => {
-              if (
-                item.superManagerOnly &&
-                staff.role !== 'super_manager'
-              ) {
-                return false
-              }
+          {navigationGroups.map((group) => {
+            const visibleItems = group.items.filter((item) => {
+              if (item.superManagerOnly && staff.role !== "super_manager") return false;
+              if (!item.permissions?.length) return true;
+              if (staff.role === "super_manager") return true;
 
-              if (!item.permissions?.length) {
-                return true
-              }
-
-              if (staff.role === 'super_manager') {
-                return true
-              }
-
-              const permissions = staff.permissions ?? []
-
+              const permissions = staff.permissions ?? [];
               return item.permissions.some((permission) =>
-                permissions.includes(permission),
-              )
-            })
-            .map((item) => {
-              const Icon = item.icon
+                permissions.includes(permission)
+              );
+            });
 
-              return (
-              <NavLink
-                key={item.href}
-                to={item.href}
-                end={item.href === '/management'}
-                onClick={() => setOpen(false)}
-                className={({ isActive }) =>
-                  isActive
-                    ? 'management-shell__nav-link management-shell__nav-link--active'
-                    : 'management-shell__nav-link'
-                }
-              >
-                <Icon size={18} />
-                <span>{item.label}</span>
-              </NavLink>
-            )
+            if (visibleItems.length === 0) return null;
+
+            return (
+              <div className="management-shell__nav-group" key={group.label}>
+                <div className="management-shell__section-label">{group.label}</div>
+                {visibleItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <NavLink
+                      key={item.href}
+                      to={item.href}
+                      end={item.href === "/management"}
+                      onClick={() => setOpen(false)}
+                      className={({ isActive }) =>
+                        isActive
+                          ? "management-shell__nav-link management-shell__nav-link--active"
+                          : "management-shell__nav-link"
+                      }
+                    >
+                      <Icon size={18} />
+                      <span>{item.label}</span>
+                    </NavLink>
+                  );
+                })}
+              </div>
+            );
           })}
         </nav>
 

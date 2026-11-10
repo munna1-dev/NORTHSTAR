@@ -28,73 +28,33 @@ interface CustomerShellProps {
   customer: UserProfile
 }
 
-const navigation = [
+const navigationGroups = [
   {
-    label: "Dashboard",
-    href: "/customer",
-    icon: LayoutDashboard,
+    label: "OVERVIEW",
+    items: [
+      { label: "Dashboard", href: "/customer", icon: LayoutDashboard },
+    ],
   },
   {
-    label: "Accounts",
-    href: "/customer/accounts",
-    icon: CreditCard,
+    label: "BANKING",
+    items: [
+      { label: "Accounts", href: "/customer/accounts", icon: CreditCard },
+      { label: "Transactions", href: "/customer/transactions", icon: ListOrdered },
+      { label: "Transfer", href: "/customer/transfer", icon: ArrowRightLeft },
+      { label: "Payments", href: "/customer/payments", icon: CreditCard },
+      { label: "Cards", href: "/customer/cards", icon: Layers },
+    ],
   },
   {
-    label: "Transactions",
-    href: "/customer/transactions",
-    icon: ListOrdered,
+    label: "SERVICES",
+    items: [
+      { label: "Statements", href: "/customer/statements", icon: FileText },
+      { label: "Beneficiaries", href: "/customer/beneficiaries", icon: UsersRound },
+      { label: "Notifications", href: "/customer/notifications", icon: Bell },
+      { label: "Support", href: "/customer/support", icon: LifeBuoy },
+    ],
   },
-  {
-    label: "Transfer",
-    href: "/customer/transfer",
-    icon: ArrowRightLeft,
-  },
-  {
-    label: "Payments",
-    href: "/customer/payments",
-    icon: CreditCard,
-  },
-  {
-    label: "Cards",
-    href: "/customer/cards",
-    icon: Layers,
-  },
-  {
-    label: "Notifications",
-    href: "/customer/notifications",
-    icon: Bell,
-  },
-  {
-    label: "Support",
-    href: "/customer/support",
-    icon: LifeBuoy,
-  },
-  {
-    label: "Profile",
-    href: "/customer/profile",
-    icon: UserRound,
-  },
-  {
-    label: "Statements",
-    href: "/customer/statements",
-    icon: FileText,
-  },
-  {
-    label: "Beneficiaries",
-    href: "/customer/beneficiaries",
-    icon: UsersRound,
-  },
-  {
-    label: "Settings",
-    href: "/customer/settings",
-    icon: Settings,
-  },
-  {
-    label: "Security",
-    href: "/customer/security",
-    icon: ShieldCheck,
-  },
-]
+] as const
 
 export function CustomerShell({ children, customer }: CustomerShellProps) {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -160,41 +120,63 @@ export function CustomerShell({ children, customer }: CustomerShellProps) {
           }`}
         >
           <nav aria-label="Customer banking">
-            <span className="customer-shell__nav-label">BANKING</span>
-
-            {navigation.map((item) => {
-              const Icon = item.icon
-
-              return (
-                <NavLink
-                  key={item.href}
-                  to={item.href}
-                  end={item.href === "/customer"}
-                  className={({ isActive }) =>
-                    `customer-shell__nav-link${
-                      isActive ? " customer-shell__nav-link--active" : ""
-                    }`
-                  }
-                  onClick={() => setMenuOpen(false)}
-                >
-                  <Icon size={18} />
-                  <span>{item.label}</span>
-                </NavLink>
-              )
-            })}
+            {navigationGroups.map((group) => (
+              <div className="customer-shell__nav-group" key={group.label}>
+                <span className="customer-shell__nav-label">{group.label}</span>
+                {group.items.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <NavLink
+                      key={item.href}
+                      to={item.href}
+                      end={item.href === "/customer"}
+                      className={({ isActive }) =>
+                        "customer-shell__nav-link" +
+                        (isActive ? " customer-shell__nav-link--active" : "")
+                      }
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      <Icon size={18} />
+                      <span>{item.label}</span>
+                    </NavLink>
+                  );
+                })}
+              </div>
+            ))}
           </nav>
 
           <div className="customer-shell__sidebar-bottom">
             <span className="customer-shell__nav-label">ACCOUNT</span>
 
-            <Link
+            <NavLink
               to="/customer/profile"
-              className="customer-shell__nav-link"
+              className={({ isActive }) =>
+                "customer-shell__nav-link" +
+                (isActive ? " customer-shell__nav-link--active" : "")
+              }
               onClick={() => setMenuOpen(false)}
             >
               <UserRound size={18} />
               <span>Profile</span>
-            </Link>
+            </NavLink>
+
+            <NavLink
+              to="/customer/settings"
+              className="customer-shell__nav-link"
+              onClick={() => setMenuOpen(false)}
+            >
+              <Settings size={18} />
+              <span>Settings</span>
+            </NavLink>
+
+            <NavLink
+              to="/customer/security"
+              className="customer-shell__nav-link"
+              onClick={() => setMenuOpen(false)}
+            >
+              <ShieldCheck size={18} />
+              <span>Security</span>
+            </NavLink>
 
             <button
               type="button"

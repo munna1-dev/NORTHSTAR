@@ -18,3 +18,32 @@
     max-height: 44px;
   }
 }
+
+/* NorthStarBank mobile navigation refinements */
+.public-nav__mobile-action { display: none; }
+
+@media (max-width: 640px) {
+  .public-nav__actions > .public-nav__button { display: none; }
+
+  .public-nav__links.is-open .public-nav__mobile-action {
+    display: block;
+    margin-top: 4px;
+    border-top: 1px solid var(--ns-border, var(--fs-border));
+    color: var(--ns-deep, var(--fs-text));
+    font-weight: 750;
+  }
+
+  .public-nav__links.is-open .public-nav__mobile-action--primary {
+    margin: 5px 8px 3px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--ns-green, var(--fs-navy));
+    color: #fff;
+    text-align: center;
+  }
+}
+
+@media (max-width: 380px) {
+  .public-nav { gap: 8px; }
+  .public-nav > a:first-child { max-width: calc(100% - 54px); }
+}

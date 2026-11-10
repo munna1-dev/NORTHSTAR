@@ -1335,3 +1335,368 @@ input[type="radio"] {
 }
 
 /* Keep meaningful financial and security status colours intact. */
+
+/* =========================================================
+   NorthStarBank — unified page design system
+   Additive presentation refinement; no business logic changes
+   ========================================================= */
+
+:root {
+  --ns-radius-sm: 9px;
+  --ns-radius-md: 13px;
+  --ns-radius-lg: 18px;
+  --ns-shadow-card: 0 5px 22px rgba(18, 85, 46, .055);
+  --ns-shadow-hover: 0 10px 28px rgba(18, 85, 46, .09);
+  --ns-content-width: 1480px;
+}
+
+/* Shared portal page canvas */
+.customer-shell__content,
+.management-shell__content {
+  min-width: 0;
+  max-width: var(--ns-content-width);
+  width: 100%;
+  margin-inline: auto;
+  padding: clamp(16px, 2.4vw, 34px);
+  color: var(--ns-text);
+}
+
+.customer-shell__content *,
+.management-shell__content * {
+  box-sizing: border-box;
+}
+
+.customer-shell__content h1,
+.management-shell__content h1 {
+  color: var(--ns-deep);
+  font-size: clamp(1.45rem, 2.3vw, 2rem);
+  line-height: 1.2;
+  letter-spacing: -.035em;
+  font-weight: 800;
+}
+
+.customer-shell__content h2,
+.management-shell__content h2 {
+  color: var(--ns-deep);
+  font-size: clamp(1.12rem, 1.8vw, 1.4rem);
+  line-height: 1.3;
+  letter-spacing: -.02em;
+}
+
+.customer-shell__content h3,
+.management-shell__content h3 {
+  color: var(--ns-deep);
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.customer-shell__content p,
+.management-shell__content p {
+  line-height: 1.65;
+}
+
+.customer-shell__content small,
+.management-shell__content small {
+  color: var(--ns-muted);
+}
+
+/* Consistent card surfaces */
+.management-card,
+.management-dashboard__metric,
+.management-dashboard__panel {
+  border: 1px solid var(--ns-border);
+  border-radius: var(--ns-radius-lg);
+  background: var(--ns-white);
+  box-shadow: var(--ns-shadow-card);
+}
+
+.management-card,
+.management-dashboard__metric,
+.management-dashboard__panel {
+  min-width: 0;
+}
+
+.management-card:hover,
+.management-dashboard__panel:hover {
+  border-color: #C8DCC9;
+}
+
+.customer-shell__content [class*="card"],
+.management-shell__content [class*="card"],
+.customer-shell__content [class*="panel"],
+.management-shell__content [class*="panel"] {
+  min-width: 0;
+}
+
+/* Forms and controls */
+.customer-shell__content input,
+.customer-shell__content select,
+.customer-shell__content textarea,
+.management-shell__content input,
+.management-shell__content select,
+.management-shell__content textarea {
+  max-width: 100%;
+  border-color: var(--ns-border);
+  border-radius: var(--ns-radius-sm);
+  color: var(--ns-text);
+  font: inherit;
+}
+
+.customer-shell__content input:focus,
+.customer-shell__content select:focus,
+.customer-shell__content textarea:focus,
+.management-shell__content input:focus,
+.management-shell__content select:focus,
+.management-shell__content textarea:focus {
+  border-color: var(--ns-green);
+  outline: 3px solid rgba(23, 107, 58, .12);
+  outline-offset: 1px;
+}
+
+.customer-shell__content label,
+.management-shell__content label {
+  color: var(--ns-text);
+  font-weight: 650;
+}
+
+.customer-shell__content button,
+.management-shell__content button {
+  font-family: inherit;
+}
+
+.customer-shell__content button:focus-visible,
+.customer-shell__content a:focus-visible,
+.management-shell__content button:focus-visible,
+.management-shell__content a:focus-visible {
+  outline: 3px solid rgba(23, 107, 58, .28);
+  outline-offset: 3px;
+}
+
+/* Tables: readable and scrollable on narrow screens */
+.customer-shell__content table,
+.management-shell__content table {
+  max-width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.customer-shell__content th,
+.management-shell__content th {
+  color: var(--ns-deep);
+  font-weight: 750;
+}
+
+.customer-shell__content td,
+.customer-shell__content th,
+.management-shell__content td,
+.management-shell__content th {
+  overflow-wrap: anywhere;
+}
+
+.management-table-wrap,
+.customer-shell__content [class*="table-wrap"],
+.management-shell__content [class*="table-wrap"] {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--ns-radius-md);
+}
+
+/* Management workspace */
+.management-shell__main {
+  min-width: 0;
+  background: var(--ns-page);
+}
+
+.management-shell__topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: rgba(255, 255, 255, .96);
+  backdrop-filter: blur(12px);
+}
+
+.management-shell__sidebar {
+  background: var(--ns-deep);
+}
+
+.management-shell__nav-link--active {
+  background: rgba(185, 231, 105, .16);
+  color: var(--ns-lemon);
+  box-shadow: inset 3px 0 0 var(--ns-lemon);
+}
+
+/* Customer workspace */
+.customer-shell__header {
+  background: rgba(255, 255, 255, .97);
+  backdrop-filter: blur(12px);
+}
+
+.customer-shell__nav-link--active {
+  background: var(--ns-soft);
+  color: var(--ns-deep);
+  box-shadow: inset 3px 0 0 var(--ns-green);
+}
+
+/* Public portal typography and responsive media */
+.app-shell {
+  color: var(--ns-text);
+  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.app-shell__footer {
+  background: var(--ns-white);
+  border-color: var(--ns-border);
+}
+
+.app-shell__footer-inner {
+  max-width: var(--ns-content-width);
+}
+
+/* Small-screen layout corrections */
+@media (max-width: 900px) {
+  .customer-shell__content,
+  .management-shell__content {
+    padding: 20px 16px 32px;
+  }
+
+  .management-shell__topbar {
+    padding-inline: 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  .customer-shell__content,
+  .management-shell__content {
+    padding: 16px 12px 28px;
+  }
+
+  .customer-shell__content h1,
+  .management-shell__content h1 {
+    font-size: 1.45rem;
+  }
+
+  .management-shell__topbar {
+    min-height: 64px;
+    padding-inline: 12px;
+  }
+
+  .management-table-wrap,
+  .customer-shell__content [class*="table-wrap"],
+  .management-shell__content [class*="table-wrap"] {
+    border-radius: 10px;
+  }
+
+  .customer-shell__content button,
+  .management-shell__content button {
+    max-width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .management-dashboard__metric,
+  .management-dashboard__panel {
+    transition: none !important;
+  }
+}
+
+/* =========================================================
+   NorthStarBank — Customer Dashboard final brand alignment
+   ========================================================= */
+
+.customer-dashboard {
+  color: var(--ns-text);
+}
+
+.customer-dashboard__eyebrow,
+.customer-dashboard__section-heading > div > span {
+  color: var(--ns-green);
+}
+
+.customer-dashboard__refresh {
+  border-color: var(--ns-border);
+  color: var(--ns-deep);
+}
+
+.customer-dashboard__primary-action,
+.customer-dashboard__error button {
+  background: var(--ns-green);
+  color: var(--ns-white);
+  box-shadow: 0 7px 18px rgba(23, 107, 58, .14);
+}
+
+.customer-dashboard__primary-action:hover,
+.customer-dashboard__error button:hover {
+  background: var(--ns-deep);
+}
+
+.customer-dashboard__quick-grid a,
+.customer-dashboard__account {
+  border-color: var(--ns-border);
+  color: var(--ns-text);
+}
+
+.customer-dashboard__quick-grid a:hover,
+.customer-dashboard__account:hover {
+  border-color: var(--ns-green);
+  box-shadow: 0 12px 24px rgba(23, 107, 58, .08);
+}
+
+.customer-dashboard__quick-icon,
+.customer-dashboard__account-icon,
+.customer-dashboard__transaction-icon {
+  background: var(--ns-soft);
+  color: var(--ns-green);
+}
+
+.customer-dashboard__account-link,
+.customer-dashboard__section-heading > a {
+  color: var(--ns-green);
+}
+
+.customer-dashboard__transaction:hover {
+  background: var(--ns-page);
+}
+
+.customer-dashboard__transaction-amount--positive,
+.customer-dashboard__status {
+  color: var(--ns-green);
+}
+
+.customer-dashboard__status {
+  background: var(--ns-soft);
+}
+
+.customer-dashboard__spinner {
+  border-color: var(--ns-border);
+  border-top-color: var(--ns-green);
+}
+
+@media (max-width: 720px) {
+  .customer-dashboard__header-actions {
+    min-width: 0;
+  }
+
+  .customer-dashboard__refresh,
+  .customer-dashboard__primary-action {
+    min-width: 0;
+    padding-inline: 10px;
+  }
+}
+
+@media (max-width: 520px) {
+  .customer-dashboard__section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .customer-dashboard__notice {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .customer-dashboard__balance-meta {
+    flex-wrap: wrap;
+  }
+}

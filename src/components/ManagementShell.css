@@ -317,3 +317,56 @@
     padding: 20px 14px 34px;
   }
 }
+
+
+/* Grouped internal navigation and short-screen scrolling. */
+.management-shell__nav {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.management-shell__nav-group {
+  display: grid;
+  gap: 4px;
+}
+
+.management-shell__nav-group + .management-shell__nav-group {
+  margin-top: 7px;
+}
+
+.management-shell__nav-group .management-shell__section-label {
+  padding: 12px 8px 5px;
+}
+
+.management-shell__security,
+.management-shell__logout {
+  flex-shrink: 0;
+}
+
+/* Short-screen internal portal sidebar scrolling */
+.management-shell__sidebar {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.management-shell__nav {
+  flex: 1 1 auto;
+  min-height: 0;
+  align-content: start;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.management-shell__security,
+.management-shell__logout { flex: 0 0 auto; }
+
+@media (max-height: 620px) {
+  .management-shell__security {
+    margin-top: 8px;
+    padding: 8px;
+  }
+
+  .management-shell__logout {
+    margin-bottom: max(8px, env(safe-area-inset-bottom));
+  }
+}
