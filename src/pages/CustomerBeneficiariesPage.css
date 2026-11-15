@@ -18,7 +18,7 @@
 }
 
 .beneficiaries-page__back:hover {
-  color: #173b76;
+  color: #176b3a;
 }
 
 .beneficiaries-page__header {
@@ -40,7 +40,7 @@
 
 .beneficiaries-page__header h1 {
   margin: 0;
-  color: #172033;
+  color: #263238;
   font-size: clamp(1.8rem, 4vw, 2.55rem);
   letter-spacing: -0.035em;
 }
@@ -59,9 +59,9 @@
   gap: 8px;
   min-height: 44px;
   padding: 0 15px;
-  border: 1px solid #173b76;
+  border: 1px solid #176b3a;
   border-radius: 10px;
-  background: #173b76;
+  background: #176b3a;
   color: #fff;
   cursor: pointer;
   font: inherit;
@@ -71,7 +71,7 @@
 }
 
 .beneficiaries-page__add:hover {
-  background: #12315f;
+  background: #12552e;
 }
 
 .beneficiaries-page__notice {
@@ -89,7 +89,7 @@
 .beneficiaries-page__notice svg {
   flex: 0 0 auto;
   margin-top: 1px;
-  color: #173b76;
+  color: #176b3a;
 }
 
 .beneficiaries-page__notice strong,
@@ -99,7 +99,7 @@
 
 .beneficiaries-page__notice strong {
   margin-bottom: 3px;
-  color: #172033;
+  color: #263238;
   font-size: 0.9rem;
 }
 
@@ -142,13 +142,13 @@
   border-radius: 10px;
   outline: none;
   background: #fff;
-  color: #172033;
+  color: #263238;
   font: inherit;
   font-size: 0.84rem;
 }
 
 .beneficiaries-page__search input:focus {
-  border-color: #173b76;
+  border-color: #176b3a;
   box-shadow: 0 0 0 3px rgb(23 59 118 / 10%);
 }
 
@@ -176,7 +176,7 @@
 
 .beneficiaries-page__filter--active {
   background: #fff;
-  color: #173b76;
+  color: #176b3a;
   box-shadow: 0 1px 4px rgb(23 59 118 / 10%);
 }
 
@@ -210,7 +210,7 @@
   place-items: center;
   border-radius: 13px;
   background: #edf3fa;
-  color: #173b76;
+  color: #176b3a;
 }
 
 .beneficiary-card__icon--business {
@@ -232,7 +232,7 @@
 
 .beneficiary-card__heading h2 {
   margin: 0;
-  color: #172033;
+  color: #263238;
   font-size: 1rem;
 }
 
@@ -310,7 +310,7 @@
 
 .beneficiary-card__actions button:hover {
   border-color: #b8c5d5;
-  color: #173b76;
+  color: #176b3a;
 }
 
 .beneficiary-card__actions .beneficiary-card__remove:hover {
@@ -338,7 +338,7 @@
 
 .beneficiaries-empty h2 {
   margin: 0;
-  color: #26354c;
+  color: #263238;
   font-size: 1.05rem;
 }
 
@@ -355,9 +355,9 @@
   gap: 7px;
   min-height: 39px;
   padding: 0 13px;
-  border: 1px solid #173b76;
+  border: 1px solid #176b3a;
   border-radius: 9px;
-  background: #173b76;
+  background: #176b3a;
   color: #fff;
   cursor: pointer;
   font: inherit;
@@ -429,7 +429,7 @@
 .beneficiary-modal__header h2,
 .beneficiary-modal--confirm h2 {
   margin: 0;
-  color: #172033;
+  color: #263238;
   font-size: 1.35rem;
 }
 
@@ -472,14 +472,14 @@
   border-radius: 9px;
   outline: none;
   background: #fff;
-  color: #172033;
+  color: #263238;
   font: inherit;
   font-size: 0.82rem;
 }
 
 .beneficiary-modal__grid input:focus,
 .beneficiary-modal__grid select:focus {
-  border-color: #173b76;
+  border-color: #176b3a;
   box-shadow: 0 0 0 3px rgb(23 59 118 / 10%);
 }
 
@@ -508,9 +508,9 @@
   gap: 7px;
   min-height: 41px;
   padding: 0 13px;
-  border: 1px solid #173b76;
+  border: 1px solid #176b3a;
   border-radius: 9px;
-  background: #173b76;
+  background: #176b3a;
   color: #fff;
   cursor: pointer;
   font: inherit;

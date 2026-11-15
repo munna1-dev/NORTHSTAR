@@ -2,7 +2,7 @@
   width: min(1240px, 100%);
   margin: 0 auto;
   padding: 36px 30px 56px;
-  color: var(--fs-navy);
+  color: var(--customer-text);
 }
 
 .customer-dashboard__header {
@@ -62,7 +62,7 @@
 .customer-dashboard__refresh {
   border: 1px solid var(--fs-border);
   background: white;
-  color: var(--fs-navy);
+  color: var(--customer-text);
   cursor: pointer;
 }
 
@@ -72,7 +72,7 @@
 }
 
 .customer-dashboard__primary-action {
-  background: var(--fs-navy);
+  background: var(--customer-text);
   color: white;
   box-shadow: 0 7px 18px rgba(16, 42, 67, .14);
 }
@@ -151,7 +151,7 @@
   border: 1px solid var(--fs-border);
   border-radius: 14px;
   background: white;
-  color: var(--fs-navy);
+  color: var(--customer-text);
   text-decoration: none;
   box-shadow: var(--fs-shadow-sm);
   transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
@@ -231,7 +231,7 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font-size: 12px;
   font-weight: 800;
   text-decoration: none;
@@ -249,7 +249,7 @@
   border: 1px solid var(--fs-border);
   border-radius: 15px;
   background: white;
-  color: var(--fs-navy);
+  color: var(--customer-text);
   text-decoration: none;
   box-shadow: var(--fs-shadow-sm);
   transition: transform .16s ease, box-shadow .16s ease;
@@ -275,7 +275,7 @@
   height: 40px;
   border-radius: 10px;
   background: #edf3f7;
-  color: var(--fs-navy);
+  color: var(--customer-text);
 }
 
 .customer-dashboard__status {
@@ -393,7 +393,7 @@
 
 .customer-dashboard__transaction-details strong {
   overflow: hidden;
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font-size: 12px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -408,7 +408,7 @@
 }
 
 .customer-dashboard__transaction-amount {
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font-size: 12px;
   font-weight: 850;
   white-space: nowrap;
@@ -435,7 +435,7 @@
 .customer-dashboard__empty strong,
 .customer-dashboard__loading strong,
 .customer-dashboard__error strong {
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font-size: 13px;
 }
 
@@ -462,7 +462,7 @@
   padding: 9px 12px;
   border: 0;
   border-radius: 9px;
-  background: var(--fs-navy);
+  background: var(--customer-text);
   color: white;
   cursor: pointer;
   font: inherit;
@@ -474,7 +474,7 @@
   width: 26px;
   height: 26px;
   border: 3px solid #dfe7ed;
-  border-top-color: var(--fs-navy);
+  border-top-color: var(--customer-text);
   border-radius: 50%;
   animation: customer-dashboard-spin .8s linear infinite;
 }

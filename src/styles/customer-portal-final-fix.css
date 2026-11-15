@@ -1,0 +1,700 @@
+/* NORTHSTAR — FINAL CUSTOMER PORTAL DESIGN SYSTEM
+   Customer portal only. Management and backend are not affected.
+*/
+
+.customer-shell {
+  --customer-primary: #176b3a;
+  --customer-primary-hover: #12552e;
+  --customer-gold: #b89548;
+  --customer-text: #263238;
+  --customer-muted: #68777b;
+  --customer-border: #e1e8e4;
+  --customer-white: #fff;
+  --customer-background: #f5f8f6;
+  --customer-soft: #edf5ef;
+  --fs-navy: #263238;
+  --fs-teal: #176b3a;
+  --fs-muted: #68777b;
+  --fs-border: #e1e8e4;
+
+  min-width: 0;
+  width: 100%;
+  min-height: 100vh;
+  color: var(--customer-text);
+  background: var(--customer-background);
+  overflow-x: clip;
+}
+
+.customer-shell,
+.customer-shell *,
+.customer-shell *::before,
+.customer-shell *::after {
+  box-sizing: border-box;
+}
+
+.customer-shell * {
+  min-width: 0;
+}
+
+.customer-shell :is(h1,h2,h3,h4,h5,h6) {
+  color: #263238;
+  line-height: 1.3;
+  letter-spacing: -.02em;
+  overflow-wrap: anywhere;
+}
+
+.customer-shell :is(p,small,.muted,.text-muted) {
+  color: #68777b;
+}
+
+/* Page width and spacing */
+.customer-shell :is(
+  main,[role="main"],.customer-main,.customer-content,
+  .customer-page,.customer-page-content,
+  .customer-dashboard,.customer-accounts,
+  .customer-transactions,.beneficiaries-page,
+  .beneficiaries-container
+) {
+  min-width: 0;
+  max-width: 1440px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.customer-shell :is(
+  .customer-main,.customer-content,
+  .customer-page,.customer-page-content
+) {
+  padding: clamp(14px, 2.5vw, 32px);
+}
+
+/* Page headings */
+.customer-shell :is(
+  .customer-accounts__hero,
+  .customer-transactions__hero,
+  .beneficiaries-header,
+  .customer-page-header,
+  .customer-page__header,
+  .customer-section-header
+) {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.customer-shell :is(
+  .customer-accounts__eyebrow,
+  .customer-transactions__eyebrow,
+  .beneficiaries-eyebrow
+) {
+  color: #176b3a;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+/* Cards and dashboard grids */
+.customer-shell :is(
+  .customer-accounts__card,
+  .customer-transactions__row,
+  .beneficiary-card,
+  .customer-card,
+  .customer-panel,
+  .customer-stat-card,
+  .customer-account-card,
+  .customer-dashboard-card,
+  .customer-section,
+  .customer-widget
+) {
+  min-width: 0;
+  background: #fff;
+  border: 1px solid #e1e8e4;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(25,55,35,.045);
+}
+
+.customer-shell :is(
+  .customer-accounts__list,
+  .customer-transactions__list,
+  .beneficiary-list,
+  .customer-card-list,
+  .customer-grid,
+  .customer-dashboard-grid,
+  .customer-stats-grid
+) {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 18px;
+  width: 100%;
+}
+
+.customer-shell :is(
+  .customer-accounts__card,
+  .beneficiary-card,
+  .customer-account-card
+) {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+}
+
+.customer-shell :is(
+  .customer-accounts__card-top,
+  .customer-accounts__card-footer,
+  .customer-transactions__footer,
+  .beneficiary-card-actions
+) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Tables remain visible and scroll horizontally when necessary */
+.customer-shell :is(.table-responsive,.table-container,.customer-table-wrap) {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid #e1e8e4;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.customer-shell table {
+  width: 100%;
+  min-width: 680px;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: #263238;
+  background: #fff;
+  font-size: 13px;
+}
+
+.customer-shell thead {
+  background: #edf5ef;
+}
+
+.customer-shell th {
+  padding: 14px 16px;
+  color: #263238;
+  font-weight: 750;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid #e1e8e4;
+}
+
+.customer-shell td {
+  padding: 14px 16px;
+  color: #43534b;
+  vertical-align: middle;
+  border-bottom: 1px solid #edf1ee;
+}
+
+.customer-shell tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.customer-shell tbody tr:hover {
+  background: #f7faf8;
+}
+
+/* Tabs */
+.customer-shell :is(
+  [role="tablist"],.customer-tabs,.customer-tab-list,
+  .tabs,.tab-list
+) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  width: 100%;
+  padding: 5px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  background: #fff;
+  border: 1px solid #e1e8e4;
+  border-radius: 12px;
+}
+
+.customer-shell :is(
+  [role="tab"],.customer-tab,.tab-button,.tabs button
+) {
+  flex: 0 0 auto;
+  min-height: 40px;
+  padding: 9px 15px;
+  border: 0;
+  border-radius: 9px;
+  color: #52625a;
+  background: transparent;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.customer-shell :is(
+  [role="tab"][aria-selected="true"],
+  .customer-tab.active,.tab-button.active,.tabs button.active
+) {
+  color: #176b3a;
+  background: #edf5ef;
+}
+
+/* Search, filters and forms */
+.customer-shell :is(
+  .customer-transactions__filters,
+  .beneficiary-toolbar,.beneficiary-filters,
+  .customer-toolbar,.customer-filters,
+  .customer-search-row,.customer-form-actions
+) {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
+  margin-block: 16px;
+}
+
+.customer-shell :is(input,select,textarea) {
+  max-width: 100%;
+  min-height: 44px;
+  padding: 11px 13px;
+  color: #263238;
+  background: #fff;
+  border: 1px solid #d8e2dc;
+  border-radius: 10px;
+}
+
+.customer-shell textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.customer-shell :is(input,select,textarea):focus {
+  outline: none;
+  border-color: #176b3a;
+  box-shadow: 0 0 0 3px rgba(23,107,58,.12);
+}
+
+/* Buttons */
+.customer-shell button {
+  cursor: pointer;
+}
+
+.customer-shell :is(
+  .beneficiary-primary-button,
+  .customer-primary-button,
+  .customer-button-primary,
+  .btn-primary
+) {
+  min-height: 42px;
+  padding: 10px 16px;
+  color: #fff;
+  background: #176b3a;
+  border: 1px solid #176b3a;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+/* Modal and view windows */
+.customer-shell :is(
+  .beneficiary-modal-backdrop,
+  .customer-modal-backdrop,
+  .modal-backdrop,
+  [data-modal-backdrop]
+) {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  overflow-y: auto;
+  background: rgba(25,40,30,.48);
+}
+
+.customer-shell :is(
+  .beneficiary-modal,
+  .beneficiary-confirm-modal,
+  .customer-modal,
+  .modal-content,
+  [role="dialog"]
+) {
+  width: min(100%,560px);
+  max-height: min(90vh,850px);
+  margin: auto;
+  padding: clamp(18px,3vw,28px);
+  overflow-y: auto;
+  color: #263238;
+  background: #fff;
+  border: 1px solid #e1e8e4;
+  border-radius: 18px;
+  box-shadow: 0 24px 70px rgba(20,40,25,.2);
+}
+
+/* Empty, loading and error states */
+.customer-shell :is(
+  .customer-accounts__empty,
+  .customer-transactions__empty,
+  .beneficiary-empty-state,
+  .customer-empty-state
+) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 180px;
+  padding: 28px;
+  text-align: center;
+  background: #fff;
+  border: 1px dashed #cbd9cf;
+  border-radius: 16px;
+}
+
+.customer-shell :is(
+  .customer-accounts__error,
+  .customer-transactions__error,
+  .beneficiary-alert,
+  .customer-error
+) {
+  padding: 14px 16px;
+  color: #9b3030;
+  background: #fff4f2;
+  border: 1px solid #f1d3ce;
+  border-radius: 10px;
+}
+
+/* Remove navy appearance within Customer Portal */
+.customer-shell :is(
+  .text-navy,.navy,.text-dark,.text-primary-dark
+) {
+  color: #263238 !important;
+}
+
+.customer-shell :is(
+  .bg-navy,.navy-background,.dark-navy-background
+) {
+  color: #263238 !important;
+  background: #fff !important;
+}
+
+.customer-shell a {
+  color: #176b3a;
+}
+
+/* Accessibility */
+.customer-shell :is(button,a,input,select,textarea,[tabindex]):focus-visible {
+  outline: 3px solid rgba(23,107,58,.35);
+  outline-offset: 2px;
+}
+
+/* Tablet */
+@media(max-width:900px) {
+  .customer-shell :is(
+    .customer-accounts__list,.customer-transactions__list,
+    .beneficiary-list,.customer-card-list,.customer-grid,
+    .customer-dashboard-grid,.customer-stats-grid
+  ) {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+}
+
+/* Mobile */
+@media(max-width:640px) {
+  .customer-shell :is(
+    .customer-main,.customer-content,
+    .customer-page,.customer-page-content
+  ) {
+    padding: 14px;
+  }
+
+  .customer-shell :is(
+    .customer-accounts__list,.customer-transactions__list,
+    .beneficiary-list,.customer-card-list,.customer-grid,
+    .customer-dashboard-grid,.customer-stats-grid
+  ) {
+    grid-template-columns: minmax(0,1fr);
+    gap: 12px;
+  }
+
+  .customer-shell :is(
+    .customer-accounts__hero,.customer-transactions__hero,
+    .beneficiaries-header,.customer-page-header,
+    .customer-page__header
+  ) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .customer-shell :is(
+    .customer-transactions__filters,.beneficiary-toolbar,
+    .customer-toolbar,.customer-filters,.customer-search-row
+  ) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .customer-shell :is(
+    .customer-transactions__filters > *,
+    .beneficiary-toolbar > *,
+    .customer-toolbar > *,
+    .customer-filters > *
+  ) {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .customer-shell :is(
+    .customer-accounts__card,.beneficiary-card,
+    .customer-account-card
+  ) {
+    padding: 16px;
+  }
+
+  .customer-shell :is(
+    .beneficiary-modal,.beneficiary-confirm-modal,
+    .customer-modal,.modal-content,[role="dialog"]
+  ) {
+    width: 100%;
+    max-height: 92vh;
+    padding: 18px;
+  }
+
+  .customer-shell table {
+    min-width: 620px;
+  }
+}
+
+/* CUSTOMER PORTAL — actual TSX class compatibility */
+.customer-shell .customer-accounts,
+.customer-shell .customer-transactions,
+.customer-shell .beneficiaries-page {
+  width: 100%;
+  max-width: 1180px;
+  min-width: 0;
+  margin: 0 auto;
+  padding: 28px;
+  color: #243b35;
+}
+
+.customer-shell .customer-accounts__hero,
+.customer-shell .customer-transactions__hero,
+.customer-shell .beneficiaries-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.customer-shell .customer-accounts__eyebrow,
+.customer-shell .customer-transactions__eyebrow,
+.customer-shell .beneficiaries-eyebrow {
+  color: #668276;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.customer-shell .customer-accounts__list,
+.customer-shell .customer-transactions__list,
+.customer-shell .beneficiary-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  min-width: 0;
+}
+
+.customer-shell .customer-accounts__card,
+.customer-shell .customer-transactions__row,
+.customer-shell .beneficiary-card {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid #e2ebe6;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 5px 20px rgba(24, 60, 45, .045);
+}
+
+.customer-shell .customer-accounts__card-top,
+.customer-shell .customer-accounts__card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.customer-shell .customer-transactions__filters,
+.customer-shell .beneficiary-toolbar,
+.customer-shell .beneficiary-filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.customer-shell .customer-transactions__filters input,
+.customer-shell .customer-transactions__filters select,
+.customer-shell .beneficiary-search input,
+.customer-shell .beneficiary-toolbar input,
+.customer-shell .beneficiary-filters select {
+  min-width: 0;
+  max-width: 100%;
+  min-height: 42px;
+  padding: 9px 12px;
+  border: 1px solid #dce7e1;
+  border-radius: 9px;
+  background: #fff;
+  color: #243b35;
+}
+
+.customer-shell .customer-transactions__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.customer-shell .beneficiary-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.customer-shell .beneficiary-card-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.customer-shell .beneficiary-card-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  overflow-wrap: anywhere;
+}
+
+.customer-shell .beneficiary-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.customer-shell .beneficiary-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(20, 35, 29, .48);
+}
+
+.customer-shell .beneficiary-modal,
+.customer-shell .beneficiary-confirm-modal {
+  width: min(520px, 100%);
+  max-height: min(88vh, 760px);
+  overflow-y: auto;
+  padding: 24px;
+  border: 1px solid #e2ebe6;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .18);
+}
+
+.customer-shell .beneficiary-form {
+  display: grid;
+  gap: 16px;
+}
+
+.customer-shell .beneficiary-form input,
+.customer-shell .beneficiary-form select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #dce7e1;
+  border-radius: 9px;
+  background: #fff;
+}
+
+.customer-shell .customer-accounts__empty,
+.customer-shell .customer-transactions__empty,
+.customer-shell .beneficiary-empty-state {
+  padding: 32px 20px;
+  border: 1px dashed #cbdcd2;
+  border-radius: 14px;
+  background: #fbfdfb;
+  text-align: center;
+}
+
+.customer-shell .customer-accounts button,
+.customer-shell .customer-transactions button,
+.customer-shell .beneficiaries-page button {
+  max-width: 100%;
+}
+
+.customer-shell .customer-shell__nav-link--active {
+  background: #e9f5ee;
+  color: #176b43;
+}
+
+.customer-shell .customer-shell__brand-mark {
+  background: #176b43;
+}
+
+@media (max-width: 760px) {
+  .customer-shell .customer-accounts,
+  .customer-shell .customer-transactions,
+  .customer-shell .beneficiaries-page {
+    padding: 20px 14px;
+  }
+
+  .customer-shell .customer-accounts__list,
+  .customer-shell .customer-transactions__list,
+  .customer-shell .beneficiary-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .customer-shell .customer-transactions__filters > *,
+  .customer-shell .beneficiary-toolbar > *,
+  .customer-shell .beneficiary-filters > * {
+    flex: 1 1 140px;
+  }
+
+  .customer-shell .beneficiary-modal,
+  .customer-shell .beneficiary-confirm-modal {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 420px) {
+  .customer-shell .customer-accounts,
+  .customer-shell .customer-transactions,
+  .customer-shell .beneficiaries-page {
+    padding: 16px 10px;
+  }
+
+  .customer-shell .customer-accounts__card,
+  .customer-shell .customer-transactions__row,
+  .customer-shell .beneficiary-card {
+    padding: 15px;
+  }
+}

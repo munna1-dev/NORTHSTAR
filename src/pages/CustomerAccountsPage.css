@@ -21,7 +21,7 @@
   align-items: center;
   gap: 7px;
   margin-bottom: 28px;
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font-size: 13px;
   font-weight: 750;
   text-decoration: none;
@@ -37,7 +37,7 @@
 
 .customer-accounts-header h1 {
   margin: 7px 0 8px;
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font-size: clamp(30px, 5vw, 42px);
   letter-spacing: -.035em;
 }
@@ -84,7 +84,7 @@
   justify-content: center;
   border-radius: 12px;
   background: #edf3f8;
-  color: var(--fs-navy);
+  color: var(--customer-text);
 }
 
 .customer-account-detail__identity > div:last-child {
@@ -94,7 +94,7 @@
 }
 
 .customer-account-detail__type {
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font-size: 16px;
   font-weight: 800;
 }
@@ -136,7 +136,7 @@
 }
 
 .customer-account-detail__balances strong {
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font-size: 27px;
   letter-spacing: -.03em;
 }
@@ -151,14 +151,14 @@
 }
 
 .customer-account-detail__footer span strong {
-  color: var(--fs-navy);
+  color: var(--customer-text);
 }
 
 .customer-account-detail__footer a {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font-weight: 750;
   text-decoration: none;
 }
@@ -172,7 +172,7 @@
 }
 
 .customer-accounts-note strong {
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font-size: 13px;
 }
 

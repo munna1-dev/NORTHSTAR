@@ -20,7 +20,7 @@
 }
 
 .customer-cards-back:hover {
-  color: #173b76;
+  color: #176b3a;
 }
 
 .customer-cards-kicker,
@@ -34,7 +34,7 @@
 
 .customer-cards-header h1 {
   margin: 7px 0 9px;
-  color: #172033;
+  color: #263238;
   font-size: clamp(2rem, 4vw, 3rem);
   letter-spacing: -0.035em;
 }
@@ -64,13 +64,13 @@
   width: 43px;
   height: 43px;
   border-radius: 12px;
-  color: #173b76;
+  color: #176b3a;
   background: #e5eef8;
 }
 
 .customer-cards-security strong {
   display: block;
-  color: #25344a;
+  color: #263238;
   font-size: 0.88rem;
 }
 
@@ -105,7 +105,7 @@
 .customer-card__top strong {
   display: block;
   margin-top: 4px;
-  color: #172033;
+  color: #263238;
   font-size: 0.94rem;
 }
 
@@ -133,7 +133,7 @@
   padding: 23px;
   overflow: hidden;
   border-radius: 17px;
-  background: linear-gradient(145deg, #173b76, #102a43);
+  background: linear-gradient(145deg, #176b3a, #176b3a);
   color: #ffffff;
   box-shadow: 0 15px 30px rgba(16, 42, 67, 0.22);
 }
@@ -254,7 +254,7 @@
 }
 
 .customer-card__balance strong {
-  color: #172033;
+  color: #263238;
   font-size: 0.94rem;
 }
 
@@ -341,7 +341,7 @@
   width: 39px;
   height: 39px;
   border-radius: 11px;
-  color: #173b76;
+  color: #176b3a;
   background: #eaf1f8;
 }
 
@@ -501,7 +501,7 @@
 
 .customer-card-request__heading h2 {
   margin: 7px 0 8px;
-  color: #102a43;
+  color: #176b3a;
   font-size: 1.35rem;
 }
 
@@ -520,7 +520,7 @@
 
 .customer-card-request__fieldset legend {
   margin-bottom: 12px;
-  color: #102a43;
+  color: #176b3a;
   font-weight: 700;
 }
 
@@ -544,13 +544,13 @@
 }
 
 .customer-card-request__design.is-selected {
-  border-color: #1d5d8f;
+  border-color: #176b3a;
   box-shadow: 0 0 0 2px rgba(29, 93, 143, 0.12);
 }
 
 .customer-card-request__design input,
 .customer-card-request__formats input {
-  accent-color: #1d5d8f;
+  accent-color: #176b3a;
 }
 
 .customer-card-request__swatch {
@@ -560,7 +560,7 @@
   place-items: center;
   border-radius: 9px;
   color: #fff;
-  background: #102a43;
+  background: #176b3a;
 }
 
 .customer-card-request__design--savings .customer-card-request__swatch {
@@ -569,7 +569,7 @@
 }
 
 .customer-card-request__design--checking .customer-card-request__swatch {
-  background: linear-gradient(135deg, #102a43 0 65%, #b42332 65%);
+  background: linear-gradient(135deg, #176b3a 0 65%, #b42332 65%);
 }
 
 .customer-card-request__design--credit .customer-card-request__swatch {
@@ -577,11 +577,11 @@
 }
 
 .customer-card-request__design--business .customer-card-request__swatch {
-  background: linear-gradient(135deg, #102a43 0 65%, #c7a34a 65% 82%, #fff 82%);
+  background: linear-gradient(135deg, #176b3a 0 65%, #c7a34a 65% 82%, #fff 82%);
 }
 
 .customer-card-request__design strong {
-  color: #102a43;
+  color: #176b3a;
 }
 
 .customer-card-request__design > span:last-child {
@@ -612,7 +612,7 @@
 }
 
 .customer-card-request__formats strong {
-  color: #102a43;
+  color: #176b3a;
 }
 
 .customer-card-request__formats small,
@@ -624,7 +624,7 @@
   display: grid;
   gap: 8px;
   margin-bottom: 18px;
-  color: #102a43;
+  color: #176b3a;
   font-weight: 700;
 }
 
@@ -641,7 +641,7 @@
   padding: 12px;
   border: 1px solid #cbd6e1;
   border-radius: 9px;
-  color: #102a43;
+  color: #176b3a;
   font: inherit;
 }
 
@@ -655,7 +655,7 @@
   border: 0;
   border-radius: 9px;
   color: #fff;
-  background: #102a43;
+  background: #176b3a;
   font: inherit;
   font-weight: 700;
   cursor: pointer;
@@ -725,7 +725,7 @@
 }
 
 .customer-card-request-history__item strong {
-  color: #102a43;
+  color: #176b3a;
 }
 
 .customer-card-request-history__item p {

@@ -387,9 +387,9 @@ export function CustomerCardsPage() {
             <div className="customer-card-request__designs">
               {([
                 { id: "savings", title: "Savings", description: "Red, white & gold" },
-                { id: "checking", title: "Checking", description: "Deep navy, white & red" },
+                { id: "checking", title: "Checking", description: "Green, white & gold" },
                 { id: "credit", title: "Credit", description: "Charcoal, red & gold" },
-                { id: "business", title: "Business", description: "Navy, white & gold" },
+                { id: "business", title: "Business", description: "Green, white & gold" },
               ] as const).map((option) => (
                 <label
                   key={option.id}

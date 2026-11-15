@@ -22,7 +22,7 @@
   align-items: center;
   gap: 7px;
   margin-bottom: 28px;
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font-size: 13px;
   font-weight: 750;
   text-decoration: none;
@@ -38,7 +38,7 @@
 
 .customer-transactions-header h1 {
   margin: 7px 0 8px;
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font-size: clamp(30px, 5vw, 42px);
   letter-spacing: -.035em;
 }
@@ -76,7 +76,7 @@
   border: 0;
   outline: 0;
   background: transparent;
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font: inherit;
   font-size: 13px;
 }
@@ -101,7 +101,7 @@
   border-radius: 11px;
   outline: 0;
   background: var(--fs-white);
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font: inherit;
   font-size: 13px;
 }
@@ -136,7 +136,7 @@
   justify-content: center;
   border-radius: 11px;
   background: #edf3f8;
-  color: var(--fs-navy);
+  color: var(--customer-text);
 }
 
 .customer-transaction-row__main {
@@ -148,7 +148,7 @@
 
 .customer-transaction-row__main strong {
   overflow: hidden;
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font-size: 14px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -184,7 +184,7 @@
 }
 
 .transaction-debit {
-  color: var(--fs-navy);
+  color: var(--customer-text);
 }
 
 .customer-transactions-empty {
@@ -193,7 +193,7 @@
 }
 
 .customer-transactions-empty strong {
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font-size: 15px;
 }
 
@@ -212,7 +212,7 @@
 }
 
 .customer-transactions-note strong {
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font-size: 13px;
 }
 
