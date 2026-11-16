@@ -1700,3 +1700,1698 @@ input[type="radio"] {
     flex-wrap: wrap;
   }
 }
+
+/* NorthStarBank Customers page refinement — CSS only */
+.management-page:has(.management-customers__toolbar) {
+  width: 100%;
+  min-width: 0;
+}
+
+.management-page:has(.management-customers__toolbar) .management-page__header {
+  align-items: flex-end;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.management-page:has(.management-customers__toolbar) .management-page__header-meta {
+  flex-shrink: 0;
+  padding: 9px 13px;
+  border: 1px solid var(--ns-border);
+  border-radius: 999px;
+  background: var(--ns-white);
+  color: var(--ns-deep);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.management-page:has(.management-customers__toolbar) .management-customers__toolbar {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) minmax(170px, 230px);
+  align-items: end;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding: 18px;
+  box-shadow: 0 4px 16px rgba(18, 85, 46, .035);
+}
+
+.management-page:has(.management-customers__toolbar) .management-customers__search,
+.management-page:has(.management-customers__toolbar) .management-customers__filter {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.management-page:has(.management-customers__toolbar) .management-customers__search label,
+.management-page:has(.management-customers__toolbar) .management-customers__filter label {
+  color: var(--ns-deep);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.management-page:has(.management-customers__toolbar) .management-customers__search input,
+.management-page:has(.management-customers__toolbar) .management-customers__filter select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--ns-border);
+  border-radius: 9px;
+  background: var(--ns-white);
+  color: var(--ns-text);
+  font: inherit;
+}
+
+.management-page:has(.management-customers__toolbar) .management-customers__table-card {
+  padding: 12px;
+  box-shadow: 0 5px 20px rgba(18, 85, 46, .04);
+}
+
+.management-page:has(.management-customers__toolbar) .management-table-wrap {
+  border: 0;
+  border-radius: 9px;
+}
+
+.management-page:has(.management-customers__toolbar) .management-table {
+  width: 100%;
+  min-width: 920px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.management-page:has(.management-customers__toolbar) .management-table th {
+  padding: 14px 15px;
+  background: #F0F8E5;
+  color: var(--ns-deep);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.management-page:has(.management-customers__toolbar) .management-table td {
+  padding: 15px;
+  border-bottom: 1px solid var(--ns-border);
+  color: var(--ns-text);
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.management-page:has(.management-customers__toolbar) .management-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.management-page:has(.management-customers__toolbar) .management-table__primary {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.management-page:has(.management-customers__toolbar) .management-table__secondary {
+  margin-top: 4px;
+  color: var(--ns-muted);
+  font-size: 12px;
+}
+
+.management-page:has(.management-customers__toolbar) .management-customers__customer-button {
+  display: grid;
+  gap: 5px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ns-deep);
+  text-align: left;
+  cursor: pointer;
+}
+
+.management-page:has(.management-customers__toolbar) .management-customers__customer-button strong {
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.management-page:has(.management-customers__toolbar) .management-customers__customer-button span {
+  color: var(--ns-muted);
+  font-size: 11px;
+}
+
+.management-page:has(.management-customers__toolbar) .management-customers__customer-button:hover strong {
+  color: var(--ns-green);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.management-page:has(.management-customers__toolbar) .management-table__empty {
+  height: 150px;
+  color: var(--ns-muted);
+  text-align: center;
+}
+
+.management-page:has(.management-customers__toolbar) .management-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 750;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.management-page:has(.management-customers__toolbar) .management-status--active {
+  border-color: #C8E8D0;
+  background: #EAF7ED;
+  color: #176B3A;
+}
+
+.management-page:has(.management-customers__toolbar) .management-status--pending {
+  border-color: #F1DDA7;
+  background: #FFF8E7;
+  color: #8A6414;
+}
+
+.management-page:has(.management-customers__toolbar) .management-status--suspended,
+.management-page:has(.management-customers__toolbar) .management-status--closed {
+  border-color: #EBC9C5;
+  background: #FFF1EF;
+  color: #A52820;
+}
+
+.management-page:has(.management-customers__toolbar) .management-drawer-backdrop {
+  background: rgba(15, 35, 23, .48);
+  backdrop-filter: blur(3px);
+}
+
+.management-page:has(.management-customers__toolbar) .management-drawer {
+  width: min(540px, 100%);
+  max-width: 100%;
+  background: var(--ns-white);
+  box-shadow: -16px 0 48px rgba(18, 45, 28, .16);
+}
+
+.management-page:has(.management-customers__toolbar) .management-drawer__header {
+  padding: 24px;
+  background: #F7FAF5;
+  border-bottom: 1px solid var(--ns-border);
+}
+
+.management-page:has(.management-customers__toolbar) .management-drawer__header h2 {
+  margin: 4px 0 6px;
+  color: var(--ns-deep);
+  font-size: 22px;
+  overflow-wrap: anywhere;
+}
+
+.management-page:has(.management-customers__toolbar) .management-drawer__header p:last-child {
+  color: var(--ns-muted);
+  font-size: 12px;
+}
+
+.management-page:has(.management-customers__toolbar) .management-drawer__close {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  place-items: center;
+  border: 1px solid var(--ns-border);
+  border-radius: 10px;
+  background: var(--ns-white);
+  color: var(--ns-deep);
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.management-page:has(.management-customers__toolbar) .management-drawer__body {
+  padding: 22px 24px 30px;
+}
+
+.management-page:has(.management-customers__toolbar) .management-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.management-page:has(.management-customers__toolbar) .management-detail-grid > div {
+  display: grid;
+  align-content: start;
+  gap: 7px;
+  min-width: 0;
+  padding: 13px;
+  border: 1px solid var(--ns-border);
+  border-radius: 10px;
+  background: #FAFCF9;
+}
+
+.management-page:has(.management-customers__toolbar) .management-detail-grid span {
+  color: var(--ns-muted);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.management-page:has(.management-customers__toolbar) .management-detail-grid strong {
+  color: var(--ns-text);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.management-page:has(.management-customers__toolbar) .management-drawer__section {
+  margin-top: 22px;
+  padding: 17px;
+  border: 1px solid var(--ns-border);
+  border-radius: 12px;
+  background: var(--ns-white);
+}
+
+.management-page:has(.management-customers__toolbar) .management-drawer__section h3 {
+  margin: 0 0 8px;
+  color: var(--ns-deep);
+  font-size: 14px;
+}
+
+.management-page:has(.management-customers__toolbar) .management-drawer__section p {
+  margin: 0;
+  color: var(--ns-muted);
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.management-page:has(.management-customers__toolbar) .management-drawer__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 16px;
+}
+
+.management-page:has(.management-customers__toolbar) .management-drawer__actions button {
+  min-height: 40px;
+}
+
+.management-page:has(.management-customers__toolbar) .management-drawer__actions button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+@media (max-width: 760px) {
+  .management-page:has(.management-customers__toolbar) .management-page__header {
+    align-items: flex-start;
+  }
+
+  .management-page:has(.management-customers__toolbar) .management-customers__toolbar {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 14px;
+  }
+
+  .management-page:has(.management-customers__toolbar) .management-customers__table-card {
+    padding: 7px;
+  }
+
+  .management-page:has(.management-customers__toolbar) .management-detail-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .management-page:has(.management-customers__toolbar) .management-drawer__header {
+    padding: 18px;
+  }
+
+  .management-page:has(.management-customers__toolbar) .management-drawer__body {
+    padding: 16px 18px 24px;
+  }
+
+  .management-page:has(.management-customers__toolbar) .management-drawer__actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .management-page:has(.management-customers__toolbar) .management-drawer__actions button {
+    width: 100%;
+  }
+}
+
+/* NorthStarBank Accounts page refinement — presentation only */
+.management-accounts {
+  width: 100%;
+  min-width: 0;
+  color: var(--ns-text);
+}
+
+.management-accounts .management-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.management-accounts .management-page-header h1 {
+  margin: 6px 0;
+  color: var(--ns-deep);
+  font-size: clamp(25px, 3vw, 32px);
+  font-weight: 750;
+  letter-spacing: -0.035em;
+}
+
+.management-accounts .management-page-header p {
+  margin: 0;
+  color: var(--ns-muted);
+}
+
+.management-accounts .management-page-header__eyebrow {
+  color: var(--ns-green);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+
+.management-accounts .management-data__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.management-accounts .management-data__filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.management-accounts .management-filter {
+  min-height: 36px;
+  padding: 8px 13px;
+  border: 1px solid var(--ns-border);
+  border-radius: 9px;
+  background: var(--ns-white);
+  color: var(--ns-muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.management-accounts .management-filter--active {
+  border-color: var(--ns-green);
+  background: var(--ns-green);
+  color: var(--ns-white);
+}
+
+.management-accounts .management-data__search {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: min(100%, 340px);
+  min-height: 42px;
+  padding: 0 13px;
+  border: 1px solid var(--ns-border);
+  border-radius: 10px;
+  background: var(--ns-white);
+  color: var(--ns-muted);
+}
+
+.management-accounts .management-data__search input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ns-text);
+  font: inherit;
+}
+
+.management-accounts .management-data__card {
+  overflow: hidden;
+  border: 1px solid var(--ns-border);
+  border-radius: 14px;
+  background: var(--ns-white);
+  box-shadow: 0 5px 20px rgba(18, 85, 46, .045);
+}
+
+.management-accounts .management-data__table-wrap {
+  overflow-x: auto;
+}
+
+.management-accounts .management-data__table-wrap table {
+  width: 100%;
+  min-width: 850px;
+  border-collapse: collapse;
+}
+
+.management-accounts .management-data__table-wrap th {
+  padding: 14px 16px;
+  background: #F0F8E5;
+  color: var(--ns-deep);
+  border-bottom: 1px solid var(--ns-border);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.management-accounts .management-data__table-wrap td {
+  padding: 15px 16px;
+  border-bottom: 1px solid var(--ns-border);
+  color: var(--ns-text);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.management-accounts .management-data__table-wrap tbody tr {
+  cursor: pointer;
+  transition: background .15s ease;
+}
+
+.management-accounts .management-data__table-wrap tbody tr:hover {
+  background: #F5FAF1;
+}
+
+.management-accounts .management-data__table-wrap tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.management-accounts .management-data__primary {
+  color: var(--ns-deep);
+  font-weight: 750;
+}
+
+.management-accounts .management-data__secondary {
+  margin-top: 4px;
+  color: var(--ns-muted);
+  font-size: 11px;
+}
+
+.management-accounts .management-data__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: capitalize;
+}
+
+.management-accounts .management-data__badge--active,
+.management-accounts .management-data__badge--completed,
+.management-accounts .management-data__badge--resolved {
+  border-color: #C9E7D0;
+  background: #EAF6ED;
+  color: #176B3A;
+}
+
+.management-accounts .management-data__badge--pending,
+.management-accounts .management-data__badge--under_review,
+.management-accounts .management-data__badge--in_progress {
+  border-color: #F0DCA8;
+  background: #FFF8E8;
+  color: #8A6416;
+}
+
+.management-accounts .management-data__badge--frozen,
+.management-accounts .management-data__badge--failed,
+.management-accounts .management-data__badge--rejected,
+.management-accounts .management-data__badge--closed,
+.management-accounts .management-data__badge--cancelled,
+.management-accounts .management-data__badge--suspended {
+  border-color: #EBCBC7;
+  background: #FFF2F0;
+  color: #A52820;
+}
+
+.management-accounts .management-data__empty {
+  min-height: 210px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 30px;
+  color: var(--ns-muted);
+  text-align: center;
+}
+
+.management-accounts .management-data__drawer {
+  background: rgba(12, 30, 18, .48);
+  backdrop-filter: blur(3px);
+}
+
+.management-accounts .management-data__drawer-panel {
+  width: min(480px, 100%);
+  padding: 26px;
+  overflow-y: auto;
+  border-left: 1px solid var(--ns-border);
+  background: var(--ns-white);
+  color: var(--ns-text);
+  box-shadow: -12px 0 40px rgba(18, 50, 28, .12);
+}
+
+.management-accounts .management-data__drawer-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--ns-border);
+}
+
+.management-accounts .management-data__drawer-head h2 {
+  margin: 7px 0 0;
+  color: var(--ns-deep);
+  font-size: 23px;
+  overflow-wrap: anywhere;
+}
+
+.management-accounts .management-data__close {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--ns-border);
+  border-radius: 9px;
+  background: var(--ns-white);
+  color: var(--ns-deep);
+  cursor: pointer;
+}
+
+.management-accounts .management-data__detail {
+  display: grid;
+  gap: 0;
+  margin-top: 18px;
+}
+
+.management-accounts .management-data__detail-item {
+  padding: 13px 0;
+  border-bottom: 1px solid var(--ns-border);
+  color: var(--ns-text);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.management-accounts .management-data__detail-item label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--ns-muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.management-accounts .management-data__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.management-accounts .management-data__error {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 15px 0;
+  padding: 13px 15px;
+  border: 1px solid #EBCBC7;
+  border-radius: 10px;
+  background: #FFF2F0;
+  color: #A52820;
+}
+
+.management-accounts button:focus-visible,
+.management-accounts input:focus-visible {
+  outline: 3px solid rgba(23, 107, 58, .2);
+  outline-offset: 2px;
+}
+
+@media (max-width: 700px) {
+  .management-accounts .management-page-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .management-accounts .management-data__toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .management-accounts .management-data__search {
+    width: 100%;
+  }
+
+  .management-accounts .management-data__drawer-panel {
+    padding: 20px;
+  }
+
+  .management-accounts .management-data__actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .management-accounts .management-data__actions button {
+    width: 100%;
+  }
+}
+
+/* NorthStarBank Card Requests refinement — presentation only */
+.management-card-requests {
+  width: 100%;
+  min-width: 0;
+  color: var(--ns-text);
+}
+
+.management-card-requests > header {
+  margin-bottom: 24px;
+}
+
+.management-card-requests > header h1 {
+  margin: 0 0 7px;
+  color: var(--ns-deep);
+  font-size: clamp(25px, 3vw, 32px);
+  font-weight: 750;
+  letter-spacing: -.035em;
+}
+
+.management-card-requests > header p {
+  margin: 0;
+  color: var(--ns-muted);
+  font-size: 14px;
+}
+
+.management-card-requests__toolbar {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding: 16px;
+  border: 1px solid var(--ns-border);
+  border-radius: 13px;
+  background: var(--ns-white);
+}
+
+.management-card-requests__toolbar label,
+.management-card-requests__review label {
+  display: grid;
+  gap: 8px;
+  color: var(--ns-deep);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.management-card-requests__toolbar select,
+.management-card-requests__review textarea {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid var(--ns-border);
+  border-radius: 9px;
+  background: var(--ns-white);
+  color: var(--ns-text);
+  font: inherit;
+}
+
+.management-card-requests__toolbar select {
+  min-width: 220px;
+}
+
+.management-card-requests button {
+  min-height: 40px;
+  padding: 9px 15px;
+  border: 1px solid var(--ns-border);
+  border-radius: 9px;
+  background: var(--ns-white);
+  color: var(--ns-deep);
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, transform .15s ease;
+}
+
+.management-card-requests button:hover:not(:disabled) {
+  border-color: var(--ns-green);
+  background: var(--ns-green-soft);
+}
+
+.management-card-requests button:disabled {
+  cursor: not-allowed;
+  opacity: .6;
+}
+
+.management-card-requests__list {
+  display: grid;
+  gap: 16px;
+}
+
+.management-card-requests__item {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--ns-border);
+  border-radius: 14px;
+  background: var(--ns-white);
+  box-shadow: 0 5px 20px rgba(18, 85, 46, .045);
+}
+
+.management-card-requests__heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--ns-border);
+}
+
+.management-card-requests__heading h2 {
+  margin: 0 0 5px;
+  color: var(--ns-deep);
+  font-size: 17px;
+  font-weight: 750;
+}
+
+.management-card-requests__heading p {
+  margin: 0;
+  color: var(--ns-muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.management-card-requests__status {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  padding: 6px 11px;
+  border: 1px solid var(--ns-border);
+  border-radius: 999px;
+  background: #F3F6F3;
+  color: var(--ns-muted);
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: capitalize;
+}
+
+.management-card-requests__status--pending {
+  border-color: #F0DCA8;
+  background: #FFF8E8;
+  color: #8A6416;
+}
+
+.management-card-requests__status--approved,
+.management-card-requests__status--issued {
+  border-color: #C9E7D0;
+  background: #EAF6ED;
+  color: #176B3A;
+}
+
+.management-card-requests__status--rejected,
+.management-card-requests__status--cancelled {
+  border-color: #EBCBC7;
+  background: #FFF2F0;
+  color: #A52820;
+}
+
+.management-card-requests__item dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 18px 0;
+}
+
+.management-card-requests__item dl > div {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--ns-border);
+  border-radius: 10px;
+  background: #F8FBF7;
+}
+
+.management-card-requests__item dt {
+  margin-bottom: 6px;
+  color: var(--ns-muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.management-card-requests__item dd {
+  margin: 0;
+  color: var(--ns-deep);
+  font-size: 13px;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+.management-card-requests__item > p {
+  margin: 13px 0;
+  padding: 12px 14px;
+  border-left: 3px solid var(--ns-lemon);
+  border-radius: 0 8px 8px 0;
+  background: #F8FBF4;
+  color: var(--ns-text);
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.management-card-requests__review {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+  padding: 17px;
+  border: 1px solid var(--ns-border);
+  border-radius: 11px;
+  background: #F5F8F5;
+}
+
+.management-card-requests__review textarea {
+  min-height: 90px;
+  resize: vertical;
+  font-weight: 400;
+}
+
+.management-card-requests__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.management-card-requests__actions button:first-child {
+  border-color: var(--ns-green);
+  background: var(--ns-green);
+  color: var(--ns-white);
+}
+
+.management-card-requests__actions button:first-child:hover:not(:disabled) {
+  background: var(--ns-green-dark);
+  color: var(--ns-white);
+}
+
+.management-card-requests__actions button:last-child {
+  border-color: #EBCBC7;
+  background: #FFF2F0;
+  color: #A52820;
+}
+
+.management-card-requests__error,
+.management-card-requests__message {
+  margin: 14px 0;
+  padding: 13px 15px;
+  border: 1px solid;
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.management-card-requests__error {
+  border-color: #EBCBC7;
+  background: #FFF2F0;
+  color: #A52820;
+}
+
+.management-card-requests__message {
+  border-color: #C9E7D0;
+  background: #EAF6ED;
+  color: #176B3A;
+}
+
+.management-card-requests > p:not(.management-card-requests__error):not(.management-card-requests__message) {
+  padding: 24px;
+  border: 1px solid var(--ns-border);
+  border-radius: 12px;
+  background: var(--ns-white);
+  color: var(--ns-muted);
+  text-align: center;
+}
+
+.management-card-requests button:focus-visible,
+.management-card-requests select:focus-visible,
+.management-card-requests textarea:focus-visible {
+  outline: 3px solid rgba(23, 107, 58, .2);
+  outline-offset: 2px;
+}
+
+@media (max-width: 650px) {
+  .management-card-requests__toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .management-card-requests__toolbar select {
+    min-width: 0;
+  }
+
+  .management-card-requests__heading {
+    flex-direction: column;
+  }
+
+  .management-card-requests__item {
+    padding: 15px;
+  }
+
+  .management-card-requests__item dl {
+    grid-template-columns: 1fr;
+  }
+
+  .management-card-requests__actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .management-card-requests__actions button {
+    width: 100%;
+  }
+}
+
+/* NorthStarBank Transactions page refinement — presentation only */
+.management-transactions {
+  width: 100%;
+  min-width: 0;
+  color: var(--ns-text);
+}
+
+.management-transactions .management-page-header {
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.management-transactions .management-page-header h1 {
+  margin: 5px 0 7px;
+  color: var(--ns-deep);
+  font-size: clamp(24px, 3vw, 30px);
+  font-weight: 800;
+  letter-spacing: -.035em;
+}
+
+.management-transactions .management-page-header p {
+  margin: 0;
+  color: var(--ns-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.management-transactions .management-data__toolbar {
+  margin: 20px 0;
+}
+
+.management-transactions .management-data__search {
+  width: min(100%, 520px);
+  min-width: 260px;
+  min-height: 44px;
+  border: 1px solid var(--ns-border);
+  border-radius: 11px;
+  background: var(--ns-white);
+  color: var(--ns-muted);
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.management-transactions .management-data__search:focus-within {
+  border-color: var(--ns-green);
+  box-shadow: 0 0 0 3px rgba(23, 107, 58, .10);
+}
+
+.management-transactions .management-data__search input {
+  color: var(--ns-text);
+  font-size: 13px;
+}
+
+.management-transactions .management-data__search input::placeholder {
+  color: #89968D;
+}
+
+.management-transactions .management-data__card {
+  overflow: hidden;
+  border: 1px solid var(--ns-border);
+  border-radius: 14px;
+  background: var(--ns-white);
+  box-shadow: 0 5px 20px rgba(18, 85, 46, .045);
+}
+
+.management-transactions .management-data__table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.management-transactions table {
+  width: 100%;
+  min-width: 980px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.management-transactions th {
+  padding: 15px 16px;
+  border-bottom: 1px solid var(--ns-border);
+  background: #F5F8F5;
+  color: var(--ns-muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .075em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.management-transactions td {
+  padding: 15px 16px;
+  border-bottom: 1px solid #EAF0EA;
+  color: var(--ns-text);
+  font-size: 12px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.management-transactions tbody tr {
+  cursor: default;
+  transition: background .15s ease;
+}
+
+.management-transactions tbody tr:hover {
+  background: #F6FAF5;
+}
+
+.management-transactions tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.management-transactions .management-data__primary {
+  color: var(--ns-deep);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.management-transactions .management-data__secondary {
+  color: var(--ns-muted);
+  font-size: 11px;
+  line-height: 1.45;
+  white-space: normal;
+  max-width: 260px;
+}
+
+.management-transactions .management-data__badge {
+  padding: 5px 9px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .02em;
+  text-transform: capitalize;
+}
+
+.management-transactions .management-data__badge--completed,
+.management-transactions .management-data__badge--successful,
+.management-transactions .management-data__badge--success {
+  border-color: #CDE8D2;
+  background: #EAF6EC;
+  color: #176B3A;
+}
+
+.management-transactions .management-data__badge--pending,
+.management-transactions .management-data__badge--processing,
+.management-transactions .management-data__badge--under_review {
+  border-color: #F0DFAF;
+  background: #FFF7E3;
+  color: #8A6415;
+}
+
+.management-transactions .management-data__badge--failed,
+.management-transactions .management-data__badge--rejected,
+.management-transactions .management-data__badge--cancelled {
+  border-color: #F0CECA;
+  background: #FFF1EF;
+  color: #A52820;
+}
+
+.management-transactions .management-data__empty {
+  min-height: 230px;
+  gap: 12px;
+  color: var(--ns-muted);
+}
+
+.management-transactions .management-data__empty strong {
+  color: var(--ns-deep);
+  font-size: 14px;
+}
+
+.management-transactions .management-data__error {
+  margin: 14px 0;
+  padding: 13px 15px;
+  border: 1px solid #EBCBC7;
+  border-radius: 10px;
+  background: #FFF2F0;
+  color: #A52820;
+  font-size: 13px;
+}
+
+.management-transactions button:focus-visible,
+.management-transactions input:focus-visible {
+  outline: 3px solid rgba(23, 107, 58, .2);
+  outline-offset: 2px;
+}
+
+@media (max-width: 700px) {
+  .management-transactions .management-page-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .management-transactions .management-data__toolbar {
+    align-items: stretch;
+  }
+
+  .management-transactions .management-data__search {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .management-transactions .management-data__card {
+    border-radius: 11px;
+  }
+}
+
+/* NorthStarBank Operations page refinement — presentation only */
+.management-operations {
+  width: 100%;
+  min-width: 0;
+  color: var(--ns-text);
+}
+
+.management-operations .management-page-header {
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.management-operations .management-page-header h1 {
+  margin: 5px 0 7px;
+  color: var(--ns-deep);
+  font-size: clamp(24px, 3vw, 30px);
+  font-weight: 800;
+  letter-spacing: -.035em;
+}
+
+.management-operations .management-page-header p {
+  margin: 0;
+  color: var(--ns-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.management-operations .management-data__card {
+  overflow: hidden;
+  border: 1px solid var(--ns-border);
+  border-radius: 14px;
+  background: var(--ns-white);
+  box-shadow: 0 5px 20px rgba(18, 85, 46, .045);
+}
+
+.management-operations .management-data__table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.management-operations table {
+  width: 100%;
+  min-width: 1100px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.management-operations th {
+  padding: 15px 16px;
+  border-bottom: 1px solid var(--ns-border);
+  background: #F5F8F5;
+  color: var(--ns-muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .075em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.management-operations td {
+  padding: 15px 16px;
+  border-bottom: 1px solid #EAF0EA;
+  color: var(--ns-text);
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+.management-operations tbody tr {
+  transition: background .15s ease;
+}
+
+.management-operations tbody tr:hover {
+  background: #F6FAF5;
+}
+
+.management-operations tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.management-operations td:nth-child(1),
+.management-operations td:nth-child(3),
+.management-operations td:nth-child(5),
+.management-operations td:nth-child(6) {
+  white-space: nowrap;
+}
+
+.management-operations .management-data__secondary {
+  margin-top: 4px;
+  color: var(--ns-muted);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.management-operations .management-data__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 9px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .02em;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.management-operations .management-data__badge--completed,
+.management-operations .management-data__badge--successful,
+.management-operations .management-data__badge--success {
+  border-color: #CDE8D2;
+  background: #EAF6EC;
+  color: #176B3A;
+}
+
+.management-operations .management-data__badge--pending,
+.management-operations .management-data__badge--processing,
+.management-operations .management-data__badge--under_review {
+  border-color: #F0DFAF;
+  background: #FFF7E3;
+  color: #8A6415;
+}
+
+.management-operations .management-data__badge--failed,
+.management-operations .management-data__badge--rejected,
+.management-operations .management-data__badge--cancelled {
+  border-color: #F0CECA;
+  background: #FFF1EF;
+  color: #A52820;
+}
+
+.management-operations .management-data__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+}
+
+.management-operations .management-data__actions button {
+  min-height: 34px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.management-operations .management-data__error {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 15px 0;
+  padding: 13px 15px;
+  border: 1px solid #EBCBC7;
+  border-radius: 10px;
+  background: #FFF2F0;
+  color: #A52820;
+  font-size: 13px;
+}
+
+.management-operations .management-data__empty {
+  min-height: 230px;
+  gap: 12px;
+  color: var(--ns-muted);
+}
+
+.management-operations .management-data__empty strong {
+  color: var(--ns-deep);
+  font-size: 14px;
+}
+
+.management-operations button:focus-visible {
+  outline: 3px solid rgba(23, 107, 58, .2);
+  outline-offset: 2px;
+}
+
+@media (max-width: 700px) {
+  .management-operations .management-page-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .management-operations .management-data__card {
+    border-radius: 11px;
+  }
+
+  .management-operations .management-data__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .management-operations .management-data__actions button {
+    width: 100%;
+  }
+}
+
+/* NorthStarBank Support page refinement — presentation only */
+.management-support {
+  width: 100%;
+  min-width: 0;
+  color: var(--ns-text);
+}
+
+.management-support .management-page-header h1 {
+  color: var(--ns-deep);
+  font-weight: 800;
+  letter-spacing: -.035em;
+}
+
+.management-support .management-page-header p {
+  color: var(--ns-muted);
+}
+
+.management-support .management-data__card {
+  overflow: hidden;
+  border: 1px solid var(--ns-border);
+  border-radius: 15px;
+  background: var(--ns-white);
+  box-shadow: 0 8px 24px rgba(18, 85, 46, .05);
+}
+
+.management-support .management-data__table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.management-support table {
+  width: 100%;
+  min-width: 1050px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.management-support th {
+  padding: 15px 16px;
+  border-bottom: 1px solid var(--ns-border);
+  background: #F5F8F5;
+  color: var(--ns-muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.management-support td {
+  padding: 15px 16px;
+  border-bottom: 1px solid #EAF0EA;
+  color: var(--ns-text);
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.management-support tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.management-support tbody tr:hover {
+  background: #F7FAF6;
+}
+
+.management-support .management-data__primary {
+  color: var(--ns-deep);
+  font-weight: 750;
+}
+
+.management-support .management-data__secondary {
+  max-width: 360px;
+  margin-top: 5px;
+  color: var(--ns-muted);
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.management-support .management-data__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 70px;
+  padding: 6px 10px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .025em;
+  text-transform: capitalize;
+}
+
+.management-support .management-data__badge--failed {
+  border-color: #F1D2CE;
+  background: #FFF1EF;
+  color: #A52820;
+}
+
+.management-support .management-data__badge--pending {
+  border-color: #F0E1B7;
+  background: #FFF8E8;
+  color: #86600C;
+}
+
+.management-support .management-data__badge--open {
+  border-color: #F0E1B7;
+  background: #FFF8E8;
+  color: #86600C;
+}
+
+.management-support .management-data__badge--in_progress {
+  border-color: #C9DDF0;
+  background: #EEF6FC;
+  color: #245B87;
+}
+
+.management-support .management-data__badge--resolved,
+.management-support .management-data__badge--closed {
+  border-color: #CDE5D1;
+  background: #EDF7EE;
+  color: #176B3A;
+}
+
+.management-support .management-button {
+  min-height: 36px;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.management-support .management-data__error {
+  border: 1px solid #EBCBC7;
+  border-radius: 10px;
+  background: #FFF2F0;
+  color: #A52820;
+}
+
+.management-support .management-data__empty {
+  min-height: 220px;
+  color: var(--ns-muted);
+}
+
+.management-support button:focus-visible {
+  outline: 3px solid rgba(23, 107, 58, .22);
+  outline-offset: 3px;
+}
+
+@media (max-width: 700px) {
+  .management-support .management-page-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .management-support .management-data__card {
+    border-radius: 12px;
+  }
+}
+
+/* NorthStarBank Audit Log refinement — presentation only */
+.management-audit {
+  width: 100%;
+  min-width: 0;
+  color: var(--ns-text);
+}
+
+.management-audit .management-page-header {
+  margin-bottom: 22px;
+}
+
+.management-audit .management-data__toolbar {
+  margin: 20px 0;
+}
+
+.management-audit .management-data__search {
+  width: min(100%, 480px);
+  min-width: 260px;
+  border-color: var(--ns-border);
+  border-radius: 11px;
+  background: var(--ns-white);
+  color: var(--ns-text);
+}
+
+.management-audit .management-data__search:focus-within {
+  border-color: var(--ns-green);
+  box-shadow: 0 0 0 3px rgba(23, 107, 58, .10);
+}
+
+.management-audit .management-data__search input {
+  color: var(--ns-text);
+}
+
+.management-audit .management-data__search input::placeholder {
+  color: var(--ns-muted);
+}
+
+.management-audit .management-data__card {
+  overflow: hidden;
+  border: 1px solid var(--ns-border);
+  border-radius: 15px;
+  background: var(--ns-white);
+  box-shadow: 0 5px 20px rgba(18, 50, 30, .04);
+}
+
+.management-audit .management-data__table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.management-audit table {
+  width: 100%;
+  min-width: 1050px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.management-audit th {
+  padding: 15px 16px;
+  background: var(--ns-page);
+  color: var(--ns-muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .075em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.management-audit td {
+  padding: 15px 16px;
+  border-bottom: 1px solid var(--ns-border);
+  color: var(--ns-text);
+  font-size: 12px;
+  line-height: 1.55;
+  vertical-align: top;
+}
+
+.management-audit tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.management-audit tbody tr:hover {
+  background: #F7FAF7;
+}
+
+.management-audit td:nth-child(1),
+.management-audit td:nth-child(6) {
+  color: var(--ns-muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.management-audit td:nth-child(3) {
+  max-width: 190px;
+  overflow-wrap: anywhere;
+}
+
+.management-audit td:nth-child(5) {
+  min-width: 220px;
+  max-width: 360px;
+  overflow-wrap: anywhere;
+}
+
+.management-audit .management-data__secondary {
+  margin-top: 4px;
+  color: var(--ns-muted);
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+
+.management-audit .management-data__badge {
+  display: inline-flex;
+  max-width: 190px;
+  padding: 5px 9px;
+  border: 1px solid #D5E9D8;
+  border-radius: 7px;
+  background: var(--ns-green-soft);
+  color: var(--ns-green-dark);
+  font-size: 10px;
+  font-weight: 800;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.management-audit .management-data__empty {
+  min-height: 230px;
+  color: var(--ns-muted);
+}
+
+.management-audit .management-data__empty strong {
+  color: var(--ns-text);
+  font-size: 14px;
+}
+
+.management-audit .management-data__error {
+  border-color: #EBCBC7;
+  border-radius: 10px;
+  background: #FFF2F0;
+  color: #A52820;
+}
+
+.management-audit button:focus-visible,
+.management-audit input:focus-visible {
+  outline: 3px solid rgba(23, 107, 58, .2);
+  outline-offset: 2px;
+}
+
+@media (max-width: 700px) {
+  .management-audit .management-page-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .management-audit .management-data__toolbar,
+  .management-audit .management-data__search {
+    width: 100%;
+  }
+
+  .management-audit .management-data__search {
+    min-width: 0;
+  }
+
+  .management-audit .management-data__card {
+    border-radius: 11px;
+  }
+}

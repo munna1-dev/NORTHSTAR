@@ -63,5 +63,18 @@
       "destination": "/index.html"
     }
   ],
-  "installCommand": "npm install --include=dev"
+  "installCommand": "npm install --include=dev",
+  "redirects": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "account.northstarbank.site"
+        }
+      ],
+      "destination": "/management",
+      "statusCode": 307
+    }
+  ]
 }

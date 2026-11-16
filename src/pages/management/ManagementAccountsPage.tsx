@@ -65,7 +65,7 @@ export function ManagementAccountsPage() {
   }
 
   return (
-    <div className="management-data">
+    <div className="management-data management-accounts">
       <header className="management-page-header">
         <div>
           <span className="management-page-header__eyebrow">ACCOUNT CONTROL</span>

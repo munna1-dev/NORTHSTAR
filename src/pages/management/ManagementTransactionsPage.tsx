@@ -34,7 +34,7 @@ export function ManagementTransactionsPage() {
   }, [search, load])
 
   return (
-    <div className="management-data">
+    <div className="management-data management-transactions">
       <header className="management-page-header">
         <div><span className="management-page-header__eyebrow">LEDGER OVERSIGHT</span><h1>Transactions</h1><p>Read-only transaction activity across customer accounts.</p></div>
         <button className="management-button management-button--secondary" onClick={() => void load()} disabled={loading}><RefreshCw size={16} /> Refresh</button>
