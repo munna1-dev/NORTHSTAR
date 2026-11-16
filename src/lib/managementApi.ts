@@ -19,6 +19,12 @@ export interface ManagementApplication {
   phone: string | null
   status: string
   review_notes: string | null
+  generated_staff_email: string | null
+  staff_id: string | null
+  invitation_status: 'not_sent' | 'pending' | 'sent' | 'failed' | 'completed'
+  invitation_sent_at: string | null
+  invitation_attempts: number
+  invitation_last_error: string | null
   reviewed_by: string | null
   created_at: string
   updated_at: string
@@ -362,6 +368,12 @@ export interface ManagementStaffApplication {
   status: 'pending' | 'approved' | 'rejected' | 'cancelled'
   application_notes: string | null
   review_notes: string | null
+  generated_staff_email: string | null
+  staff_id: string | null
+  invitation_status: 'not_sent' | 'pending' | 'sent' | 'failed' | 'completed'
+  invitation_sent_at: string | null
+  invitation_attempts: number
+  invitation_last_error: string | null
   reviewed_by: string | null
   reviewed_at: string | null
   created_at: string
@@ -465,6 +477,18 @@ export async function reviewManagementStaffApplication(
       applicationId,
       action,
       reviewNotes,
+    }),
+  })
+}
+
+export async function resendManagementStaffInvitation(
+  applicationId: string,
+): Promise<void> {
+  await request('/api/management/staff', {
+    method: 'PATCH',
+    body: JSON.stringify({
+      applicationId,
+      action: 'resend-invitation',
     }),
   })
 }
@@ -575,6 +599,12 @@ export interface ManagementCardRequest {
   status: 'pending' | 'approved' | 'rejected' | 'issued' | 'cancelled'
   customer_notes: string | null
   review_notes: string | null
+  generated_staff_email: string | null
+  staff_id: string | null
+  invitation_status: 'not_sent' | 'pending' | 'sent' | 'failed' | 'completed'
+  invitation_sent_at: string | null
+  invitation_attempts: number
+  invitation_last_error: string | null
   reviewed_by: string | null
   reviewed_at: string | null
   issued_card_id: string | null

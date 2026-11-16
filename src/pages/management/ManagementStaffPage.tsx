@@ -18,6 +18,7 @@ import {
   getManagementStaffMembers,
   getManagementStaffRoles,
   reviewManagementStaffApplication,
+  resendManagementStaffInvitation,
   updateManagementStaffStatus,
   type ManagementPermission,
   type ManagementStaffApplication,
@@ -388,6 +389,19 @@ export default function ManagementStaffPage() {
                         {application.first_name} {application.last_name}
                       </strong>
                       <small>{application.email}</small>
+                      {application.generated_staff_email && (
+                        <small>
+                          Staff email: <strong>{application.generated_staff_email}</strong>
+                        </small>
+                      )}
+                      {application.status === 'approved' && (
+                        <small>
+                          Invitation: {statusLabel(application.invitation_status)}
+                          {application.invitation_attempts > 0
+                            ? ` · ${application.invitation_attempts} attempt(s)`
+                            : ''}
+                        </small>
+                      )}
                     </td>
                     <td>{statusLabel(application.requested_role)}</td>
                     <td>{application.requested_department || '—'}</td>
@@ -417,6 +431,23 @@ export default function ManagementStaffPage() {
                           >
                             <XCircle size={15} />
                             Reject
+                          </button>
+                        </div>
+                      ) : application.status === 'approved' &&
+                        application.invitation_status !== 'completed' ? (
+                        <div className="management-actions">
+                          <button
+                            className="management-button"
+                            type="button"
+                            disabled={busyKey === `invite-${application.id}`}
+                            onClick={() =>
+                              void runAction(`invite-${application.id}`, async () => {
+                                await resendManagementStaffInvitation(application.id)
+                              })
+                            }
+                          >
+                            <RefreshCw size={15} />
+                            Resend invitation
                           </button>
                         </div>
                       ) : (

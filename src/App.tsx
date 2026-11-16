@@ -6,6 +6,8 @@ import { AboutPage } from "./pages/AboutPage"
 import { SupportPage } from "./pages/SupportPage"
 import { SignInPage } from "./pages/SignInPage"
 import { StaffSignInPage } from "./pages/StaffSignInPage"
+import { StaffRegisterPage } from "./pages/StaffRegisterPage"
+import { StaffSetupPage } from "./pages/StaffSetupPage"
 import { OpenAccountPage } from "./pages/OpenAccountPage"
 import { CustomerDashboardPage } from "./pages/CustomerDashboardPage"
 import { CustomerAccountsPage } from "./pages/CustomerAccountsPage"
@@ -47,6 +49,8 @@ function App() {
         <Route path="/support" element={<SupportPage />} />
         <Route path="/login" element={<SignInPage />} />
         <Route path="/signin" element={<Navigate to="/login" replace />} />
+        <Route path="/staff/register" element={<StaffRegisterPage />} />
+        <Route path="/staff/setup" element={<StaffSetupPage />} />
         <Route path="/staff" element={<StaffSignInPage />} />
         <Route path="/admin" element={<StaffSignInPage />} />
         <Route path="/open-account" element={<OpenAccountPage />} />

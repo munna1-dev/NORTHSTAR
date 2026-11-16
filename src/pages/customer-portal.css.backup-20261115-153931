@@ -1,0 +1,91 @@
+/* Shared customer-portal accessibility and interaction polish */
+
+.customer-dashboard,
+.customer-profile,
+.customer-accounts,
+.customer-beneficiaries,
+.customer-cards-page,
+.customer-notifications,
+.customer-payments,
+.customer-security-page,
+.settings-page,
+.statements-page,
+.customer-support,
+.customer-transactions,
+.customer-transfer {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.customer-dashboard button,
+.customer-dashboard a,
+.customer-profile button,
+.customer-profile a,
+.customer-accounts button,
+.customer-accounts a,
+.customer-beneficiaries button,
+.customer-beneficiaries a,
+.customer-cards-page button,
+.customer-cards-page a,
+.customer-notifications button,
+.customer-notifications a,
+.customer-payments button,
+.customer-payments a,
+.customer-security-page button,
+.customer-security-page a,
+.settings-page button,
+.settings-page a,
+.statements-page button,
+.statements-page a,
+.customer-support button,
+.customer-support a,
+.customer-transactions button,
+.customer-transactions a,
+.customer-transfer button,
+.customer-transfer a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.customer-dashboard button:focus-visible,
+.customer-dashboard a:focus-visible,
+.customer-profile button:focus-visible,
+.customer-profile a:focus-visible,
+.customer-accounts button:focus-visible,
+.customer-accounts a:focus-visible,
+.customer-beneficiaries button:focus-visible,
+.customer-beneficiaries a:focus-visible,
+.customer-cards-page button:focus-visible,
+.customer-cards-page a:focus-visible,
+.customer-notifications button:focus-visible,
+.customer-notifications a:focus-visible,
+.customer-payments button:focus-visible,
+.customer-payments a:focus-visible,
+.customer-security-page button:focus-visible,
+.customer-security-page a:focus-visible,
+.settings-page button:focus-visible,
+.settings-page a:focus-visible,
+.statements-page button:focus-visible,
+.statements-page a:focus-visible,
+.customer-support button:focus-visible,
+.customer-support a:focus-visible,
+.customer-transactions button:focus-visible,
+.customer-transactions a:focus-visible,
+.customer-transfer button:focus-visible,
+.customer-transfer a:focus-visible,
+.customer-dashboard input:focus-visible,
+.customer-dashboard select:focus-visible,
+.customer-dashboard textarea:focus-visible,
+.customer-profile input:focus-visible,
+.customer-profile select:focus-visible,
+.customer-profile textarea:focus-visible {
+  outline: 3px solid rgba(22, 74, 138, .22);
+  outline-offset: 2px;
+}
+
+@media (max-width: 760px) {
+  .customer-dashboard button,
+  .customer-dashboard a,
+  .customer-profile button,
+  .customer-profile a {
+    min-height: 44px;
+  }
+}

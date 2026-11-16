@@ -176,6 +176,7 @@ export function StaffSignInPage() {
         </form>
 
         <div className="signin-card__footer">
+          <Link to="/staff/register">Apply for staff access</Link>
           <Link to="/">Return to NorthStarBank</Link>
           <span>Bank management portal</span>
         </div>
