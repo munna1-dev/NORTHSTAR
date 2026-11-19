@@ -6,7 +6,7 @@ import {
   LoaderCircle,
   Send,
 } from "lucide-react"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import type { FormEvent } from "react"
 import { Link } from "react-router-dom"
 import { getCustomerAccounts, createCustomerTransfer } from "../lib/customerApi"
@@ -33,6 +33,8 @@ export function CustomerTransferPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
   const [result, setResult] = useState<TransferResult | null>(null)
+  const transferIdempotencyKey = useRef<string | null>(null)
+  const transferIdempotencyFingerprint = useRef<string | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -137,12 +139,65 @@ export function CustomerTransferPage() {
     setError("")
 
     try {
+      const requestFingerprint = JSON.stringify({
+        fromAccountId: source.id,
+        toAccountId: destination.id,
+        amount: amount.trim(),
+        description: description.trim(),
+      })
+      const storageKey = `northstar.pending.transfer.v1:${encodeURIComponent(requestFingerprint)}`
+      let idempotencyKey: string | null = null
+
+      if (
+        transferIdempotencyFingerprint.current === requestFingerprint
+      ) {
+        idempotencyKey = transferIdempotencyKey.current
+      }
+
+      if (!idempotencyKey) {
+        try {
+          const raw = localStorage.getItem(storageKey)
+          if (raw) {
+            const pending = JSON.parse(raw) as {
+              fingerprint?: string
+              key?: string
+            }
+            if (
+              pending.fingerprint === requestFingerprint &&
+              typeof pending.key === "string"
+            ) {
+              idempotencyKey = pending.key
+            }
+          }
+        } catch {
+          // Continue with the in-memory key or create a new key.
+        }
+      }
+
+      if (!idempotencyKey) {
+        idempotencyKey = crypto.randomUUID()
+        try {
+          localStorage.setItem(
+            storageKey,
+            JSON.stringify({
+              fingerprint: requestFingerprint,
+              key: idempotencyKey,
+            }),
+          )
+        } catch {
+          // In-memory retry protection remains available for this page.
+        }
+      }
+
+      transferIdempotencyKey.current = idempotencyKey
+      transferIdempotencyFingerprint.current = requestFingerprint
+
       const transfer = await createCustomerTransfer({
         fromAccountId: source.id,
         toAccountId: destination.id,
         amount: amount.trim(),
         description: description.trim(),
-        idempotencyKey: crypto.randomUUID(),
+        idempotencyKey,
       })
 
       setResult({
@@ -160,6 +215,13 @@ export function CustomerTransferPage() {
       setAccounts(activeAccounts)
       setReviewing(false)
       setCompleted(true)
+      transferIdempotencyKey.current = null
+      transferIdempotencyFingerprint.current = null
+      try {
+        localStorage.removeItem(storageKey)
+      } catch (storageError) {
+        console.warn('Unable to clear saved transfer draft.', storageError)
+      }
     } catch (err) {
       setError(
         err instanceof Error
@@ -172,6 +234,8 @@ export function CustomerTransferPage() {
   }
 
   function resetTransfer() {
+    transferIdempotencyKey.current = null
+    transferIdempotencyFingerprint.current = null
     const activeAccounts = accounts.filter(
       (account) => account.status === "active",
     )

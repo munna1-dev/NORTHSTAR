@@ -1,0 +1,94 @@
+.staff-register-page {
+  min-height: 100vh;
+}
+
+.staff-register-card {
+  width: min(100%, 620px);
+}
+
+.staff-register-form {
+  gap: 14px;
+}
+
+.staff-register-form label {
+  display: grid;
+  gap: 8px;
+}
+
+.staff-register-form input,
+.staff-register-form select,
+.staff-register-form textarea {
+  width: 100%;
+  min-height: 46px;
+  padding: 11px 13px;
+  border: 1px solid var(--fs-border);
+  border-radius: 10px;
+  outline: none;
+  background: var(--fs-white);
+  color: var(--fs-navy);
+  font: inherit;
+}
+
+.staff-register-form textarea {
+  min-height: 104px;
+  resize: vertical;
+}
+
+.staff-register-form input:focus,
+.staff-register-form select:focus,
+.staff-register-form textarea:focus {
+  border-color: var(--fs-teal);
+  box-shadow: 0 0 0 3px rgba(31, 122, 140, .10);
+}
+
+.staff-register-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.staff-register-result {
+  margin-top: 26px;
+  padding: 18px;
+  border: 1px solid var(--fs-border);
+  border-radius: 12px;
+  background: #f5f9fb;
+  color: var(--fs-navy);
+  line-height: 1.6;
+}
+
+.staff-register-result strong {
+  font-size: 17px;
+}
+
+.staff-register-result p {
+  margin: 8px 0 0;
+  font-size: 13px;
+}
+
+.staff-register-reference {
+  font-weight: 800;
+}
+
+.staff-register-honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+@media (max-width: 520px) {
+  .staff-register-card {
+    padding: 24px 18px;
+  }
+
+  .staff-register-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .staff-register-card .signin-card__footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

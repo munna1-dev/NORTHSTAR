@@ -1,7 +1,10 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
+import bcrypt from 'bcryptjs'
+import { randomBytes } from 'node:crypto'
+import { createStaffInvitationToken, sendStaffInvitationEmail } from '../../../email/staff-invitations.js'
 import { getDb } from '../../../db/client.js'
 import { requirePermission } from '../../../auth/management.js'
-import { writeAuditLog } from '../../../auth/audit.js'
+import { writeStaffAuditLog } from '../../../auth/audit.js'
 
 function json(response: VercelResponse, status: number, body: unknown) {
   return response.status(status).json(body)
@@ -11,8 +14,60 @@ function error(response: VercelResponse, status: number, message: string) {
   return json(response, status, { error: message })
 }
 
+
 function isSuperManager(role: string) {
   return role === 'super_manager'
+}
+
+async function deliverStaffInvitation(
+  db: ReturnType<typeof getDb>,
+  input: {
+    applicationId: string
+    recipientEmail: string
+    firstName: string
+    staffEmail: string
+    token: string
+  },
+) {
+  try {
+    await sendStaffInvitationEmail({
+      to: input.recipientEmail,
+      firstName: input.firstName,
+      staffEmail: input.staffEmail,
+      token: input.token,
+    })
+
+    await db.query(
+      `
+        UPDATE staff_applications
+        SET
+          invitation_status = 'sent',
+          invitation_sent_at = CURRENT_TIMESTAMP,
+          invitation_last_error = NULL,
+          updated_at = CURRENT_TIMESTAMP
+        WHERE id = $1
+      `,
+      [input.applicationId],
+    )
+
+    return true
+  } catch (cause) {
+    console.error('Staff invitation delivery failed:', cause)
+
+    await db.query(
+      `
+        UPDATE staff_applications
+        SET
+          invitation_status = 'failed',
+          invitation_last_error = 'Email delivery failed. A Super Manager can retry.',
+          updated_at = CURRENT_TIMESTAMP
+        WHERE id = $1
+      `,
+      [input.applicationId],
+    )
+
+    return false
+  }
 }
 
 export default async function handler(
@@ -58,7 +113,13 @@ export default async function handler(
             status,
             application_notes,
             review_notes,
-            reviewed_by,
+            generated_staff_email,
+            staff_id,
+            invitation_status,
+            invitation_sent_at,
+            invitation_attempts,
+            invitation_last_error,
+            reviewed_by_staff_id AS reviewed_by,
             reviewed_at,
             created_at,
             updated_at
@@ -351,7 +412,12 @@ export default async function handler(
         ? request.body.action.trim()
         : ''
 
-    if (action === 'approve-application' || action === 'reject-application') {
+
+    if (
+      action === 'approve-application' ||
+      action === 'reject-application' ||
+      action === 'resend-invitation'
+    ) {
       const applicationId =
         typeof request.body?.applicationId === 'string'
           ? request.body.applicationId.trim()
@@ -375,6 +441,21 @@ export default async function handler(
       }
 
       const client = await db.connect()
+      let delivery:
+        | {
+            token: string
+            recipientEmail: string
+            firstName: string
+            staffEmail: string
+          }
+        | null = null
+
+      let staffId = ''
+      let staffNumber = ''
+      let staffEmail = ''
+      let requestedRole = ''
+      let employeeNumber: string | null = null
+      let department: string | null = null
 
       try {
         await client.query('BEGIN')
@@ -391,7 +472,10 @@ export default async function handler(
               employee_number,
               requested_department,
               requested_role,
-              status
+              status,
+              staff_id,
+              generated_staff_email,
+              invitation_status
             FROM staff_applications
             WHERE id = $1
             FOR UPDATE
@@ -406,250 +490,416 @@ export default async function handler(
 
         const application = applicationResult.rows[0]
 
-        if (application.status !== 'pending') {
-          await client.query('ROLLBACK')
-          return error(
-            response,
-            409,
-            `This staff application is already ${application.status}.`,
-          )
-        }
+        if (action === 'resend-invitation') {
+          if (application.status !== 'approved' || !application.staff_id) {
+            await client.query('ROLLBACK')
+            return error(
+              response,
+              409,
+              'Only an approved application with an assigned staff account can receive an invitation.',
+            )
+          }
 
-        if (action === 'reject-application') {
+          const staffResult = await client.query(
+            `
+              SELECT id, first_name, email, status
+              FROM staff
+              WHERE id = $1
+              FOR UPDATE
+            `,
+            [application.staff_id],
+          )
+
+          if (
+            staffResult.rowCount !== 1 ||
+            staffResult.rows[0].status !== 'pending'
+          ) {
+            await client.query('ROLLBACK')
+            return error(
+              response,
+              409,
+              'This staff account is not awaiting password setup.',
+            )
+          }
+
+          const staff = staffResult.rows[0]
+          const recipientEmail = String(application.email || '').trim()
+          const tokenData = createStaffInvitationToken()
+
+          await client.query(
+            `
+              DELETE FROM staff_invitation_tokens
+              WHERE staff_id = $1
+                AND consumed_at IS NULL
+            `,
+            [staff.id],
+          )
+
+          await client.query(
+            `
+              INSERT INTO staff_invitation_tokens (
+                staff_id,
+                application_id,
+                token_hash,
+                expires_at
+              )
+              VALUES (
+                $1,
+                $2,
+                $3,
+                CURRENT_TIMESTAMP + INTERVAL '24 hours'
+              )
+            `,
+            [staff.id, applicationId, tokenData.tokenHash],
+          )
+
           await client.query(
             `
               UPDATE staff_applications
               SET
-                status = 'rejected',
-                review_notes = $1,
-                reviewed_by = $2,
-                reviewed_at = CURRENT_TIMESTAMP,
+                invitation_status = 'pending',
+                invitation_attempts = invitation_attempts + 1,
+                invitation_last_error = NULL,
                 updated_at = CURRENT_TIMESTAMP
-              WHERE id = $3
+              WHERE id = $1
             `,
-            [reviewNotes, user.id, applicationId],
+            [applicationId],
           )
+
+          delivery = {
+            token: tokenData.token,
+            recipientEmail,
+            firstName: staff.first_name,
+            staffEmail: staff.email,
+          }
+
+          staffId = staff.id
+          staffEmail = staff.email
+
+          await client.query('COMMIT')
+        } else {
+          if (application.status !== 'pending') {
+            await client.query('ROLLBACK')
+            return error(
+              response,
+              409,
+              `This staff application is already ${application.status}.`,
+            )
+          }
+
+          if (action === 'reject-application') {
+            await client.query(
+              `
+                UPDATE staff_applications
+                SET
+                  status = 'rejected',
+                  review_notes = $1,
+                  reviewed_by_staff_id = $2,
+                  reviewed_at = CURRENT_TIMESTAMP,
+                  updated_at = CURRENT_TIMESTAMP
+                WHERE id = $3
+              `,
+              [reviewNotes, user.id, applicationId],
+            )
+
+            await client.query('COMMIT')
+
+            try {
+              await writeStaffAuditLog(
+                            request,
+                            user.id,
+                            'staff_application.rejected',
+                            'staff_application',
+                            applicationId,
+                            'Staff application rejected by Super Manager.',
+                            { applicationId, reviewNotes },
+                          )
+            } catch {
+              console.error('Staff application audit logging failed.')
+            }
+
+            return json(response, 200, {
+              success: true,
+              action,
+              applicationId,
+              status: 'rejected',
+            })
+          }
+
+          const applicantEmail =
+            typeof application.email === 'string'
+              ? application.email.trim().toLowerCase()
+              : ''
+
+          if (
+            !applicantEmail ||
+            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(applicantEmail) ||
+            applicantEmail.endsWith('@northstarbank.site')
+          ) {
+            await client.query('ROLLBACK')
+            return error(
+              response,
+              400,
+              'The applicant must have a valid personal email address.',
+            )
+          }
+
+          requestedRole =
+            typeof application.requested_role === 'string'
+              ? application.requested_role.trim()
+              : ''
+
+          if (!requestedRole) {
+            await client.query('ROLLBACK')
+            return error(
+              response,
+              409,
+              'The staff application does not specify a requested role.',
+            )
+          }
+
+          if (requestedRole === 'super_manager') {
+            await client.query('ROLLBACK')
+            return error(
+              response,
+              400,
+              'A staff application cannot grant the Super Manager role.',
+            )
+          }
+
+          const roleResult = await client.query(
+            `
+              SELECT id, role_key, role_name, is_active
+              FROM management_roles
+              WHERE role_key = $1
+              LIMIT 1
+            `,
+            [requestedRole],
+          )
+
+          if (roleResult.rowCount !== 1 || !roleResult.rows[0].is_active) {
+            await client.query('ROLLBACK')
+            return error(
+              response,
+              400,
+              'The requested management role is unavailable.',
+            )
+          }
+
+          employeeNumber =
+            typeof application.employee_number === 'string'
+              ? application.employee_number.trim() || null
+              : null
+
+          if (employeeNumber) {
+            const employeeResult = await client.query(
+              `
+                SELECT id
+                FROM staff
+                WHERE employee_number = $1
+                LIMIT 1
+              `,
+              [employeeNumber],
+            )
+
+            if (employeeResult.rowCount !== 0) {
+              await client.query('ROLLBACK')
+              return error(response, 409, 'Employee number is already assigned.')
+            }
+          }
+
+          const numberResult = await client.query(
+            `SELECT 'STF-' || LPAD(nextval('staff_id_sequence')::text, 6, '0') AS staff_number`,
+          )
+
+          staffNumber = numberResult.rows[0].staff_number
+
+          const slug = (value: string) =>
+            value
+              .normalize('NFKD')
+              .replace(/[\u0300-\u036f]/g, '')
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, '.')
+              .replace(/^\.+|\.+$/g, '')
+
+          const namePart =
+            [slug(application.first_name), slug(application.last_name)]
+              .filter(Boolean)
+              .join('.') || 'staff'
+
+          staffEmail =
+            `${namePart}.${staffNumber.toLowerCase()}@northstarbank.site`
+
+          const unusablePasswordHash = await bcrypt.hash(
+            randomBytes(48).toString('hex'),
+            12,
+          )
+
+          const staffInsert = await client.query(
+            `
+              INSERT INTO staff (
+                staff_number,
+                first_name,
+                last_name,
+                email,
+                phone,
+                password_hash,
+                status,
+                employee_number,
+                department,
+                approved_by,
+                approved_at
+              )
+              VALUES ($1, $2, $3, $4, $5, $6, 'pending', $7, $8, $9, CURRENT_TIMESTAMP)
+              RETURNING id, staff_number
+            `,
+            [
+              staffNumber,
+              application.first_name,
+              application.last_name,
+              staffEmail,
+              application.phone ?? null,
+              unusablePasswordHash,
+              employeeNumber,
+              application.requested_department ?? null,
+              user.id,
+            ],
+          )
+
+          if (staffInsert.rowCount !== 1) {
+            await client.query('ROLLBACK')
+            return error(response, 409, 'Unable to create the staff account.')
+          }
+
+          staffId = staffInsert.rows[0].id
+
+          await client.query(
+            `
+              INSERT INTO staff_role_assignments_v2 (
+                staff_id,
+                role_id,
+                assigned_by
+              )
+              VALUES ($1, $2, $3)
+              ON CONFLICT (staff_id, role_id)
+              DO UPDATE SET
+                assigned_by = EXCLUDED.assigned_by,
+                assigned_at = CURRENT_TIMESTAMP
+            `,
+            [staffId, roleResult.rows[0].id, user.id],
+          )
+
+          const tokenData = createStaffInvitationToken()
+
+          await client.query(
+            `
+              INSERT INTO staff_invitation_tokens (
+                staff_id,
+                application_id,
+                token_hash,
+                expires_at
+              )
+              VALUES ($1, $2, $3, CURRENT_TIMESTAMP + INTERVAL '24 hours')
+            `,
+            [staffId, applicationId, tokenData.tokenHash],
+          )
+
+          await client.query(
+            `
+              UPDATE staff_applications
+              SET
+                status = 'approved',
+                review_notes = $1,
+                reviewed_by_staff_id = $2,
+                reviewed_at = CURRENT_TIMESTAMP,
+                staff_id = $3,
+                generated_staff_email = $4,
+                invitation_status = 'pending',
+                invitation_attempts = invitation_attempts + 1,
+                invitation_last_error = NULL,
+                updated_at = CURRENT_TIMESTAMP
+              WHERE id = $5
+            `,
+            [
+              reviewNotes || null,
+              user.id,
+              staffId,
+              staffEmail,
+              applicationId,
+            ],
+          )
+
+          delivery = {
+            token: tokenData.token,
+            recipientEmail: applicantEmail,
+            firstName: application.first_name,
+            staffEmail,
+          }
+
+          department = application.requested_department ?? null
 
           await client.query('COMMIT')
 
-          await writeAuditLog(
-            request,
-            user.id,
-            'staff_application.rejected',
-            'staff_application',
-            applicationId,
-            'Staff application rejected by Super Manager.',
-            {
-              applicationId,
-              reviewNotes,
-            },
-          )
-
-          return json(response, 200, {
-            success: true,
-            action,
-            applicationId,
-            status: 'rejected',
-          })
-        }
-
-        if (!application.customer_id) {
-          await client.query('ROLLBACK')
-          return error(
-            response,
-            409,
-            'This staff application is not linked to an existing customer account.',
-          )
-        }
-
-        const requestedRole =
-          typeof application.requested_role === 'string'
-            ? application.requested_role.trim()
-            : ''
-
-        if (!requestedRole) {
-          await client.query('ROLLBACK')
-          return error(
-            response,
-            409,
-            'The staff application does not specify a requested role.',
-          )
-        }
-
-        if (requestedRole === 'super_manager') {
-          await client.query('ROLLBACK')
-          return error(
-            response,
-            400,
-            'A staff application cannot grant the Super Manager role.',
-          )
-        }
-
-        const roleResult = await client.query(
-          `
-            SELECT id, role_key, role_name, is_active
-            FROM management_roles
-            WHERE role_key = $1
-            LIMIT 1
-          `,
-          [requestedRole],
-        )
-
-        if (roleResult.rowCount !== 1) {
-          await client.query('ROLLBACK')
-          return error(response, 404, 'Requested management role not found.')
-        }
-
-        if (!roleResult.rows[0].is_active) {
-          await client.query('ROLLBACK')
-          return error(response, 400, 'Requested management role is inactive.')
-        }
-
-        const employeeNumber =
-          typeof application.employee_number === 'string'
-            ? application.employee_number.trim() || null
-            : null
-
-        if (employeeNumber) {
-          const employeeResult = await client.query(
-            `
-              SELECT id
-              FROM staff
-              WHERE employee_number = $1
-              LIMIT 1
-            `,
-            [employeeNumber],
-          )
-
-          if (employeeResult.rowCount !== 0) {
-            await client.query('ROLLBACK')
-            return error(response, 409, 'Employee number is already assigned.')
+          try {
+            await writeStaffAuditLog(
+                        request,
+                        user.id,
+                        'staff_application.approved',
+                        'staff_application',
+                        applicationId,
+                        'Staff application approved. Invitation issued for password setup.',
+                        {
+                          applicationId,
+                          staffId,
+                          staffNumber,
+                          staffEmail,
+                          role: requestedRole,
+                          department,
+                          employeeNumber,
+                        },
+                      )
+          } catch {
+            console.error('Staff application audit logging failed.')
           }
         }
-
-        const staffInsert = await client.query(
-          `
-            INSERT INTO staff (
-              staff_number,
-              first_name,
-              last_name,
-              email,
-              phone,
-              password_hash,
-              status,
-              employee_number,
-              department,
-              approved_by,
-              approved_at
-            )
-            SELECT
-              'STF-' || LPAD(nextval('staff_id_sequence')::text, 6, '0'),
-              first_name,
-              last_name,
-              email,
-              phone,
-              password_hash,
-              'active',
-              $1,
-              $2,
-              $3,
-              CURRENT_TIMESTAMP
-            FROM customers
-            WHERE id = $4
-            RETURNING id, staff_number
-          `,
-          [
-            employeeNumber,
-            application.requested_department ?? null,
-            user.id,
-            application.customer_id,
-          ],
-        )
-
-        if (staffInsert.rowCount !== 1) {
-          await client.query('ROLLBACK')
-          return error(response, 409, 'Unable to create the staff account.')
-        }
-
-        const staffId = staffInsert.rows[0].id as string
-        const staffNumber = staffInsert.rows[0].staff_number as string
-
-        await client.query(
-          `
-            INSERT INTO staff_role_assignments_v2 (
-              staff_id,
-              role_id,
-              assigned_by
-            )
-            VALUES ($1, $2, $3)
-            ON CONFLICT (staff_id, role_id)
-            DO UPDATE SET
-              assigned_by = EXCLUDED.assigned_by,
-              assigned_at = CURRENT_TIMESTAMP
-          `,
-          [
-            staffId,
-            roleResult.rows[0].id,
-            user.id,
-          ],
-        )
-
-        await client.query(
-          `
-            UPDATE staff_applications
-            SET
-              status = 'approved',
-              review_notes = $1,
-              reviewed_by = $2,
-              reviewed_at = CURRENT_TIMESTAMP,
-              updated_at = CURRENT_TIMESTAMP
-            WHERE id = $3
-          `,
-          [
-            reviewNotes || null,
-            user.id,
-            applicationId,
-          ],
-        )
-
-        await client.query('COMMIT')
-
-        await writeAuditLog(
-          request,
-          user.id,
-          'staff_application.approved',
-          'staff_application',
-          applicationId,
-          'Staff application approved by Super Manager.',
-          {
-            applicationId,
-            customerId: application.customer_id,
-            staffId,
-            role: requestedRole,
-            department: application.requested_department ?? null,
-            employeeNumber,
-          },
-        )
-
-        return json(response, 200, {
-          success: true,
-          action,
-          applicationId,
-          status: 'approved',
-          customerId: application.customer_id,
-          staffId,
-          staffNumber,
-          role: roleResult.rows[0],
-          employeeNumber,
-          department: application.requested_department ?? null,
-        })
       } catch (cause) {
         await client.query('ROLLBACK')
         throw cause
       } finally {
         client.release()
       }
+
+      if (!delivery) {
+        return error(response, 500, 'Unable to prepare the staff invitation.')
+      }
+
+      const sent = await deliverStaffInvitation(db, {
+        applicationId,
+        ...delivery,
+      })
+
+      return json(response, 200, {
+        success: true,
+        action,
+        applicationId,
+        status: 'approved',
+        staffId,
+        staffNumber: staffNumber || undefined,
+        staffEmail,
+        invitationStatus: sent ? 'sent' : 'failed',
+        message: sent
+          ? 'Staff account approved. The password setup invitation was emailed.'
+          : 'Staff account approved, but the invitation email failed. Use Resend invitation to retry.',
+        ...(action === 'approve-application'
+          ? {
+              role: requestedRole,
+              employeeNumber,
+              department,
+            }
+          : {}),
+      })
     }
+
     const staffId =
       typeof request.body?.staffId === 'string'
         ? request.body.staffId.trim()

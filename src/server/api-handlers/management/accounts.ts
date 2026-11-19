@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { getDb } from '../../db/client.js'
-import { writeAuditLog } from '../../auth/audit.js'
+import { writeStaffAuditLog } from '../../auth/audit.js'
 import { requirePermission } from '../../auth/management.js'
 
 const ACCOUNT_STATUSES = ['active', 'pending', 'frozen', 'closed'] as const
@@ -167,6 +167,7 @@ export default async function handler(
           INNER JOIN customers c
             ON c.id = a.customer_id
           WHERE a.id = $1
+          FOR UPDATE OF a
         `,
         [accountId],
       )
@@ -231,7 +232,7 @@ export default async function handler(
       await client.query('COMMIT')
 
       try {
-        await writeAuditLog(
+        await writeStaffAuditLog(
           request,
           managementUser.id,
           'account.status_changed',

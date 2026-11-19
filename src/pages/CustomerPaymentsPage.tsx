@@ -8,7 +8,7 @@ import {
   Plus,
   ShieldCheck,
 } from "lucide-react"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import type { FormEvent } from "react"
 import { Link } from "react-router-dom"
 import {
@@ -56,6 +56,8 @@ export function CustomerPaymentsPage() {
   } | null>(null)
 
   const [error, setError] = useState("")
+  const paymentIdempotencyKey = useRef<string | null>(null)
+  const paymentIdempotencyFingerprint = useRef<string | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -177,6 +179,62 @@ export function CustomerPaymentsPage() {
     setError("")
 
     try {
+      const requestFingerprint = JSON.stringify({
+        accountId: source.id,
+        payeeName: beneficiary.name,
+        payeeReference: beneficiary.accountNumber,
+        amount: amount.trim(),
+        currency: source.currency,
+        scheduledFor: paymentDate,
+        description: memo.trim(),
+      })
+      const storageKey = `northstar.pending.payment.v1:${encodeURIComponent(requestFingerprint)}`
+      let idempotencyKey: string | null = null
+
+      if (
+        paymentIdempotencyFingerprint.current === requestFingerprint
+      ) {
+        idempotencyKey = paymentIdempotencyKey.current
+      }
+
+      if (!idempotencyKey) {
+        try {
+          const raw = localStorage.getItem(storageKey)
+          if (raw) {
+            const pending = JSON.parse(raw) as {
+              fingerprint?: string
+              key?: string
+            }
+            if (
+              pending.fingerprint === requestFingerprint &&
+              typeof pending.key === "string"
+            ) {
+              idempotencyKey = pending.key
+            }
+          }
+        } catch {
+          // Continue with the in-memory key or create a new key.
+        }
+      }
+
+      if (!idempotencyKey) {
+        idempotencyKey = crypto.randomUUID()
+        try {
+          localStorage.setItem(
+            storageKey,
+            JSON.stringify({
+              fingerprint: requestFingerprint,
+              key: idempotencyKey,
+            }),
+          )
+        } catch {
+          // In-memory retry protection remains available for this page.
+        }
+      }
+
+      paymentIdempotencyKey.current = idempotencyKey
+      paymentIdempotencyFingerprint.current = requestFingerprint
+
       const payment = await createCustomerPayment({
         accountId: source.id,
         payeeName: beneficiary.name,
@@ -185,7 +243,7 @@ export function CustomerPaymentsPage() {
         currency: source.currency,
         scheduledFor: paymentDate,
         description: memo.trim(),
-        idempotencyKey: crypto.randomUUID(),
+        idempotencyKey,
       })
 
       setSubmittedPayment({
@@ -197,6 +255,13 @@ export function CustomerPaymentsPage() {
       })
 
       setReviewing(false)
+      paymentIdempotencyKey.current = null
+      paymentIdempotencyFingerprint.current = null
+      try {
+        localStorage.removeItem(storageKey)
+      } catch (storageError) {
+        console.warn('Unable to clear saved payment draft.', storageError)
+      }
     } catch (err) {
       setError(
         err instanceof Error
@@ -209,6 +274,8 @@ export function CustomerPaymentsPage() {
   }
 
   function resetPayment() {
+    paymentIdempotencyKey.current = null
+    paymentIdempotencyFingerprint.current = null
     setAmount("")
     setMemo("")
     setPaymentDate(today())

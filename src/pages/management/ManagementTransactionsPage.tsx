@@ -34,7 +34,7 @@ export function ManagementTransactionsPage() {
   }, [search, load])
 
   return (
-    <div className="management-data">
+    <div className="management-data management-transactions">
       <header className="management-page-header">
         <div><span className="management-page-header__eyebrow">LEDGER OVERSIGHT</span><h1>Transactions</h1><p>Read-only transaction activity across customer accounts.</p></div>
         <button className="management-button management-button--secondary" onClick={() => void load()} disabled={loading}><RefreshCw size={16} /> Refresh</button>
@@ -58,7 +58,7 @@ export function ManagementTransactionsPage() {
               <tbody>
                 {items.map((item) => (
                   <tr key={item.id}>
-                    <td><div className="management-data__primary">{item.transaction_reference}</div><div className="management-data__secondary">{item.description || 'Ledger transaction'}</div></td>
+                    <td><div className="management-data__primary">{item.reference}</div><div className="management-data__secondary">{item.description || 'Ledger transaction'}</div></td>
                     <td>{item.first_name} {item.last_name}<div className="management-data__secondary">{item.customer_number}</div></td>
                     <td>{item.account_number}</td>
                     <td>{item.transaction_type}</td>

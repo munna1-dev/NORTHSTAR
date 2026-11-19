@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { randomInt } from 'node:crypto'
 import { requirePermission, type ManagementPermission } from '../../auth/management.js'
-import { writeAuditLog } from '../../auth/audit.js'
+import { writeStaffAuditLog } from '../../auth/audit.js'
 import { getDb } from '../../db/client.js'
 
 const VALID_STATUSES = new Set([
@@ -230,6 +230,42 @@ export default async function handler(
             })
           }
 
+          const lockedCustomer = await client.query(
+            `
+              SELECT id, status, role
+              FROM customers
+              WHERE id = $1
+              FOR UPDATE
+            `,
+            [customerId],
+          )
+
+          if (lockedCustomer.rowCount !== 1) {
+            await client.query('ROLLBACK')
+            return res.status(409).json({
+              ok: false,
+              error: 'The customer record could not be found.',
+            })
+          }
+
+          const customer = lockedCustomer.rows[0]
+
+          if (customer.role !== 'customer') {
+            await client.query('ROLLBACK')
+            return res.status(409).json({
+              ok: false,
+              error: 'Only customer accounts can be approved through this workflow.',
+            })
+          }
+
+          if (!['pending', 'active'].includes(customer.status)) {
+            await client.query('ROLLBACK')
+            return res.status(409).json({
+              ok: false,
+              error: 'This customer is not eligible for activation.',
+            })
+          }
+
           const existingAccount = await client.query(
             `
               SELECT account_number
@@ -273,6 +309,22 @@ export default async function handler(
               application.account_type,
             ],
           )
+
+          if (customer.status === 'pending') {
+            const activated = await client.query(
+              `
+                UPDATE customers
+                SET status = 'active',
+                    updated_at = CURRENT_TIMESTAMP
+                WHERE id = $1 AND status = 'pending'
+              `,
+              [customerId],
+            )
+
+            if (activated.rowCount !== 1) {
+              throw new Error('Customer activation failed during approval.')
+            }
+          }
 
           await client.query(
             `
@@ -327,7 +379,7 @@ export default async function handler(
         client.release()
       }
 
-      await writeAuditLog(
+      await writeStaffAuditLog(
         req,
         user.id,
         `application.${status}`,

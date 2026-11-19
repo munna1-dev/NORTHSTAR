@@ -32,3 +32,25 @@
 .brand-mark[aria-disabled='true'] {
   opacity: 0.6;
 }
+
+
+/* Official NorthStarBank logo */
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  max-width: 100%;
+}
+.brand-mark__image {
+  display: block;
+  width: 210px;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+.brand-mark--compact .brand-mark__image {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}

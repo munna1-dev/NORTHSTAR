@@ -20,7 +20,7 @@
 }
 
 .customer-notifications-back:hover {
-  color: #173b76;
+  color: #176b3a;
 }
 
 .customer-notifications-kicker {
@@ -40,7 +40,7 @@
 
 .customer-notifications-header h1 {
   margin: 7px 0 9px;
-  color: #172033;
+  color: #263238;
   font-size: clamp(2rem, 4vw, 3rem);
   letter-spacing: -0.035em;
 }
@@ -65,11 +65,11 @@
 }
 
 .customer-notifications-count svg {
-  color: #173b76;
+  color: #176b3a;
 }
 
 .customer-notifications-count strong {
-  color: #173b76;
+  color: #176b3a;
   font-size: 1rem;
 }
 
@@ -124,18 +124,18 @@
 }
 
 .customer-notifications-filter--active {
-  border-color: #173b76;
-  background: #173b76;
+  border-color: #176b3a;
+  background: #176b3a;
   color: #ffffff;
 }
 
 .customer-notifications-filter--active:hover {
-  background: #102f60;
-  border-color: #102f60;
+  background: #12552e;
+  border-color: #12552e;
 }
 
 .customer-notifications-mark-all {
-  color: #173b76;
+  color: #176b3a;
   white-space: nowrap;
 }
 
@@ -167,7 +167,7 @@
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  color: #173b76;
+  color: #176b3a;
   background: #edf3fb;
 }
 
@@ -190,7 +190,7 @@
 
 .customer-notification h2 {
   margin: 0;
-  color: #25344a;
+  color: #263238;
   font-size: 0.94rem;
 }
 
@@ -201,7 +201,7 @@
   padding: 0 8px;
   border-radius: 999px;
   background: #e8f0fa;
-  color: #173b76;
+  color: #176b3a;
   font-size: 0.66rem;
   font-weight: 800;
 }
@@ -247,7 +247,7 @@
   margin-bottom: 13px;
   border-radius: 50%;
   background: #edf3fb;
-  color: #173b76;
+  color: #176b3a;
 }
 
 .customer-notifications-empty h2 {
@@ -263,7 +263,7 @@
 }
 
 .customer-notifications-empty button {
-  color: #173b76;
+  color: #176b3a;
 }
 
 .customer-notifications-security {
@@ -284,7 +284,7 @@
   width: 42px;
   height: 42px;
   border-radius: 12px;
-  color: #173b76;
+  color: #176b3a;
   background: #e5eef8;
 }
 

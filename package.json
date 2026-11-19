@@ -6,16 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "lint": "eslint . --ignore-pattern '.northstar-backup/**' --ignore-pattern 'dist/**' --ignore-pattern 'node_modules/**'",
     "preview": "vite preview",
     "db:migrate": "node scripts/migrate-postgres.mjs"
   },
   "dependencies": {
     "@libsql/client": "^0.18.0",
     "@vercel/blob": "^2.6.1",
-    "@vercel/node": "^17.0.0",
     "bcryptjs": "^3.0.3",
     "lucide-react": "^1.49.0",
+    "otpauth": "^9.5.2",
     "pg": "^8.23.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
@@ -29,6 +29,7 @@
     "@types/pg": "^8.23.1",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
+    "@vercel/node": "^17.0.0",
     "@vitejs/plugin-react": "^6.1.1",
     "eslint": "^10.10.0",
     "eslint-plugin-react-hooks": "^7.1.1",
@@ -40,5 +41,15 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "overrides": {
+    "@vercel/node": {
+      "undici": "5.29.0",
+      "path-to-regexp": "6.3.0",
+      "@vercel/static-config": {
+        "ajv": "8.20.0"
+      }
+    },
+    "zod": "$zod"
   }
 }

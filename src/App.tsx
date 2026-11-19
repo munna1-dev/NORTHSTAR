@@ -6,6 +6,8 @@ import { AboutPage } from "./pages/AboutPage"
 import { SupportPage } from "./pages/SupportPage"
 import { SignInPage } from "./pages/SignInPage"
 import { StaffSignInPage } from "./pages/StaffSignInPage"
+import { StaffRegisterPage } from "./pages/StaffRegisterPage"
+import { StaffSetupPage } from "./pages/StaffSetupPage"
 import { OpenAccountPage } from "./pages/OpenAccountPage"
 import { CustomerDashboardPage } from "./pages/CustomerDashboardPage"
 import { CustomerAccountsPage } from "./pages/CustomerAccountsPage"
@@ -24,6 +26,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute"
 import { ManagementRoute } from "./components/ManagementRoute"
 import { ManagementDashboardPage } from "./pages/management/ManagementDashboardPage"
 import { ManagementApplicationsPage } from "./pages/management/ManagementApplicationsPage"
+import { ManagementCardRequestsPage } from "./pages/management/ManagementCardRequestsPage"
 import { ManagementCustomersPage } from "./pages/management/ManagementCustomersPage"
 import { ManagementAccountsPage } from "./pages/management/ManagementAccountsPage"
 import { ManagementTransactionsPage } from "./pages/management/ManagementTransactionsPage"
@@ -46,7 +49,10 @@ function App() {
         <Route path="/support" element={<SupportPage />} />
         <Route path="/login" element={<SignInPage />} />
         <Route path="/signin" element={<Navigate to="/login" replace />} />
+        <Route path="/staff/register" element={<StaffRegisterPage />} />
+        <Route path="/staff/setup" element={<StaffSetupPage />} />
         <Route path="/staff" element={<StaffSignInPage />} />
+        <Route path="/admin" element={<StaffSignInPage />} />
         <Route path="/open-account" element={<OpenAccountPage />} />
         <Route path="/customer" element={<ProtectedRoute><CustomerDashboardPage /></ProtectedRoute>} />
         <Route path="/customer/accounts" element={<ProtectedRoute><CustomerAccountsPage /></ProtectedRoute>} />
@@ -105,6 +111,14 @@ function App() {
           element={
             <ManagementRoute permission="accounts.view">
               <ManagementAccountsPage />
+            </ManagementRoute>
+          }
+        />
+        <Route
+          path="/management/card-requests"
+          element={
+            <ManagementRoute permission="cards.view">
+              <ManagementCardRequestsPage />
             </ManagementRoute>
           }
         />

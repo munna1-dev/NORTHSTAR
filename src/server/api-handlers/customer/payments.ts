@@ -312,7 +312,8 @@ export default async function handler(
             description,
             status,
             reference,
-            scheduled_for
+            scheduled_for,
+            idempotency_key
           )
           VALUES (
             $1,
@@ -324,7 +325,8 @@ export default async function handler(
             NULLIF($7, ''),
             'pending',
             $8,
-            $9
+            $9,
+            $10
           )
           RETURNING
             id,
@@ -349,6 +351,7 @@ export default async function handler(
           description,
           paymentReference,
           scheduledFor,
+          idempotencyKey,
         ],
       )
 

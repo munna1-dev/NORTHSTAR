@@ -44,7 +44,7 @@ export function ManagementOperationsPage() {
   }
 
   return (
-    <div className="management-data">
+    <div className="management-data management-operations">
       <header className="management-page-header">
         <div><span className="management-page-header__eyebrow">OPERATIONS CONTROL</span><h1>Transfers &amp; Payments</h1><p>Review pending internal transfer and payment instructions.</p></div>
         <button className="management-button management-button--secondary" onClick={() => void load()} disabled={loading}><RefreshCw size={16} /> Refresh</button>

@@ -18,7 +18,7 @@
 }
 
 .statements-page__back:hover {
-  color: #173b76;
+  color: #176b3a;
 }
 
 .statements-page__header {
@@ -40,7 +40,7 @@
 
 .statements-page__header h1 {
   margin: 0;
-  color: #172033;
+  color: #263238;
   font-size: clamp(1.8rem, 4vw, 2.55rem);
   letter-spacing: -0.035em;
 }
@@ -61,7 +61,7 @@
   border: 1px solid #d9e1ec;
   border-radius: 16px;
   background: #fff;
-  color: #173b76;
+  color: #176b3a;
   box-shadow: 0 8px 24px rgb(23 59 118 / 7%);
 }
 
@@ -80,7 +80,7 @@
 .statements-page__notice svg {
   flex: 0 0 auto;
   margin-top: 1px;
-  color: #173b76;
+  color: #176b3a;
 }
 
 .statements-page__notice strong,
@@ -90,7 +90,7 @@
 
 .statements-page__notice strong {
   margin-bottom: 3px;
-  color: #172033;
+  color: #263238;
   font-size: 0.9rem;
 }
 
@@ -135,14 +135,14 @@
   border: 1px solid #ccd6e3;
   border-radius: 11px;
   background: #fff;
-  color: #172033;
+  color: #263238;
   font: inherit;
   font-size: 0.9rem;
   outline: none;
 }
 
 .statements-page__select-wrap select:focus {
-  border-color: #173b76;
+  border-color: #176b3a;
   box-shadow: 0 0 0 3px rgb(23 59 118 / 10%);
 }
 
@@ -166,7 +166,7 @@
 }
 
 .statements-page__result-count svg {
-  color: #173b76;
+  color: #176b3a;
 }
 
 .statements-list {
@@ -192,7 +192,7 @@
   place-items: center;
   border-radius: 13px;
   background: #edf3fa;
-  color: #173b76;
+  color: #176b3a;
 }
 
 .statement-card__main {
@@ -209,7 +209,7 @@
 
 .statement-card h2 {
   margin: 0;
-  color: #172033;
+  color: #263238;
   font-size: 1rem;
 }
 
@@ -272,7 +272,7 @@
 .statements-empty button {
   border: 0;
   background: transparent;
-  color: #173b76;
+  color: #176b3a;
   cursor: pointer;
   font: inherit;
   font-size: 0.8rem;
@@ -303,7 +303,7 @@
 
 .statement-detail__header h2 {
   margin: 0;
-  color: #172033;
+  color: #263238;
   font-size: 1.45rem;
 }
 
@@ -349,7 +349,7 @@
 .statement-detail__summary strong {
   display: block;
   margin-top: 6px;
-  color: #172033;
+  color: #263238;
   font-size: 1rem;
 }
 
@@ -386,9 +386,9 @@
   gap: 8px;
   min-height: 43px;
   padding: 0 15px;
-  border: 1px solid #173b76;
+  border: 1px solid #176b3a;
   border-radius: 10px;
-  background: #173b76;
+  background: #176b3a;
   color: #fff;
   cursor: pointer;
   font: inherit;
@@ -422,7 +422,7 @@
 
 .statements-empty h2 {
   margin: 0;
-  color: #26354c;
+  color: #263238;
   font-size: 1.05rem;
 }
 
@@ -588,7 +588,7 @@
 }
 
 .statement-detail__transactions-header strong {
-  color: #26354c;
+  color: #263238;
   font-size: 0.86rem;
 }
 

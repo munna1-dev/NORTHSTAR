@@ -8,7 +8,7 @@ export function PublicHome() {
     <AppShell>
       <section className="home-hero">
         <div className="home-hero__content">
-          <span className="home-hero__eyebrow">MODERN BANKING • BUILT FOR YOU</span>
+          <span className="home-hero__eyebrow">NORTHSTARBANK • DIGITAL BANKING</span>
           <h1>Banking that puts clarity, security, and control first.</h1>
           <p>
             Manage everyday banking, save with confidence, and stay in control
@@ -31,7 +31,7 @@ export function PublicHome() {
         <div className="home-hero__panel">
           <div className="home-card">
             <div className="home-card__top">
-              <span>Available Balance</span>
+              <span>Illustrative Balance · Demo Only</span>
               <LockKeyhole size={18} />
             </div>
             <strong>$24,680.90</strong>

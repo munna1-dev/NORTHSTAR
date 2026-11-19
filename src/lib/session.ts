@@ -40,7 +40,7 @@ export async function getCurrentCustomer(): Promise<UserProfile | null> {
 }
 
 export async function signInCustomer(
-  email: string,
+  identifier: string,
   password: string,
 ): Promise<{
   ok: boolean
@@ -56,7 +56,7 @@ export async function signInCustomer(
         Accept: 'application/json',
       },
       body: JSON.stringify({
-        email,
+        identifier,
         password,
       }),
     })
@@ -124,6 +124,8 @@ interface StaffAuthResponse {
   ok: boolean
   staff?: StaffProfile
   error?: string
+  mfaRequired?: boolean
+  challengeToken?: string
 }
 
 export async function getCurrentStaff(): Promise<StaffProfile | null> {
@@ -205,5 +207,30 @@ export async function signOutStaff(): Promise<void> {
     })
   } catch {
     // The server session may already be unavailable.
+  }
+}
+
+
+export async function verifyStaffMfa(
+  challengeToken: string,
+  code: string,
+): Promise<{ ok: boolean; error?: string }> {
+  try {
+    const response = await fetch('/api/staff/auth/verify-mfa', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({ challengeToken, code }),
+    })
+
+    const result = await response.json() as { ok: boolean; error?: string }
+    return response.ok && result.ok
+      ? { ok: true }
+      : { ok: false, error: result.error ?? 'Authenticator verification failed.' }
+  } catch {
+    return { ok: false, error: 'Unable to connect to the banking service.' }
   }
 }

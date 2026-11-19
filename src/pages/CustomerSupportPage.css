@@ -20,7 +20,7 @@
 }
 
 .customer-support-back:hover {
-  color: #173b76;
+  color: #176b3a;
 }
 
 .customer-support-kicker,
@@ -34,7 +34,7 @@
 
 .customer-support-header h1 {
   margin: 7px 0 9px;
-  color: #172033;
+  color: #263238;
   font-size: clamp(2rem, 4vw, 3rem);
   letter-spacing: -0.035em;
 }
@@ -76,7 +76,7 @@
   width: 44px;
   height: 44px;
   border-radius: 13px;
-  color: #173b76;
+  color: #176b3a;
   background: #edf3fb;
 }
 
@@ -90,7 +90,7 @@
 
 .customer-support-contact-card strong {
   display: block;
-  color: #172033;
+  color: #263238;
   font-size: 0.94rem;
 }
 
@@ -120,7 +120,7 @@
 
 .customer-support-card__heading h2 {
   margin: 4px 0 0;
-  color: #172033;
+  color: #263238;
   font-size: 1.22rem;
   letter-spacing: -0.02em;
 }
@@ -139,7 +139,7 @@
 .customer-support-faqs summary {
   cursor: pointer;
   padding: 15px 16px;
-  color: #25344a;
+  color: #263238;
   font-size: 0.9rem;
   font-weight: 750;
   list-style: none;
@@ -188,7 +188,7 @@
   border: 1px solid #d9e0e8;
   border-radius: 11px;
   background: #fbfcfe;
-  color: #172033;
+  color: #263238;
   font: inherit;
   font-size: 0.9rem;
   outline: none;
@@ -233,7 +233,7 @@
   min-height: 44px;
   border: 0;
   border-radius: 11px;
-  background: #173b76;
+  background: #176b3a;
   color: #ffffff;
   cursor: pointer;
   font: inherit;
@@ -245,7 +245,7 @@
 
 .customer-support-form button:hover,
 .customer-support-success button:hover {
-  background: #102f60;
+  background: #12552e;
 }
 
 .customer-support-success {
@@ -270,7 +270,7 @@
 
 .customer-support-success h2 {
   margin: 7px 0 9px;
-  color: #172033;
+  color: #263238;
   font-size: 1.45rem;
 }
 
@@ -298,7 +298,7 @@
 }
 
 .customer-support-reference strong {
-  color: #173b76;
+  color: #176b3a;
   letter-spacing: 0.03em;
 }
 
@@ -309,7 +309,7 @@
 .customer-support-success .customer-support-secondary {
   margin-top: 20px;
   background: #edf3fb;
-  color: #173b76;
+  color: #176b3a;
 }
 
 .customer-support-success .customer-support-secondary:hover {

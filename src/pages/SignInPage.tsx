@@ -7,14 +7,14 @@ import { signInCustomer } from "../lib/session"
 import "./SignInPage.css"
 
 const signInSchema = z.object({
-  email: z.string().trim().email("Enter a valid email address."),
+  identifier: z.string().trim().min(1, "Enter your username or email address.").max(320),
   password: z.string().min(1, "Enter your password."),
 })
 
 export function SignInPage() {
   const navigate = useNavigate()
   const location = useLocation()
-  const [email, setEmail] = useState("")
+  const [identifier, setIdentifier] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
   const [submitting, setSubmitting] = useState(false)
@@ -32,7 +32,7 @@ export function SignInPage() {
     setError("")
 
     const result = signInSchema.safeParse({
-      email,
+      identifier,
       password,
     })
 
@@ -48,7 +48,7 @@ export function SignInPage() {
 
     try {
       const response = await signInCustomer(
-        result.data.email,
+        result.data.identifier,
         result.data.password,
       )
 
@@ -67,10 +67,11 @@ export function SignInPage() {
     <main className="signin-page">
       <section className="signin-card" aria-labelledby="signin-title">
         <div className="signin-card__brand">
-          <span className="signin-card__icon" aria-hidden="true">
-            NS
-          </span>
-          <span>NORTHSTAR</span>
+          <img
+            className="signin-card__brand-logo"
+            src="/northstarbank-logo.svg"
+            alt="NorthStarBank"
+          />
         </div>
 
         <div className="signin-card__intro">
@@ -113,15 +114,15 @@ export function SignInPage() {
           onSubmit={handleSubmit}
           noValidate
         >
-          <label htmlFor="email">Email address</label>
+          <label htmlFor="identifier">Username or email address</label>
           <input
-            id="email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            placeholder="you@example.com"
+            id="identifier"
+            name="identifier"
+            type="text"
+            autoComplete="username"
+            value={identifier}
+            onChange={(event) => setIdentifier(event.target.value)}
+            placeholder="Your username or email address"
             disabled={submitting}
           />
 

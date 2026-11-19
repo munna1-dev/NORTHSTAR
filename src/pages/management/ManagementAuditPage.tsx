@@ -44,7 +44,7 @@ export function ManagementAuditPage() {
   }, [items, search])
 
   return (
-    <div className="management-data">
+    <div className="management-data management-audit">
       <header className="management-page-header">
         <div><span className="management-page-header__eyebrow">CONTROL &amp; GOVERNANCE</span><h1>Audit Log</h1><p>Review recorded management activity and security events.</p></div>
         <button className="management-button management-button--secondary" onClick={() => void load()} disabled={loading}><RefreshCw size={16} /> Refresh</button>

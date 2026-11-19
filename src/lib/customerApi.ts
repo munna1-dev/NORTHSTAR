@@ -63,6 +63,28 @@ interface CardsResponse {
   error?: string
 }
 
+
+export interface CustomerCardRequest {
+  id: string
+  account_id: string | null
+  card_category: "savings" | "checking" | "credit" | "business"
+  card_format: "physical" | "virtual"
+  status: "pending" | "approved" | "rejected" | "issued" | "cancelled"
+  customer_notes?: string | null
+  review_notes?: string | null
+  reviewed_at?: string | null
+  issued_at?: string | null
+  created_at: string
+  updated_at?: string
+}
+
+interface CardRequestsResponse {
+  ok: boolean
+  requests?: CustomerCardRequest[]
+  request?: CustomerCardRequest
+  error?: string
+}
+
 interface NotificationsResponse {
   ok: boolean
   notifications?: CustomerNotification[]
@@ -226,6 +248,39 @@ export async function updateCustomerCardStatus(
   }
 
   return result.card
+}
+
+
+export async function getCustomerCardRequests(): Promise<CustomerCardRequest[]> {
+  const result = await request<CardRequestsResponse>(
+    "/api/customer/cards/requests",
+  )
+
+  if (!result.ok || !result.requests) {
+    throw new Error(result.error ?? "Unable to load your card requests.")
+  }
+
+  return result.requests
+}
+
+export async function createCustomerCardRequest(input: {
+  cardCategory: CustomerCardRequest["card_category"]
+  cardFormat: CustomerCardRequest["card_format"]
+  customerNotes?: string
+}): Promise<CustomerCardRequest> {
+  const result = await request<CardRequestsResponse>(
+    "/api/customer/cards/requests",
+    {
+      method: "POST",
+      body: input,
+    },
+  )
+
+  if (!result.ok || !result.request) {
+    throw new Error(result.error ?? "Unable to submit your card request.")
+  }
+
+  return result.request
 }
 
 export async function getCustomerBeneficiaries(): Promise<Beneficiary[]> {

@@ -20,7 +20,7 @@
 }
 
 .customer-security-back:hover {
-  color: #173b76;
+  color: #176b3a;
 }
 
 .customer-security-kicker {
@@ -34,7 +34,7 @@
 
 .customer-security-header h1 {
   margin: 0;
-  color: #102a43;
+  color: #176b3a;
   font-size: clamp(1.8rem, 4vw, 2.5rem);
   letter-spacing: -0.035em;
 }
@@ -84,12 +84,12 @@
   justify-content: space-between;
   gap: 15px;
   margin-bottom: 18px;
-  color: #173b76;
+  color: #176b3a;
 }
 
 .customer-security-card__header h2 {
   margin: 3px 0 0;
-  color: #102a43;
+  color: #176b3a;
   font-size: 1.1rem;
 }
 
@@ -125,7 +125,7 @@
   justify-content: center;
   border-radius: 11px;
   background: #eaf1f7;
-  color: #173b76;
+  color: #176b3a;
 }
 
 .customer-security-session__details {
@@ -137,7 +137,7 @@
 }
 
 .customer-security-session__details strong {
-  color: #102a43;
+  color: #176b3a;
   font-size: 0.92rem;
 }
 
@@ -208,7 +208,7 @@
   padding: 13px;
   border-radius: 10px;
   background: #f5f8fb;
-  color: #173b76;
+  color: #176b3a;
 }
 
 .customer-security-status > div {
@@ -218,7 +218,7 @@
 }
 
 .customer-security-status strong {
-  color: #102a43;
+  color: #176b3a;
   font-size: 0.83rem;
 }
 
@@ -232,7 +232,7 @@
   padding: 10px 14px;
   border: 1px solid #cbd7e3;
   background: #fff;
-  color: #173b76;
+  color: #176b3a;
   font-size: 0.79rem;
 }
 
@@ -253,7 +253,7 @@
 }
 
 .customer-security-password strong {
-  color: #102a43;
+  color: #176b3a;
   font-size: 0.78rem;
 }
 
@@ -352,14 +352,14 @@
   border-radius: 9px;
   outline: none;
   background: #fff;
-  color: #102a43;
+  color: #176b3a;
   font: inherit;
   font-size: 0.82rem;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .customer-security-password-input input:focus {
-  border-color: #173b76;
+  border-color: #176b3a;
   box-shadow: 0 0 0 3px rgba(23, 59, 118, 0.09);
 }
 
@@ -386,7 +386,7 @@
 
 .customer-security-password-input button:hover {
   background: #eef3f7;
-  color: #173b76;
+  color: #176b3a;
 }
 
 .customer-security-password-requirements {
@@ -435,9 +435,9 @@
   gap: 7px;
   min-width: 145px;
   padding: 10px 14px;
-  border: 1px solid #173b76;
+  border: 1px solid #176b3a;
   border-radius: 9px;
-  background: #173b76;
+  background: #176b3a;
   color: #fff;
   cursor: pointer;
   font: inherit;
@@ -446,7 +446,7 @@
 }
 
 .customer-security-primary-button:hover {
-  background: #102a43;
+  background: #176b3a;
 }
 
 .customer-security-primary-button:disabled,

@@ -4,7 +4,7 @@ import { getDb } from '../db/client.js'
 
 const STAFF_SESSION_COOKIE = 'northstar_staff_session'
 const STAFF_SESSION_DAYS = 7
-const STAFF_SESSION_INACTIVITY_MINUTES = 15
+const STAFF_SESSION_INACTIVITY_MINUTES = 10
 
 function hashToken(token: string): string {
   return createHash('sha256').update(token).digest('hex')

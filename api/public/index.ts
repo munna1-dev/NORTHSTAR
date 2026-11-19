@@ -1,6 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
 import accountApplications from '../../src/server/api-handlers/public/account-applications.js'
+import staffApplications from '../../src/server/api-handlers/public/staff-applications.js'
+import staffInvitations from '../../src/server/api-handlers/public/staff-invitations.js'
 
 export default async function handler(
   req: VercelRequest,
@@ -18,6 +20,14 @@ export default async function handler(
 
   if (resource === 'account-applications' && parts.length === 1) {
     return accountApplications(req, res)
+  }
+
+  if (resource === 'staff-applications' && parts.length === 1) {
+    return staffApplications(req, res)
+  }
+
+  if (resource === 'staff-invitations' && parts.length === 1) {
+    return staffInvitations(req, res)
   }
 
   return res.status(404).json({

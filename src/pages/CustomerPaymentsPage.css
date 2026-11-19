@@ -21,7 +21,7 @@
   align-items: center;
   gap: 7px;
   margin-bottom: 28px;
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font-size: 13px;
   font-weight: 750;
   text-decoration: none;
@@ -37,7 +37,7 @@
 
 .customer-payments-header h1 {
   margin: 7px 0 8px;
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font-size: clamp(30px, 5vw, 42px);
   letter-spacing: -.035em;
 }
@@ -72,7 +72,7 @@
   justify-content: center;
   border-radius: 11px;
   background: #edf3f8;
-  color: var(--fs-navy);
+  color: var(--customer-text);
 }
 
 .customer-payments-card__title div:last-child {
@@ -82,7 +82,7 @@
 }
 
 .customer-payments-card__title strong {
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font-size: 16px;
 }
 
@@ -99,7 +99,7 @@
 .customer-payments-form label {
   display: grid;
   gap: 7px;
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font-size: 12px;
   font-weight: 750;
 }
@@ -113,7 +113,7 @@
   border-radius: 10px;
   outline: 0;
   background: var(--fs-white);
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font: inherit;
   font-size: 13px;
 }
@@ -173,7 +173,7 @@
   margin-top: 4px;
   border: 0;
   border-radius: 10px;
-  background: var(--fs-navy);
+  background: var(--customer-text);
   color: white;
   cursor: pointer;
   font: inherit;
@@ -209,7 +209,7 @@
 
 .customer-payment-summary strong {
   max-width: 60%;
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font-size: 13px;
   text-align: right;
   word-break: break-word;
@@ -241,12 +241,12 @@
 .customer-payment-review__actions button:first-child {
   border: 1px solid var(--fs-border);
   background: var(--fs-white);
-  color: var(--fs-navy);
+  color: var(--customer-text);
 }
 
 .customer-payment-review__actions button:last-child {
   border: 0;
-  background: var(--fs-navy);
+  background: var(--customer-text);
   color: white;
 }
 
@@ -259,7 +259,7 @@
 }
 
 .customer-payments-note strong {
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font-size: 13px;
 }
 
@@ -295,7 +295,7 @@
 
 .customer-payment-result h1 {
   margin: 7px 0 8px;
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font-size: 30px;
 }
 
@@ -323,7 +323,7 @@
 }
 
 .customer-payment-reference strong {
-  color: var(--fs-navy);
+  color: var(--customer-text);
   font-size: 13px;
 }
 
@@ -335,14 +335,14 @@
 }
 
 .customer-payment-result__actions a {
-  background: var(--fs-navy);
+  background: var(--customer-text);
   color: white;
 }
 
 .customer-payment-result__actions button {
   border: 1px solid var(--fs-border);
   background: var(--fs-white);
-  color: var(--fs-navy);
+  color: var(--customer-text);
 }
 
 @media (max-width: 620px) {

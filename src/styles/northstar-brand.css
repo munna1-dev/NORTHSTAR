@@ -1,0 +1,19 @@
+/* NorthStarBank shared brand tokens.
+   Component styling is centralised in src/index.css. */
+:root {
+  --ns-lemon: #B9E769;
+  --ns-green: #176B3A;
+  --ns-green-dark: #12552E;
+  --ns-green-soft: #EAF5E9;
+  --ns-white: #FFFFFF;
+  --ns-page: #F5F8F5;
+  --ns-text: #17251C;
+  --ns-muted: #637267;
+  --ns-border: #DCE7DC;
+  --primary: var(--ns-green);
+  --primary-color: var(--ns-green);
+  --brand-primary: var(--ns-green);
+  --color-primary: var(--ns-green);
+  --accent: var(--ns-lemon);
+  --font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+}

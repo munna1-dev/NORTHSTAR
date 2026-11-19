@@ -1,13 +1,40 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
+import { requirePermission } from '../auth/management.js'
 import { getDb } from '../db/client.js'
 
 export default async function handler(
-  _req: VercelRequest,
+  req: VercelRequest,
   res: VercelResponse,
 ) {
+  if (req.method !== 'GET') {
+    res.setHeader('Allow', 'GET')
+    return res.status(405).json({
+      ok: false,
+      error: 'Method not allowed',
+    })
+  }
+
+  let user
+
   try {
-    const db = getDb()
-    await db.query('SELECT 1')
+    user = await requirePermission(req, 'dashboard.view')
+  } catch (error) {
+    console.error('Database health authorization check failed:', error)
+    return res.status(503).json({
+      ok: false,
+      error: 'Health check temporarily unavailable.',
+    })
+  }
+
+  if (!user) {
+    return res.status(403).json({
+      ok: false,
+      error: 'You do not have permission to view database health.',
+    })
+  }
+
+  try {
+    await getDb().query('SELECT 1')
 
     return res.status(200).json({
       ok: true,
@@ -16,25 +43,13 @@ export default async function handler(
       timestamp: new Date().toISOString(),
     })
   } catch (error) {
-    const err = error as {
-      name?: string
-      message?: string
-      code?: string
-      detail?: string
-      hint?: string
-    }
+    console.error('Database health query failed:', error)
 
     return res.status(503).json({
       ok: false,
       service: 'northstarbank-api',
       database: 'unavailable',
-      error: {
-        name: err.name ?? null,
-        message: err.message ?? null,
-        code: err.code ?? null,
-        detail: err.detail ?? null,
-        hint: err.hint ?? null,
-      },
+      error: 'Database health check failed.',
       timestamp: new Date().toISOString(),
     })
   }

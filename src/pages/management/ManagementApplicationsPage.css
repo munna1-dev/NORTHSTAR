@@ -567,3 +567,226 @@
     width: 100%;
   }
 }
+
+/* NorthStarBank — Applications page brand alignment */
+
+.management-applications {
+  color: var(--ns-text);
+}
+
+.management-applications .management-page-header__eyebrow {
+  color: var(--ns-green);
+}
+
+.management-applications .management-page-header h1,
+.management-applications .management-table-header strong,
+.management-applications .management-empty-state strong,
+.management-applications .management-drawer__header h2,
+.management-applications .management-review-card h3,
+.management-applications .management-field > span {
+  color: var(--ns-green-dark);
+}
+
+.management-applications .management-button {
+  border-radius: 9px;
+  transition: background .16s ease, border-color .16s ease,
+    color .16s ease, transform .16s ease;
+}
+
+.management-applications .management-button--secondary {
+  background: var(--ns-white);
+  color: var(--ns-green-dark);
+  border-color: var(--ns-border);
+}
+
+.management-applications .management-button--secondary:hover:not(:disabled) {
+  background: var(--ns-green-soft);
+  border-color: var(--ns-green);
+}
+
+.management-applications .management-button--success {
+  background: var(--ns-green);
+  color: var(--ns-white);
+  border: 1px solid var(--ns-green);
+}
+
+.management-applications .management-button--success:hover:not(:disabled) {
+  background: var(--ns-green-dark);
+  border-color: var(--ns-green-dark);
+}
+
+.management-applications .management-button--danger {
+  background: #b42318;
+  color: #fff;
+  border: 1px solid #b42318;
+}
+
+.management-applications .management-filter {
+  border-radius: 8px;
+  transition: background .16s ease, border-color .16s ease,
+    color .16s ease;
+}
+
+.management-applications .management-filter:hover {
+  color: var(--ns-green-dark);
+  border-color: var(--ns-green);
+}
+
+.management-applications .management-filter--active {
+  background: var(--ns-green);
+  color: var(--ns-white);
+  border-color: var(--ns-green);
+}
+
+.management-applications .management-search {
+  border-radius: 9px;
+}
+
+.management-applications .management-search:focus-within {
+  border-color: var(--ns-green);
+  box-shadow: 0 0 0 3px rgba(23, 107, 58, .10);
+}
+
+.management-applications__card {
+  border-color: var(--ns-border);
+  border-radius: 14px;
+  box-shadow: 0 5px 20px rgba(18, 85, 46, .045);
+}
+
+.management-applications .management-table-header {
+  border-bottom-color: var(--ns-border);
+}
+
+.management-applications .management-table th {
+  background: var(--ns-page);
+}
+
+.management-applications .management-table tbody tr:hover {
+  background: #f5faf4;
+}
+
+.management-applications .management-table__avatar {
+  background: var(--ns-green-soft);
+  color: var(--ns-green-dark);
+}
+
+.management-applications .management-table__person strong {
+  color: var(--ns-green-dark);
+}
+
+.management-applications .management-status {
+  border: 1px solid transparent;
+}
+
+.management-applications .management-status--approved {
+  background: #e9f8f1;
+  color: #126b55;
+  border-color: #c6e8dc;
+}
+
+.management-applications .management-status--pending {
+  background: #fff5d9;
+  color: #805b00;
+  border-color: #eedb9c;
+}
+
+.management-applications .management-status--under_review {
+  background: #edf4ff;
+  color: #245b9c;
+  border-color: #cbdcf5;
+}
+
+.management-applications .management-icon-button {
+  border-color: var(--ns-border);
+  border-radius: 8px;
+  color: var(--ns-green-dark);
+}
+
+.management-applications .management-icon-button:hover:not(:disabled) {
+  background: var(--ns-green-soft);
+  border-color: var(--ns-green);
+}
+
+.management-applications .management-empty-state > svg {
+  color: var(--ns-green);
+}
+
+.management-applications .management-drawer-backdrop {
+  background: rgba(15, 35, 23, .48);
+  backdrop-filter: blur(2px);
+}
+
+.management-applications .management-application-drawer {
+  background: var(--ns-white);
+}
+
+.management-applications .management-drawer__header {
+  border-bottom-color: var(--ns-border);
+}
+
+.management-applications .management-review-card {
+  background: var(--ns-page);
+  border-color: var(--ns-border);
+  border-radius: 12px;
+}
+
+.management-applications .management-review-card__avatar {
+  background: var(--ns-green);
+  color: var(--ns-white);
+}
+
+.management-applications .management-review-grid strong {
+  color: var(--ns-text);
+}
+
+.management-applications .management-field textarea {
+  border-color: var(--ns-border);
+  border-radius: 9px;
+}
+
+.management-applications .management-field textarea:focus {
+  border-color: var(--ns-green);
+  box-shadow: 0 0 0 3px rgba(23, 107, 58, .10);
+}
+
+.management-applications .management-field textarea:disabled {
+  background: var(--ns-page);
+}
+
+.management-applications .management-drawer__actions {
+  border-top: 1px solid var(--ns-border);
+  padding-top: 14px;
+}
+
+.management-applications .management-saving {
+  color: var(--ns-green-dark);
+}
+
+.management-applications button:focus-visible,
+.management-applications input:focus-visible,
+.management-applications textarea:focus-visible {
+  outline: 3px solid rgba(23, 107, 58, .25);
+  outline-offset: 2px;
+}
+
+@media (max-width: 700px) {
+  .management-applications {
+    gap: 18px;
+  }
+
+  .management-applications__card {
+    border-radius: 11px;
+  }
+
+  .management-applications .management-table-header {
+    padding: 0 14px;
+  }
+
+  .management-applications .management-drawer__header {
+    padding: 14px 16px;
+  }
+
+  .management-applications .management-drawer__actions {
+    padding-bottom: 8px;
+  }
+}

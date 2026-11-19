@@ -40,7 +40,7 @@ export function ManagementSupportPage() {
   }
 
   return (
-    <div className="management-data">
+    <div className="management-data management-support">
       <header className="management-page-header">
         <div><span className="management-page-header__eyebrow">CUSTOMER CARE</span><h1>Support</h1><p>Prioritize and manage customer support requests.</p></div>
         <button className="management-button management-button--secondary" onClick={() => void load()} disabled={loading}><RefreshCw size={16} /> Refresh</button>

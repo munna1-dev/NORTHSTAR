@@ -438,8 +438,9 @@ export function ManagementApplicationsPage() {
                 <div className="management-alert management-alert--warning">
                   <UserRound size={18} />
                   <span>
-                    No customer record is linked. Approval requires a customer
-                    record to exist for this applicant.
+                    No customer is linked yet. Approval can match an existing
+                    customer by email. If no matching customer exists, complete
+                    the approved customer onboarding process before approval.
                   </span>
                 </div>
               )}
@@ -486,7 +487,7 @@ export function ManagementApplicationsPage() {
                     <button
                       type="button"
                       className="management-button management-button--success"
-                      disabled={saving || !selected.customer_id}
+                      disabled={saving}
                       onClick={() => void changeStatus('approved')}
                     >
                       <CheckCircle2 size={16} />
