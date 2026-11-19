@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { z } from "zod"
 import { signInStaff, verifyStaffMfa } from "../lib/session"
 import "./SignInPage.css"
+import "./StaffAuth.css"
 
 const signInSchema = z.object({
   email: z.string().trim().email("Enter a valid email address."),
@@ -75,7 +76,7 @@ export function StaffSignInPage() {
   }
 
   return (
-    <main className="signin-page">
+    <main className="signin-page staff-auth-page staff-signin-page">
       <section className="signin-card" aria-labelledby="staff-signin-title">
         <div className="signin-card__brand">
           <span className="signin-card__icon" aria-hidden="true">NS</span>

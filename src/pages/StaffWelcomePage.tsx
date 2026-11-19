@@ -2,11 +2,56 @@ import { Link } from "react-router-dom"
 import {
   ArrowRight,
   ShieldCheck,
-  Globe2,
-  Landmark,
   LockKeyhole,
+  Landmark,
+  Users,
+  WalletCards,
+  ClipboardCheck,
+  Activity,
+  Headset,
+  ScrollText,
+  CheckCircle2,
 } from "lucide-react"
 import "./StaffWelcomePage.css"
+
+const managementAreas = [
+  {
+    icon: ClipboardCheck,
+    title: "Application Review",
+    description:
+      "Review customer applications and support controlled approval workflows.",
+  },
+  {
+    icon: Users,
+    title: "Customer Management",
+    description:
+      "Access authorised customer records and manage customer service operations.",
+  },
+  {
+    icon: WalletCards,
+    title: "Accounts & Cards",
+    description:
+      "Oversee account operations, card requests and related service activities.",
+  },
+  {
+    icon: Activity,
+    title: "Financial Operations",
+    description:
+      "Review transfers, payments, deposits and other financial requests.",
+  },
+  {
+    icon: Headset,
+    title: "Customer Support",
+    description:
+      "Coordinate service requests and follow up on outstanding customer issues.",
+  },
+  {
+    icon: ScrollText,
+    title: "Audit & Governance",
+    description:
+      "Maintain operational oversight through audit records and accountability controls.",
+  },
+]
 
 export function StaffWelcomePage() {
   return (
@@ -14,101 +59,152 @@ export function StaffWelcomePage() {
       <header className="staff-welcome-header">
         <Link to="/" className="staff-welcome-brand">
           <img src="/northstarbank-logo.svg" alt="NorthStarBank" />
-          <span>NORTHSTARBANK</span>
+          <span>
+            NORTHSTARBANK
+            <small>STAFF & MANAGEMENT</small>
+          </span>
         </Link>
-        <span className="staff-welcome-secure">
-          <ShieldCheck size={16} />
-          Secure Staff Portal
-        </span>
+
+        <div className="staff-welcome-header-right">
+          <span className="staff-welcome-secure">
+            <ShieldCheck size={16} />
+            Secure staff environment
+          </span>
+          <Link to="/staff" className="staff-welcome-header-login">
+            Staff sign in <ArrowRight size={15} />
+          </Link>
+        </div>
       </header>
 
       <section className="staff-welcome-hero">
         <div className="staff-welcome-copy">
           <span className="staff-welcome-eyebrow">
-            NORTHSTARBANK · STAFF SERVICES
+            NORTHSTARBANK · OFFICIAL STAFF PORTAL
           </span>
-          <h1>Welcome to your professional banking workspace.</h1>
+
+          <h1>
+            Welcome to
+            <span> NorthStarBank Management.</span>
+          </h1>
+
           <p>
-            A secure gateway for NorthStarBank employees, management
-            professionals and authorised banking personnel.
+            A dedicated workspace for authorised banking personnel.
+            Access your management responsibilities, coordinate banking
+            operations and support customers through a secure,
+            accountable environment.
           </p>
 
           <div className="staff-welcome-actions">
             <Link to="/staff" className="staff-welcome-primary">
               <LockKeyhole size={18} />
-              Existing staff — Sign in
+              Sign in to your account
               <ArrowRight size={18} />
             </Link>
 
             <Link to="/staff/register" className="staff-welcome-secondary">
-              New staff — Apply for access
+              Apply for staff access
               <ArrowRight size={17} />
             </Link>
           </div>
 
           <div className="staff-welcome-assurance">
-            <ShieldCheck size={18} />
-            Staff access is subject to identity verification and management approval.
+            <ShieldCheck size={19} />
+            <span>
+              Access is restricted to authorised personnel. New staff
+              applications are subject to identity verification and
+              management approval.
+            </span>
           </div>
         </div>
 
-        <div className="staff-welcome-visual">
-          <div className="staff-welcome-visual-icon">
-            <Landmark size={54} strokeWidth={1.3} />
+        <aside className="staff-welcome-visual">
+          <div className="staff-welcome-visual-top">
+            <span className="staff-welcome-visual-mark">
+              <Landmark size={31} strokeWidth={1.5} />
+            </span>
+            <span className="staff-welcome-visual-status">
+              <span />
+              CONTROLLED ACCESS
+            </span>
           </div>
-          <span>ONE BANKING STANDARD</span>
-          <h2>Clarity. Security. Accountability.</h2>
-          <p>
-            Supporting responsible banking operations through
-            controlled staff access.
-          </p>
-          <div className="staff-welcome-visual-line" />
-          <span className="staff-welcome-visual-footer">
-            NORTHSTARBANK · STAFF ACCESS
+
+          <span className="staff-welcome-visual-label">
+            THE NORTHSTARBANK STANDARD
           </span>
-        </div>
+
+          <h2>Professional banking operations. Built on trust.</h2>
+
+          <p>
+            One coordinated environment for responsible decisions,
+            secure processes and reliable customer service.
+          </p>
+
+          <div className="staff-welcome-visual-divider" />
+
+          <div className="staff-welcome-visual-points">
+            <span><CheckCircle2 size={16} /> Secure staff authentication</span>
+            <span><CheckCircle2 size={16} /> Role-based access controls</span>
+            <span><CheckCircle2 size={16} /> Operational accountability</span>
+          </div>
+
+          <div className="staff-welcome-visual-footer">
+            NORTHSTARBANK <span>·</span> STAFF & MANAGEMENT PORTAL
+          </div>
+        </aside>
       </section>
 
       <section className="staff-welcome-platforms">
         <div className="staff-welcome-section-heading">
-          <span>OUR DIGITAL PLATFORMS</span>
-          <h2>Connected banking services</h2>
+          <span>MANAGEMENT ENVIRONMENT</span>
+          <h2>One workspace. Essential banking operations.</h2>
           <p>
-            Explore the NorthStarBank digital environment.
+            The management environment brings key operational responsibilities
+            together, with access governed by staff roles and permissions.
           </p>
         </div>
 
         <div className="staff-welcome-platform-grid">
-          <article className="staff-welcome-platform">
-            <Globe2 size={25} />
-            <h3>Public Banking Website</h3>
-            <p>
-              Explore banking services, personal banking,
-              business solutions and customer support.
-            </p>
-            <a href="https://northstarbank.site">
-              Visit public website <ArrowRight size={16} />
-            </a>
-          </article>
+          {managementAreas.map((area) => {
+            const Icon = area.icon
 
-          <article className="staff-welcome-platform">
-            <ShieldCheck size={25} />
-            <h3>Management Portal</h3>
-            <p>
-              An authorised workspace for customer applications,
-              accounts, transactions, operations, staff and audit controls.
-            </p>
-            <Link to="/management">
-              Management access <ArrowRight size={16} />
-            </Link>
-          </article>
+            return (
+              <article className="staff-welcome-platform" key={area.title}>
+                <span className="staff-welcome-platform-icon">
+                  <Icon size={23} strokeWidth={1.8} />
+                </span>
+                <h3>{area.title}</h3>
+                <p>{area.description}</p>
+              </article>
+            )
+          })}
         </div>
+      </section>
+
+      <section className="staff-welcome-access">
+        <div className="staff-welcome-access-icon">
+          <ShieldCheck size={25} />
+        </div>
+        <div>
+          <span>ACCESS & SECURITY</span>
+          <h2>Your role determines your access.</h2>
+          <p>
+            Management functions are available only after authentication
+            and are governed by assigned staff permissions. Sensitive
+            activities remain subject to the bank's approval and control
+            processes.
+          </p>
+        </div>
+        <Link to="/staff" className="staff-welcome-access-link">
+          Continue to sign in <ArrowRight size={17} />
+        </Link>
       </section>
 
       <footer className="staff-welcome-footer">
         <span>© {new Date().getFullYear()} NorthStarBank</span>
-        <span>Secure access · Authorised personnel only</span>
-        <a href="https://northstarbank.site">Official website</a>
+        <span>Official staff and management environment</span>
+        <span className="staff-welcome-footer-secure">
+          <ShieldCheck size={14} /> Authorised personnel only
+        </span>
       </footer>
     </main>
   )

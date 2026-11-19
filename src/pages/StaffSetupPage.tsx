@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
+import './StaffAuth.css'
 
 type Invitation = {
   firstName: string
@@ -94,14 +95,15 @@ export function StaffSetupPage() {
   }
 
   return (
-    <main className="signin-page staff-register-page">
+    <main className="signin-page staff-register-page staff-auth-page">
       <section className="signin-card staff-register-card">
         <div className="signin-card__brand">
           <span className="signin-card__icon">NS</span>
           <span>NORTHSTARBANK</span>
         </div>
 
-        <header>
+        <header className="signin-card__intro">
+          <span className="signin-card__eyebrow">SECURE STAFF ONBOARDING</span>
           <h1>Create your staff password</h1>
           <p>Complete your secure NorthStarBank staff registration.</p>
         </header>

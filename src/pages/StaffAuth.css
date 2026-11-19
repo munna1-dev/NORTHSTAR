@@ -1,0 +1,240 @@
+/* NorthStarBank — staff and management authentication */
+
+.staff-auth-page {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  padding: 48px 20px 64px;
+  background:
+    radial-gradient(ellipse at 12% 8%, rgba(185, 231, 105, .20), transparent 34%),
+    radial-gradient(ellipse at 90% 90%, rgba(18, 85, 46, .10), transparent 38%),
+    #f4f7f3;
+}
+
+.staff-auth-page::before {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 7px;
+  background: linear-gradient(90deg, #12552e 0%, #176b3a 58%, #b9e769 100%);
+  content: "";
+}
+
+.staff-auth-page .signin-card {
+  width: min(100%, 510px);
+  padding: 38px;
+  border: 1px solid #dce7dc;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 22px 65px rgba(20, 55, 34, .10);
+}
+
+.staff-auth-page .staff-register-card {
+  width: min(100%, 690px);
+}
+
+.staff-auth-page .signin-card__brand {
+  color: #12552e;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: .12em;
+}
+
+.staff-auth-page .signin-card__icon {
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(185, 231, 105, .5);
+  border-radius: 12px;
+  background: #12552e;
+  color: #d5f49b;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.staff-auth-page .signin-card__intro {
+  margin-top: 30px;
+}
+
+.staff-auth-page .signin-card__eyebrow {
+  color: #397a43;
+  font-size: 10px;
+  letter-spacing: .16em;
+}
+
+.staff-auth-page .signin-card__intro h1,
+.staff-auth-page header h1 {
+  color: #163d27;
+  font-size: clamp(25px, 5vw, 34px);
+  font-weight: 850;
+  line-height: 1.13;
+  letter-spacing: -.035em;
+}
+
+.staff-auth-page .signin-card__intro p,
+.staff-auth-page header p {
+  color: #647568;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.staff-auth-page .signin-demo-notice {
+  border-color: #dce9d9;
+  background: #f3f8f1;
+  color: #19472b;
+}
+
+.staff-auth-page .signin-demo-notice svg {
+  color: #26713c;
+}
+
+.staff-auth-page .signin-demo-notice span {
+  color: #607364;
+}
+
+.staff-auth-page .signin-form {
+  gap: 11px;
+}
+
+.staff-auth-page .signin-form label {
+  color: #244832;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.staff-auth-page .signin-form input,
+.staff-auth-page .signin-form select,
+.staff-auth-page .signin-form textarea {
+  min-height: 48px;
+  border: 1px solid #d8e2d8;
+  border-radius: 10px;
+  background: #fff;
+  color: #173d27;
+  font: inherit;
+  font-size: 14px;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.staff-auth-page .signin-form input,
+.staff-auth-page .signin-form select {
+  padding: 0 13px;
+}
+
+.staff-auth-page .signin-form textarea {
+  padding: 12px 13px;
+}
+
+.staff-auth-page .signin-form input::placeholder,
+.staff-auth-page .signin-form textarea::placeholder {
+  color: #9aa89b;
+}
+
+.staff-auth-page .signin-form input:focus,
+.staff-auth-page .signin-form select:focus,
+.staff-auth-page .signin-form textarea:focus {
+  border-color: #39834c;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(57, 131, 76, .12);
+}
+
+.staff-auth-page .signin-form button {
+  min-height: 50px;
+  border: 1px solid #12552e;
+  border-radius: 10px;
+  background: linear-gradient(105deg, #12552e, #1c7040);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 850;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.staff-auth-page .signin-form button:hover:not(:disabled) {
+  opacity: 1;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(18, 85, 46, .18);
+}
+
+.staff-auth-page .signin-form button:disabled {
+  cursor: not-allowed;
+  opacity: .65;
+}
+
+.staff-auth-page .signin-form .signin-secondary-button {
+  border: 1px solid #d5e2d5;
+  background: #f5f8f4;
+  color: #245437;
+  box-shadow: none;
+}
+
+.staff-auth-page .signin-error {
+  padding: 11px 13px;
+  border: 1px solid #f0c8c4;
+  border-radius: 9px;
+  background: #fff6f5;
+  color: #a52a22;
+  font-size: 12px;
+}
+
+.staff-auth-page .signin-card__footer {
+  flex-wrap: wrap;
+  border-color: #e5ece4;
+  color: #778579;
+  font-size: 11px;
+}
+
+.staff-auth-page .signin-card__footer a {
+  color: #176238;
+}
+
+.staff-auth-page .staff-register-grid {
+  gap: 15px;
+}
+
+.staff-auth-page .staff-register-form {
+  gap: 14px;
+}
+
+.staff-auth-page .staff-register-result {
+  border-color: #dce9d9;
+  background: #f3f8f1;
+  color: #19472b;
+}
+
+.staff-auth-page .staff-register-reference {
+  display: inline-block;
+  padding: 7px 10px;
+  border-radius: 7px;
+  background: #e5f0df;
+  color: #12552e;
+  overflow-wrap: anywhere;
+}
+
+.staff-auth-page .staff-register-result a {
+  display: inline-block;
+  margin-top: 14px;
+  color: #176238;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+@media (max-width: 560px) {
+  .staff-auth-page {
+    padding: 28px 14px 42px;
+  }
+
+  .staff-auth-page .signin-card,
+  .staff-auth-page .staff-register-card {
+    padding: 25px 19px;
+    border-radius: 15px;
+  }
+
+  .staff-auth-page .signin-card__footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .staff-auth-page .staff-register-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import './StaffRegisterPage.css'
+import './StaffAuth.css'
 
 type StaffRole = {
   role_key: string
@@ -87,7 +88,7 @@ export function StaffRegisterPage() {
   }
 
   return (
-    <main className="signin-page staff-register-page">
+    <main className="signin-page staff-register-page staff-auth-page">
       <section className="signin-card staff-register-card">
         <div className="signin-card__brand">
           <span className="signin-card__icon">NS</span>
