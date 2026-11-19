@@ -11,6 +11,7 @@ import {
   LogOut,
   Menu,
   UserRound,
+  Wallet,
   UsersRound,
   Settings,
   ShieldCheck,
@@ -39,6 +40,7 @@ const navigationGroups = [
     label: "BANKING",
     items: [
       { label: "Accounts", href: "/customer/accounts", icon: CreditCard },
+      { label: "Deposits & withdrawals", href: "/customer/fund-requests", icon: Wallet },
       { label: "Transactions", href: "/customer/transactions", icon: ListOrdered },
       { label: "Transfer", href: "/customer/transfer", icon: ArrowRightLeft },
       { label: "Payments", href: "/customer/payments", icon: CreditCard },

@@ -1,6 +1,6 @@
 .customer-shell {
   min-height: 100vh;
-  background: #f5f7fa;
+  background: #F3F8F5;
   color: var(--customer-text);
 }
 
@@ -78,7 +78,7 @@
   flex: 0 0 auto;
   border: 1px solid var(--fs-border);
   border-radius: 50%;
-  background: #e9f0f4;
+  background: #DFF8EA;
   color: var(--customer-text);
   font-size: 12px;
   font-weight: 800;
@@ -159,7 +159,7 @@
   border: 0;
   border-radius: 9px;
   background: transparent;
-  color: #536273;
+  color: #65766E;
   cursor: pointer;
   font: inherit;
   font-size: 12px;
@@ -169,12 +169,12 @@
 }
 
 .customer-shell__nav-link:hover {
-  background: #f3f6f8;
+  background: #EAF5EF;
   color: var(--customer-text);
 }
 
 .customer-shell__nav-link--active {
-  background: #edf3f7;
+  background: #DFF8EA;
   color: var(--customer-text);
 }
 
