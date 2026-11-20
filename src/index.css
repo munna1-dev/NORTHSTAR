@@ -1470,3 +1470,194 @@ hr {
 }
 
 /* END NORTHSTARBANK_OFFICIAL_GREEN_THEME_V4 */
+
+/* NORTHSTARBANK COMPLETE PORTRAIT RESPONSIVE REPAIR */
+
+html, body, #root {
+  width: 100%;
+  max-width: 100%;
+}
+
+html, body {
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-width: 320px;
+}
+
+#root,
+.customer-shell,
+.management-shell,
+.customer-shell__main,
+.management-shell__main,
+.customer-shell__content,
+.management-shell__content,
+main, section, article, form {
+  min-width: 0;
+  max-width: 100%;
+}
+
+img, svg, video {
+  max-width: 100%;
+}
+
+input, select, textarea, button {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.customer-shell table,
+.management-shell table,
+.table-responsive,
+.data-table-container {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.customer-shell td,
+.customer-shell th,
+.management-shell td,
+.management-shell th {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 760px) {
+  .public-nav,
+  .home-hero {
+    width: calc(100% - 28px);
+    max-width: 100%;
+  }
+
+  .public-nav {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .home-hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .home-hero h1 {
+    font-size: clamp(30px, 8vw, 44px);
+    overflow-wrap: anywhere;
+  }
+
+  .open-account-page,
+  .signin-page {
+    width: 100%;
+    min-width: 0;
+    padding: 24px 14px;
+  }
+
+  .open-account-form,
+  .open-account-success,
+  .signin-card {
+    width: 100%;
+    min-width: 0;
+    padding: 18px;
+  }
+
+  .open-account-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .customer-shell__brand-logo,
+  .brand-mark__image {
+    width: min(150px, 48vw);
+  }
+
+  .customer-shell__content,
+  .management-shell__content {
+    width: 100%;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .customer-dashboard__overview,
+  .customer-dashboard__accounts,
+  .customer-dashboard__quick-grid,
+  .customer-accounts__list,
+  .beneficiary-list,
+  .customer-grid,
+  .customer-dashboard-grid,
+  .customer-stats-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .customer-shell :is(
+    .customer-page-header,
+    .customer-page__header,
+    .customer-accounts__hero,
+    .customer-transactions__hero,
+    .beneficiaries-header,
+    .customer-dashboard__header
+  ) {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .customer-shell :is(
+    .customer-toolbar,
+    .customer-filters,
+    .customer-transactions__filters,
+    .beneficiary-toolbar
+  ) {
+    width: 100%;
+    min-width: 0;
+    flex-wrap: wrap;
+  }
+
+  .customer-shell :is(
+    .customer-toolbar > *,
+    .customer-filters > *,
+    .customer-transactions__filters > *,
+    .beneficiary-toolbar > *
+  ) {
+    flex: 1 1 100%;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .management-shell__topbar {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .management-shell__title {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  [role="dialog"],
+  .modal,
+  .modal-content {
+    box-sizing: border-box;
+    max-width: calc(100vw - 24px);
+    max-height: calc(100dvh - 24px);
+    overflow: auto;
+  }
+}
+
+@media (max-width: 420px) {
+  .customer-shell__brand-logo,
+  .brand-mark__image {
+    width: min(128px, 44vw);
+  }
+
+  .customer-shell__content,
+  .management-shell__content {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .customer-shell button,
+  .management-shell button {
+    overflow-wrap: anywhere;
+  }
+}
+
