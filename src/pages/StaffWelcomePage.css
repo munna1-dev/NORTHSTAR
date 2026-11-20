@@ -560,3 +560,135 @@
     align-items: flex-start;
   }
 }
+
+ 
+/* Typography and legibility refinement — NorthStarBank staff welcome */
+.staff-welcome {
+  font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  color: #183329;
+}
+
+.staff-welcome h1,
+.staff-welcome h2,
+.staff-welcome h3,
+.staff-welcome p,
+.staff-welcome span,
+.staff-welcome a {
+  overflow-wrap: anywhere;
+}
+
+.staff-welcome-copy h1 {
+  max-width: 13ch;
+  font-weight: 750;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+
+.staff-welcome-copy > p {
+  color: #43594e;
+  font-size: clamp(15px, 1.15vw, 17px);
+  line-height: 1.75;
+}
+
+.staff-welcome-assurance,
+.staff-welcome-access p {
+  color: #43594e;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.staff-welcome-visual h2 {
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.staff-welcome-visual > p,
+.staff-welcome-visual-points span {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.staff-welcome-section-heading p {
+  color: #43594e;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.staff-welcome-platform h3 {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.staff-welcome-platform p {
+  color: #52665b;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.staff-welcome-primary,
+.staff-welcome-secondary,
+.staff-welcome-header-login,
+.staff-welcome-access-link {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.staff-welcome a:focus-visible {
+  outline: 3px solid #b9e769;
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .staff-welcome-copy h1 {
+    max-width: 100%;
+    font-size: clamp(34px, 9vw, 42px);
+    line-height: 1.13;
+    letter-spacing: -0.03em;
+  }
+
+  .staff-welcome-copy > p,
+  .staff-welcome-section-heading p {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .staff-welcome-assurance,
+  .staff-welcome-platform p,
+  .staff-welcome-access p {
+    font-size: 13px;
+  }
+
+  .staff-welcome-visual > p,
+  .staff-welcome-visual-points span {
+    font-size: 13px;
+  }
+
+  .staff-welcome-brand {
+    font-size: 12px;
+    letter-spacing: .06em;
+  }
+
+  .staff-welcome-brand small {
+    font-size: 8px;
+    letter-spacing: .11em;
+  }
+
+  .staff-welcome-header-login {
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .staff-welcome *,
+  .staff-welcome *::before,
+  .staff-welcome *::after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
+}
