@@ -264,3 +264,54 @@
     padding: 16px;
   }
 }
+
+/* NORTHSTAR PORTRAIT PHASE 4B — MANAGEMENT DATA TOOLBAR */
+.management-data,
+.management-data__toolbar,
+.management-data__search,
+.management-data__filters {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.management-data__search {
+  flex: 1 1 280px;
+  width: 100%;
+}
+
+.management-data__search input {
+  min-width: 0;
+}
+
+.management-data__table-wrap {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+@media (max-width: 700px) {
+  .management-data__toolbar {
+    width: 100%;
+    gap: 10px;
+  }
+
+  .management-data__search {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .management-data__filters {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .management-data__filters > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+}

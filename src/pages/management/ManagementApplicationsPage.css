@@ -866,3 +866,55 @@
     overflow-wrap: anywhere;
   }
 }
+
+/* NORTHSTAR PORTRAIT PHASE 4B — APPLICATION TABLE */
+.management-applications .management-table-wrap {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.management-applications .management-table {
+  width: 100%;
+  min-width: 850px;
+  table-layout: auto;
+}
+
+.management-applications .management-table th,
+.management-applications .management-table td {
+  vertical-align: middle;
+}
+
+.management-applications .management-table td:first-child {
+  min-width: 210px;
+}
+
+.management-applications .management-table__person {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 700px) {
+  .management-applications .management-table {
+    min-width: 760px;
+  }
+
+  .management-applications .management-table th,
+  .management-applications .management-table td {
+    padding: 10px 11px;
+  }
+
+  .management-applications .management-table__person {
+    gap: 8px;
+  }
+
+  .management-applications .management-table__person span {
+    overflow-wrap: anywhere;
+  }
+}

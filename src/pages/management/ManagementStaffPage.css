@@ -699,3 +699,61 @@
     font-size: 0.82rem;
   }
 }
+
+/* NORTHSTAR PORTRAIT PHASE 4B — STAFF TABLES */
+.management-staff,
+.management-staff__directory {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.management-staff .management-table-wrap {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.management-staff .management-table {
+  width: 100%;
+  min-width: 900px;
+  table-layout: auto;
+}
+
+.management-staff .management-table th,
+.management-staff .management-table td {
+  vertical-align: middle;
+}
+
+.management-staff .management-table td {
+  overflow-wrap: anywhere;
+}
+
+.management-staff .management-table td:first-child {
+  min-width: 190px;
+}
+
+.management-staff__id {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+@media (max-width: 760px) {
+  .management-staff .management-table {
+    min-width: 760px;
+  }
+
+  .management-staff .management-table th,
+  .management-staff .management-table td {
+    padding: 9px 10px;
+  }
+
+  .management-staff .management-table td:first-child {
+    min-width: 175px;
+  }
+}
