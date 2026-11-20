@@ -11,6 +11,9 @@
     "db:migrate": "node scripts/migrate-postgres.mjs"
   },
   "dependencies": {
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/core": "^8.6.2",
+    "@capacitor/ios": "^8.6.2",
     "@libsql/client": "^0.18.0",
     "@vercel/blob": "^2.6.1",
     "bcryptjs": "^3.0.3",
@@ -23,6 +26,7 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.6.2",
     "@eslint/js": "^10.0.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^24.13.3",
