@@ -31,32 +31,32 @@
   ],
   "rewrites": [
     {
-      "source": "/api/staff/:path*",
-      "destination": "/api/management/:path*"
-    },
-    {
       "source": "/api/health",
-      "destination": "/api/management/system/health"
+      "destination": "/api/management?path=system/health"
     },
     {
       "source": "/api/db-health",
-      "destination": "/api/management/system/db-health"
+      "destination": "/api/management?path=system/db-health"
+    },
+    {
+      "source": "/api/staff/:path*",
+      "destination": "/api/management?path=:path*"
     },
     {
       "source": "/api/auth/:path*",
-      "destination": "/api/auth"
+      "destination": "/api/auth?path=:path*"
     },
     {
       "source": "/api/customer/:path*",
-      "destination": "/api/customer"
+      "destination": "/api/customer?path=:path*"
     },
     {
       "source": "/api/management/:path*",
-      "destination": "/api/management"
+      "destination": "/api/management?path=:path*"
     },
     {
       "source": "/api/public/:path*",
-      "destination": "/api/public"
+      "destination": "/api/public?path=:path*"
     },
     {
       "source": "/((?!api(?:/|$)).*)",
