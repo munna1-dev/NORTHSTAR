@@ -567,3 +567,235 @@
     flex-direction: column;
   }
 }
+
+/* =====================================================
+   NORTHSTARBANK — PREMIUM CUSTOMER DASHBOARD
+   Profile identity and refined banking interface
+   ===================================================== */
+
+.customer-dashboard {
+  max-width: 1320px;
+  padding-top: 28px;
+  color: #183b2b;
+}
+
+.customer-dashboard__profile-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 26px;
+  padding: 22px 26px;
+  border: 1px solid #dcebe1;
+  border-radius: 20px;
+  background: linear-gradient(110deg, #ffffff 0%, #f0f8f2 100%);
+  box-shadow: 0 8px 26px rgba(20, 75, 43, .055);
+}
+
+.customer-dashboard__profile-identity {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-width: 0;
+}
+
+.customer-dashboard__profile-avatar {
+  display: flex;
+  width: 92px;
+  height: 92px;
+  flex: 0 0 92px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 4px solid #ffffff;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #d9f1df, #a9d9b8);
+  box-shadow: 0 4px 16px rgba(20, 75, 43, .15);
+  color: #176b3a;
+  font-size: 30px;
+  font-weight: 850;
+}
+
+.customer-dashboard__profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.customer-dashboard__profile-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.customer-dashboard__profile-label {
+  color: #348052;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: .14em;
+}
+
+.customer-dashboard__profile-copy h2 {
+  margin: 0;
+  color: #17452d;
+  font-size: clamp(21px, 3vw, 29px);
+  font-weight: 800;
+  letter-spacing: -.035em;
+  overflow-wrap: anywhere;
+}
+
+.customer-dashboard__profile-copy p {
+  margin: 0;
+  color: #718278;
+  font-size: 12px;
+}
+
+.customer-dashboard__profile-number {
+  color: #668071;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: .04em;
+}
+
+.customer-dashboard__profile-link {
+  display: inline-flex;
+  min-height: 42px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 15px;
+  border: 1px solid #cfe3d5;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #176b3a;
+  font-size: 11px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: background .18s ease, transform .18s ease;
+}
+
+.customer-dashboard__profile-link:hover {
+  transform: translateY(-1px);
+  background: #eaf6ed;
+}
+
+.customer-dashboard__balance-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 225px;
+  padding: 30px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 21px;
+  background: linear-gradient(125deg, #176b3a 0%, #10552f 58%, #0b4226 100%);
+  box-shadow: 0 16px 34px rgba(16, 82, 45, .19);
+}
+
+.customer-dashboard__balance-card::after {
+  position: absolute;
+  top: -85px;
+  right: -55px;
+  width: 230px;
+  height: 230px;
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+
+.customer-dashboard__balance-card::before {
+  position: absolute;
+  top: -45px;
+  right: 5px;
+  width: 150px;
+  height: 150px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+
+.customer-dashboard__balance-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.customer-dashboard__balance-value {
+  font-weight: 800;
+  letter-spacing: -.045em;
+}
+
+.customer-dashboard__quick-link,
+.customer-dashboard__quick-grid a {
+  border-color: #e0ebe3;
+  border-radius: 15px;
+  box-shadow: 0 5px 18px rgba(24, 59, 43, .045);
+}
+
+.customer-dashboard__quick-icon,
+.customer-dashboard__account-icon,
+.customer-dashboard__transaction-icon {
+  background: #e9f5ec;
+  color: #176b3a;
+}
+
+.customer-dashboard__account {
+  border-color: #e0ebe3;
+  border-radius: 17px;
+  box-shadow: 0 5px 18px rgba(24, 59, 43, .045);
+}
+
+.customer-dashboard__transactions {
+  border-color: #e0ebe3;
+  border-radius: 17px;
+  box-shadow: 0 5px 18px rgba(24, 59, 43, .045);
+}
+
+.customer-dashboard__transaction:hover {
+  background: #f4faf5;
+}
+
+.customer-dashboard__section-heading h2 {
+  color: #17452d;
+}
+
+@media (max-width: 720px) {
+  .customer-dashboard__profile-hero {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 18px;
+    gap: 16px;
+  }
+
+  .customer-dashboard__profile-identity {
+    gap: 14px;
+  }
+
+  .customer-dashboard__profile-avatar {
+    width: 76px;
+    height: 76px;
+    flex-basis: 76px;
+    font-size: 25px;
+  }
+
+  .customer-dashboard__profile-link {
+    width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .customer-dashboard__profile-avatar {
+    width: 66px;
+    height: 66px;
+    flex-basis: 66px;
+  }
+
+  .customer-dashboard__profile-copy h2 {
+    font-size: 20px;
+  }
+
+  .customer-dashboard__profile-copy p {
+    font-size: 11px;
+  }
+}
