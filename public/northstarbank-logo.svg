@@ -2,8 +2,8 @@
 <title id="title">NorthStarBank</title>
 <desc id="desc">A white North Star within a deep green shield, representing direction, security and financial confidence.</desc>
 <rect width="320" height="80" rx="12" fill="#FFFFFF"/>
-<path d="M40 7 65 17 65 39Q65 58 40 72 15 58 15 39L15 17Z" fill="#12552E"/>
+<path d="M40 7 65 17 65 39Q65 58 40 72 15 58 15 39L15 17Z" fill="#043D2A"/>
 <path d="M40 17 44 32 59 32 47 41 52 56 40 47 28 56 33 41 21 32 36 32Z" fill="#FFFFFF"/>
-<text x="80" y="39" font-family="Tahoma,Arial,sans-serif" font-size="22" font-weight="700" fill="#176B3A">NorthStarBank</text>
-<text x="81" y="57" font-family="Tahoma,Arial,sans-serif" font-size="9" letter-spacing="1.5" fill="#12552E">BANKING WITH DIRECTION</text>
+<text x="80" y="39" font-family="Tahoma,Arial,sans-serif" font-size="22" font-weight="700" fill="#087443">NorthStarBank</text>
+<text x="81" y="57" font-family="Tahoma,Arial,sans-serif" font-size="9" letter-spacing="1.5" fill="#043D2A">BANKING WITH DIRECTION</text>
 </svg>
