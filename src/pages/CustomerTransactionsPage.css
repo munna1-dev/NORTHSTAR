@@ -253,3 +253,37 @@
     align-items: flex-start;
   }
 }
+
+/* NORTHSTAR PORTRAIT PHASE 2 — CUSTOMER TRANSACTIONS */
+.customer-transactions-page,
+.customer-transactions-list,
+.customer-transaction-row {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.customer-transaction-row__main,
+.customer-transaction-row__amount {
+  min-width: 0;
+}
+
+.customer-transaction-row__amount strong {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 620px) {
+  .customer-transactions-page {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .customer-transaction-row__main strong {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .customer-transaction-row__amount {
+    align-items: flex-start;
+  }
+}

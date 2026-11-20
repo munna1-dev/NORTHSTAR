@@ -422,3 +422,64 @@
   height: auto;
   flex-shrink: 0;
 }
+
+/* NORTHSTAR PORTRAIT PHASE 2 — MANAGEMENT SHELL */
+.management-shell,
+.management-shell__main,
+.management-shell__content {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.management-shell__topbar,
+.management-shell__title {
+  min-width: 0;
+}
+
+.management-shell__title strong {
+  overflow-wrap: anywhere;
+}
+
+.management-shell__brand .brand-mark__image {
+  max-width: min(138px, 42vw);
+}
+
+@media (max-width: 900px) {
+  .management-shell__sidebar {
+    width: min(300px, calc(100vw - 42px));
+    height: 100dvh;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .management-shell__nav {
+    overscroll-behavior: contain;
+  }
+
+  .management-shell__topbar {
+    min-width: 0;
+    gap: 10px;
+  }
+
+  .management-shell__content {
+    width: 100%;
+    box-sizing: border-box;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 560px) {
+  .management-shell__topbar {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .management-shell__content {
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: max(28px, env(safe-area-inset-bottom));
+  }
+
+  .management-shell__title strong {
+    font-size: 13px;
+  }
+}

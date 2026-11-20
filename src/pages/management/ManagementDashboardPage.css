@@ -457,3 +457,61 @@
     height: 32px;
   }
 }
+
+/* NORTHSTAR PORTRAIT PHASE 2 — MANAGEMENT DASHBOARD */
+.management-dashboard,
+.management-dashboard__metrics,
+.management-dashboard__lower,
+.management-dashboard__panel {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.management-dashboard__metric,
+.management-dashboard__queue a {
+  min-width: 0;
+}
+
+.management-dashboard__metric strong,
+.management-dashboard__queue-copy strong,
+.management-dashboard__queue-copy > span {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 700px) {
+  .management-dashboard__header-actions {
+    flex-wrap: wrap;
+  }
+
+  .management-dashboard__header-actions > * {
+    min-width: 0;
+  }
+
+  .management-dashboard__section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .management-dashboard__data-status {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 380px) {
+  .management-dashboard__metrics {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .management-dashboard__metric {
+    min-height: 118px;
+  }
+
+  .management-dashboard__queue a {
+    grid-template-columns: 32px minmax(0, 1fr) auto;
+  }
+
+  .management-dashboard__queue a > svg:last-child {
+    display: none;
+  }
+}

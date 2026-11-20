@@ -302,3 +302,46 @@
     padding-bottom: max(24px, env(safe-area-inset-bottom));
   }
 }
+
+/* NORTHSTAR PORTRAIT PHASE 2 — CUSTOMER SHELL */
+.customer-shell,
+.customer-shell__layout,
+.customer-shell__content {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.customer-shell__header-inner {
+  min-width: 0;
+}
+
+.customer-shell__brand {
+  min-width: 0;
+  max-width: calc(100% - 54px);
+}
+
+.customer-shell__brand-logo {
+  max-width: min(55vw, 210px);
+  height: auto;
+}
+
+@media (max-width: 760px) {
+  .customer-shell__header-inner {
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+  }
+
+  .customer-shell__sidebar {
+    width: min(300px, calc(100vw - 42px));
+    height: calc(100dvh - 66px);
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+  }
+
+  .customer-shell__content {
+    overflow-wrap: anywhere;
+  }
+
+  .customer-shell__footer {
+    padding-bottom: max(13px, env(safe-area-inset-bottom));
+  }
+}

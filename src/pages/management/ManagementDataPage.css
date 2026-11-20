@@ -216,3 +216,51 @@
     padding: 20px;
   }
 }
+
+/* NORTHSTAR PORTRAIT PHASE 2 — MANAGEMENT DATA */
+.management-data,
+.management-data__toolbar,
+.management-data__card {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.management-data__table-wrap {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.management-data table {
+  min-width: 850px;
+}
+
+.management-data__drawer-panel {
+  width: min(480px, 100vw);
+  max-width: 100vw;
+  min-width: 0;
+  box-sizing: border-box;
+  height: 100dvh;
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
+}
+
+.management-data__detail-item {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 700px) {
+  .management-data__toolbar {
+    align-items: stretch;
+  }
+
+  .management-data__filters {
+    width: 100%;
+  }
+
+  .management-data__drawer-panel {
+    padding: 16px;
+  }
+}
