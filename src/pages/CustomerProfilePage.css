@@ -491,3 +491,60 @@
     width: 100%;
   }
 }
+
+
+/* Extended customer profile details */
+.customer-profile__kyc {
+  padding-top: 4px;
+}
+
+.customer-profile__kyc-status {
+  display: inline-flex;
+  padding: 6px 11px;
+  border-radius: 999px;
+  background: #fff7e6;
+  color: #8a5a00;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: capitalize;
+}
+
+.customer-profile__kyc-status--verified {
+  background: #edf7f1;
+  color: #26734d;
+}
+
+.customer-profile__kyc-status--rejected {
+  background: #fff1f0;
+  color: #b42318;
+}
+
+.customer-profile__kyc-status--unavailable {
+  background: #edf2f7;
+  color: #52677d;
+}
+
+.customer-profile__kyc p {
+  margin: 10px 0 0;
+  color: #627d98;
+  font-size: 0.76rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 640px) {
+  .customer-profile__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .customer-profile__details {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .customer-profile__identity {
+    align-items: flex-start;
+  }
+
+  .customer-profile__image-actions > button {
+    flex: 1 1 auto;
+  }
+}
