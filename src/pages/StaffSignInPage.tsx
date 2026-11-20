@@ -3,6 +3,7 @@ import type { FormEvent } from "react"
 import { ArrowRight, LockKeyhole, ShieldCheck } from "lucide-react"
 import { Link, useNavigate } from "react-router-dom"
 import { z } from "zod"
+import { BrandMark } from "../components/BrandMark"
 import { signInStaff, verifyStaffMfa } from "../lib/session"
 import "./SignInPage.css"
 import "./StaffAuth.css"
@@ -79,8 +80,7 @@ export function StaffSignInPage() {
     <main className="signin-page staff-auth-page staff-signin-page">
       <section className="signin-card" aria-labelledby="staff-signin-title">
         <div className="signin-card__brand">
-          <span className="signin-card__icon" aria-hidden="true">NS</span>
-          <span>NORTHSTAR</span>
+          <BrandMark />
         </div>
 
         <div className="signin-card__intro">

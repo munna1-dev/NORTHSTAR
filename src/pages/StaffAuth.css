@@ -238,3 +238,10 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Shared official logo sizing for staff sign-in and registration */
+.signin-card__brand .brand-mark__image {
+  width: 190px;
+  max-width: 100%;
+  height: auto;
+}

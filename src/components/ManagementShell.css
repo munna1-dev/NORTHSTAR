@@ -414,3 +414,11 @@
 .management-shell .metric-icon {
   background: #DFF8EA;
 }
+
+/* Official horizontal NorthStarBank logo in the management sidebar */
+.management-shell__brand .brand-mark__image {
+  width: 138px;
+  max-width: 138px;
+  height: auto;
+  flex-shrink: 0;
+}

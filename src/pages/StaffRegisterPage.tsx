@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
+import { BrandMark } from '../components/BrandMark'
 import './StaffRegisterPage.css'
 import './StaffAuth.css'
 
@@ -91,8 +92,7 @@ export function StaffRegisterPage() {
     <main className="signin-page staff-register-page staff-auth-page">
       <section className="signin-card staff-register-card">
         <div className="signin-card__brand">
-          <span className="signin-card__icon">NS</span>
-          <span>NORTHSTARBANK</span>
+          <BrandMark />
         </div>
 
         <header className="signin-card__intro">

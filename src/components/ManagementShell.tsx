@@ -97,9 +97,8 @@ export function ManagementShell({
         }
       >
         <div className="management-shell__brand">
-          <BrandMark compact />
+          <BrandMark />
           <div>
-            <strong>NorthStarBank</strong>
             <span>
               {staff.role === 'super_manager'
                 ? 'Super Manager'

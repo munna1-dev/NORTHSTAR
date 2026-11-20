@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import { BrandMark } from "../components/BrandMark"
 import {
   ArrowRight,
   ShieldCheck,
@@ -58,7 +59,7 @@ export function StaffWelcomePage() {
     <main className="staff-welcome">
       <header className="staff-welcome-header">
         <Link to="/" className="staff-welcome-brand">
-          <img src="/northstarbank-logo.svg" alt="NorthStarBank" />
+          <BrandMark />
           <span>
             NORTHSTARBANK
             <small>STAFF & MANAGEMENT</small>
