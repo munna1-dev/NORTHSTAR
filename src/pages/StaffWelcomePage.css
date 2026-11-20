@@ -929,3 +929,56 @@
   }
 }
 
+
+/* NORTHSTAR_CONTROLLED_ACCESS_VISIBILITY_V2 */
+.staff-welcome-visual {
+  min-height: 410px;
+  padding: clamp(32px, 4vw, 52px);
+  justify-content: center;
+}
+
+.staff-welcome-visual > span:first-of-type {
+  display: inline-block;
+  margin-bottom: 22px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: #b8f2ce;
+  text-transform: uppercase;
+}
+
+.staff-welcome-visual h2 {
+  max-width: 560px;
+  margin: 0 0 20px;
+  font-size: clamp(2rem, 3.4vw, 2.8rem);
+  line-height: 1.16;
+  font-weight: 850;
+  letter-spacing: -0.045em;
+  color: #ffffff;
+  text-wrap: balance;
+}
+
+.staff-welcome-visual p {
+  max-width: 500px;
+  font-size: clamp(1.08rem, 1.5vw, 1.28rem);
+  line-height: 1.75;
+  font-weight: 550;
+  color: #e4f5e9;
+}
+
+@media (max-width: 640px) {
+  .staff-welcome-visual {
+    min-height: 340px;
+    padding: 30px 24px;
+  }
+
+  .staff-welcome-visual h2 {
+    font-size: clamp(1.9rem, 8vw, 2.35rem);
+  }
+
+  .staff-welcome-visual p {
+    font-size: 1.08rem;
+    line-height: 1.7;
+  }
+}
+/* END NORTHSTAR_CONTROLLED_ACCESS_VISIBILITY_V2 */
