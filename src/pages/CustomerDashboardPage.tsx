@@ -137,6 +137,7 @@ export function CustomerDashboardPage() {
   const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState("")
   const [showBalances, setShowBalances] = useState(true)
+  const [failedProfileImageUrl, setFailedProfileImageUrl] = useState<string | null>(null)
 
   const fetchDashboardData = useCallback(
     async (): Promise<DashboardResults> => {
@@ -331,10 +332,11 @@ export function CustomerDashboardPage() {
       <section className="customer-dashboard__profile-hero">
         <div className="customer-dashboard__profile-identity">
           <div className="customer-dashboard__profile-avatar">
-            {profile?.profileImageUrl ? (
+            {profile?.profileImageUrl && failedProfileImageUrl !== profile.profileImageUrl ? (
               <img
                 src={profile.profileImageUrl}
                 alt={`${profile.firstName} ${profile.lastName}`}
+                onError={() => setFailedProfileImageUrl(profile?.profileImageUrl || null)}
               />
             ) : (
               <span>
