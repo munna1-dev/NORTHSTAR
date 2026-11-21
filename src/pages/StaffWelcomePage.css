@@ -1,0 +1,984 @@
+.staff-welcome {
+  --staff-green: #12552e;
+  --staff-green-bright: #197343;
+  --staff-dark: #103b27;
+  --staff-gold: #b9e769;
+  --staff-light: #f2f7f2;
+  --staff-text: #183329;
+  --staff-muted: #64766c;
+  min-height: 100vh;
+  background: #fff;
+  color: var(--staff-text);
+  font-family: inherit;
+}
+
+.staff-welcome * {
+  box-sizing: border-box;
+}
+
+.staff-welcome-header {
+  min-height: 82px;
+  padding: 14px 7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid #e6eee8;
+  background: #fff;
+}
+
+.staff-welcome-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--staff-dark);
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 850;
+  letter-spacing: 1px;
+}
+
+.staff-welcome-brand img {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+}
+
+.staff-welcome-brand small {
+  display: block;
+  margin-top: 4px;
+  color: #718176;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 1.65px;
+}
+
+.staff-welcome-header-right {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.staff-welcome-secure {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--staff-green);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.staff-welcome-header-login {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--staff-dark);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.staff-welcome-hero {
+  padding: 78px 7%;
+  display: grid;
+  grid-template-columns: 1.08fr .92fr;
+  align-items: center;
+  gap: 65px;
+  background:
+    radial-gradient(ellipse at 5% 5%, rgba(185,231,105,.13), transparent 42%),
+    linear-gradient(135deg, #f3f8f3 0%, #fff 76%);
+}
+
+.staff-welcome-copy {
+  max-width: 660px;
+}
+
+.staff-welcome-eyebrow,
+.staff-welcome-section-heading > span {
+  color: var(--staff-green-bright);
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 1.8px;
+}
+
+.staff-welcome-copy h1 {
+  margin: 21px 0;
+  color: var(--staff-dark);
+  font-size: clamp(37px, 5vw, 59px);
+  line-height: 1.1;
+  letter-spacing: -2px;
+}
+
+.staff-welcome-copy h1 span {
+  color: var(--staff-green-bright);
+}
+
+.staff-welcome-copy > p {
+  max-width: 570px;
+  color: var(--staff-muted);
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+.staff-welcome-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 13px;
+  margin-top: 31px;
+}
+
+.staff-welcome-primary,
+.staff-welcome-secondary {
+  min-height: 53px;
+  padding: 14px 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 7px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 750;
+  transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.staff-welcome-primary {
+  background: var(--staff-green);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(18,85,46,.15);
+}
+
+.staff-welcome-primary:hover {
+  background: var(--staff-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(18,85,46,.2);
+}
+
+.staff-welcome-secondary {
+  border: 1px solid #b9cbbd;
+  color: var(--staff-dark);
+  background: #fff;
+}
+
+.staff-welcome-secondary:hover {
+  border-color: var(--staff-green);
+  background: var(--staff-light);
+}
+
+.staff-welcome-assurance {
+  max-width: 560px;
+  margin-top: 25px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: var(--staff-muted);
+  font-size: 11px;
+  line-height: 1.75;
+}
+
+.staff-welcome-assurance svg {
+  flex-shrink: 0;
+  color: var(--staff-green-bright);
+}
+
+.staff-welcome-visual {
+  min-height: 420px;
+  padding: 37px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 15px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(185,231,105,.15), transparent 38%),
+    linear-gradient(145deg, #17623a, #0c3020);
+  color: #fff;
+  box-shadow: 0 22px 55px rgba(18,61,42,.17);
+}
+
+.staff-welcome-visual-top {
+  margin-bottom: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.staff-welcome-visual-mark {
+  width: 65px;
+  height: 65px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 13px;
+  background: rgba(255,255,255,.1);
+  color: var(--staff-gold);
+}
+
+.staff-welcome-visual-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #d4e9d8;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+.staff-welcome-visual-status > span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--staff-gold);
+}
+
+.staff-welcome-visual-label {
+  color: var(--staff-gold);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 2px;
+}
+
+.staff-welcome-visual h2 {
+  max-width: 390px;
+  margin: 14px 0;
+  font-size: clamp(25px, 3vw, 34px);
+  line-height: 1.27;
+  letter-spacing: -.6px;
+}
+
+.staff-welcome-visual > p {
+  color: #d3e7da;
+  font-size: 13px;
+  line-height: 1.85;
+}
+
+.staff-welcome-visual-divider {
+  width: 48px;
+  height: 3px;
+  margin: 19px 0;
+  background: var(--staff-gold);
+}
+
+.staff-welcome-visual-points {
+  display: grid;
+  gap: 12px;
+}
+
+.staff-welcome-visual-points span {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #e3eee5;
+  font-size: 11px;
+}
+
+.staff-welcome-visual-points svg {
+  color: var(--staff-gold);
+}
+
+.staff-welcome-visual-footer {
+  margin-top: 28px;
+  padding-top: 17px;
+  border-top: 1px solid rgba(255,255,255,.16);
+  color: #c5dfce;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.staff-welcome-visual-footer span {
+  padding: 0 5px;
+  color: var(--staff-gold);
+}
+
+.staff-welcome-platforms {
+  padding: 72px 7% 78px;
+  background: #fff;
+}
+
+.staff-welcome-section-heading {
+  max-width: 690px;
+  margin: 0 auto 36px;
+  text-align: center;
+}
+
+.staff-welcome-section-heading h2 {
+  margin: 13px 0;
+  color: var(--staff-dark);
+  font-size: clamp(25px, 3vw, 33px);
+  line-height: 1.25;
+  letter-spacing: -.7px;
+}
+
+.staff-welcome-section-heading p {
+  color: var(--staff-muted);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.staff-welcome-platform-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 17px;
+  max-width: 1160px;
+  margin: auto;
+}
+
+.staff-welcome-platform {
+  min-height: 190px;
+  padding: 24px;
+  border: 1px solid #e4ece5;
+  border-radius: 10px;
+  background: #fff;
+  transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.staff-welcome-platform:hover {
+  transform: translateY(-3px);
+  border-color: #c5d9c9;
+  box-shadow: 0 12px 28px rgba(16,59,39,.06);
+}
+
+.staff-welcome-platform-icon {
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  background: #edf6ee;
+  color: var(--staff-green);
+}
+
+.staff-welcome-platform h3 {
+  margin: 17px 0 8px;
+  color: var(--staff-dark);
+  font-size: 15px;
+}
+
+.staff-welcome-platform p {
+  margin: 0;
+  color: var(--staff-muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.staff-welcome-access {
+  max-width: 1160px;
+  margin: 0 auto 65px;
+  padding: 27px 30px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid #e1eadf;
+  border-radius: 11px;
+  background: #f5f9f3;
+}
+
+.staff-welcome-access-icon {
+  width: 51px;
+  height: 51px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: #e5f1df;
+  color: var(--staff-green);
+}
+
+.staff-welcome-access > div:nth-child(2) {
+  flex: 1;
+}
+
+.staff-welcome-access > div:nth-child(2) > span {
+  color: var(--staff-green-bright);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 1.5px;
+}
+
+.staff-welcome-access h2 {
+  margin: 6px 0;
+  color: var(--staff-dark);
+  font-size: 18px;
+}
+
+.staff-welcome-access p {
+  max-width: 690px;
+  margin: 0;
+  color: var(--staff-muted);
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.staff-welcome-access-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  color: var(--staff-green);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.staff-welcome-footer {
+  min-height: 75px;
+  padding: 22px 7%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border-top: 1px solid #e6eee8;
+  color: var(--staff-muted);
+  font-size: 10px;
+}
+
+.staff-welcome-footer-secure {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--staff-green);
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .staff-welcome-hero {
+    grid-template-columns: 1fr;
+    padding: 58px 6%;
+    gap: 38px;
+  }
+
+  .staff-welcome-copy {
+    max-width: 720px;
+  }
+
+  .staff-welcome-visual {
+    min-height: 350px;
+  }
+
+  .staff-welcome-platform-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .staff-welcome-access {
+    margin-right: 6%;
+    margin-left: 6%;
+  }
+}
+
+@media (max-width: 600px) {
+  .staff-welcome-header {
+    min-height: 72px;
+    padding: 12px 5%;
+  }
+
+  .staff-welcome-brand {
+    gap: 8px;
+    font-size: 13px;
+  }
+
+  .staff-welcome-brand img {
+    width: 38px;
+    height: 38px;
+  }
+
+  .staff-welcome-brand small {
+    font-size: 8px;
+  }
+
+  .staff-welcome-header-right {
+    gap: 0;
+  }
+
+  .staff-welcome-secure {
+    display: none;
+  }
+
+  .staff-welcome-header-login {
+    font-size: 11px;
+  }
+
+  .staff-welcome-hero {
+    padding: 48px 5%;
+  }
+
+  .staff-welcome-copy h1 {
+    font-size: 39px;
+    letter-spacing: -1.4px;
+  }
+
+  .staff-welcome-copy > p {
+    font-size: 13px;
+  }
+
+  .staff-welcome-actions {
+    flex-direction: column;
+  }
+
+  .staff-welcome-primary,
+  .staff-welcome-secondary {
+    width: 100%;
+  }
+
+  .staff-welcome-visual {
+    min-height: 350px;
+    padding: 25px;
+  }
+
+  .staff-welcome-platforms {
+    padding: 52px 5%;
+  }
+
+  .staff-welcome-platform-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .staff-welcome-platform {
+    min-height: auto;
+  }
+
+  .staff-welcome-access {
+    margin: 0 5% 45px;
+    padding: 22px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .staff-welcome-access > div:nth-child(2) {
+    flex-basis: calc(100% - 75px);
+  }
+
+  .staff-welcome-access-link {
+    margin-left: 71px;
+  }
+
+  .staff-welcome-footer {
+    padding: 22px 5%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+ 
+/* Typography and legibility refinement — NorthStarBank staff welcome */
+.staff-welcome {
+  font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  color: #183329;
+}
+
+.staff-welcome h1,
+.staff-welcome h2,
+.staff-welcome h3,
+.staff-welcome p,
+.staff-welcome span,
+.staff-welcome a {
+  overflow-wrap: anywhere;
+}
+
+.staff-welcome-copy h1 {
+  max-width: 13ch;
+  font-weight: 750;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+
+.staff-welcome-copy > p {
+  color: #43594e;
+  font-size: clamp(15px, 1.15vw, 17px);
+  line-height: 1.75;
+}
+
+.staff-welcome-assurance,
+.staff-welcome-access p {
+  color: #43594e;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.staff-welcome-visual h2 {
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.staff-welcome-visual > p,
+.staff-welcome-visual-points span {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.staff-welcome-section-heading p {
+  color: #43594e;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.staff-welcome-platform h3 {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.staff-welcome-platform p {
+  color: #52665b;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.staff-welcome-primary,
+.staff-welcome-secondary,
+.staff-welcome-header-login,
+.staff-welcome-access-link {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.staff-welcome a:focus-visible {
+  outline: 3px solid #b9e769;
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .staff-welcome-copy h1 {
+    max-width: 100%;
+    font-size: clamp(34px, 9vw, 42px);
+    line-height: 1.13;
+    letter-spacing: -0.03em;
+  }
+
+  .staff-welcome-copy > p,
+  .staff-welcome-section-heading p {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .staff-welcome-assurance,
+  .staff-welcome-platform p,
+  .staff-welcome-access p {
+    font-size: 13px;
+  }
+
+  .staff-welcome-visual > p,
+  .staff-welcome-visual-points span {
+    font-size: 13px;
+  }
+
+  .staff-welcome-brand {
+    font-size: 12px;
+    letter-spacing: .06em;
+  }
+
+  .staff-welcome-brand small {
+    font-size: 8px;
+    letter-spacing: .11em;
+  }
+
+  .staff-welcome-header-login {
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .staff-welcome *,
+  .staff-welcome *::before,
+  .staff-welcome *::after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
+}
+
+/* NORTHSTAR_FINAL_WELCOME_REFINEMENT */
+
+.staff-welcome {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: clip;
+  font-family: Inter, "Segoe UI", Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.65;
+  color: #183329;
+  background: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.staff-welcome h1,
+.staff-welcome h2,
+.staff-welcome h3,
+.staff-welcome p {
+  font-family: Inter, "Segoe UI", Arial, Helvetica, sans-serif;
+  font-synthesis: none;
+  overflow-wrap: break-word;
+}
+
+.staff-welcome-copy h1 {
+  font-size: clamp(36px, 4.5vw, 58px);
+  font-weight: 750;
+  line-height: 1.14;
+  letter-spacing: -0.035em;
+  color: #103b27;
+}
+
+.staff-welcome-copy h1 span {
+  display: inline;
+  color: #176b3a;
+}
+
+.staff-welcome-copy > p {
+  max-width: 590px;
+  color: #43594e;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.staff-welcome-eyebrow,
+.staff-welcome-section-heading > span,
+.staff-welcome-access > div:nth-child(2) > span {
+  font-size: 12px;
+  line-height: 1.6;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+.staff-welcome-visual h2 {
+  font-size: clamp(26px, 3vw, 35px);
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.staff-welcome-visual > p {
+  color: #e0eee4;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.staff-welcome-visual-points span {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.staff-welcome-section-heading h2 {
+  font-size: clamp(26px, 3vw, 35px);
+  line-height: 1.3;
+  font-weight: 750;
+}
+
+.staff-welcome-section-heading p {
+  color: #43594e;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.staff-welcome-platform h3 {
+  color: #103b27;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.staff-welcome-platform p {
+  color: #52665b;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.staff-welcome-assurance {
+  color: #43594e;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.staff-welcome-access h2 {
+  font-size: 20px;
+  line-height: 1.4;
+  font-weight: 750;
+}
+
+.staff-welcome-access p {
+  color: #43594e;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.staff-welcome-primary,
+.staff-welcome-secondary,
+.staff-welcome-header-login,
+.staff-welcome-access-link {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.staff-welcome a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.staff-welcome a:focus-visible {
+  outline: 3px solid #b9e769;
+  outline-offset: 4px;
+}
+
+.staff-welcome-platform,
+.staff-welcome-visual,
+.staff-welcome-access {
+  min-width: 0;
+}
+
+@media (min-width: 1200px) {
+  .staff-welcome-hero,
+  .staff-welcome-platforms {
+    padding-left: max(7%, calc((100% - 1320px) / 2));
+    padding-right: max(7%, calc((100% - 1320px) / 2));
+  }
+}
+
+@media (max-width: 900px) {
+  .staff-welcome-hero {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .staff-welcome-platform-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .staff-welcome-header {
+    padding: 12px 5%;
+    gap: 8px;
+  }
+
+  .staff-welcome-brand {
+    font-size: 12px;
+    letter-spacing: .4px;
+  }
+
+  .staff-welcome-brand small {
+    font-size: 8px;
+    letter-spacing: .7px;
+  }
+
+  .staff-welcome-header-login {
+    font-size: 12px;
+  }
+
+  .staff-welcome-hero {
+    padding: 45px 5%;
+  }
+
+  .staff-welcome-copy h1 {
+    max-width: 100%;
+    font-size: clamp(34px, 9vw, 42px);
+    line-height: 1.16;
+  }
+
+  .staff-welcome-copy > p {
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  .staff-welcome-actions {
+    flex-direction: column;
+  }
+
+  .staff-welcome-primary,
+  .staff-welcome-secondary {
+    width: 100%;
+    min-height: 52px;
+  }
+
+  .staff-welcome-visual {
+    padding: 25px 22px;
+  }
+
+  .staff-welcome-platform-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .staff-welcome-platform {
+    min-height: auto;
+  }
+
+  .staff-welcome-access {
+    margin: 0 5% 40px;
+    padding: 20px;
+  }
+
+  .staff-welcome-footer {
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .staff-welcome *,
+  .staff-welcome *::before,
+  .staff-welcome *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+
+/* NORTHSTAR_CONTROLLED_ACCESS_VISIBILITY_V2 */
+.staff-welcome-visual {
+  min-height: 410px;
+  padding: clamp(32px, 4vw, 52px);
+  justify-content: center;
+}
+
+.staff-welcome-visual > span:first-of-type {
+  display: inline-block;
+  margin-bottom: 22px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: #b8f2ce;
+  text-transform: uppercase;
+}
+
+.staff-welcome-visual h2 {
+  max-width: 560px;
+  margin: 0 0 20px;
+  font-size: clamp(2rem, 3.4vw, 2.8rem);
+  line-height: 1.16;
+  font-weight: 850;
+  letter-spacing: -0.045em;
+  color: #ffffff;
+  text-wrap: balance;
+}
+
+.staff-welcome-visual p {
+  max-width: 500px;
+  font-size: clamp(1.08rem, 1.5vw, 1.28rem);
+  line-height: 1.75;
+  font-weight: 550;
+  color: #e4f5e9;
+}
+
+@media (max-width: 640px) {
+  .staff-welcome-visual {
+    min-height: 340px;
+    padding: 30px 24px;
+  }
+
+  .staff-welcome-visual h2 {
+    font-size: clamp(1.9rem, 8vw, 2.35rem);
+  }
+
+  .staff-welcome-visual p {
+    font-size: 1.08rem;
+    line-height: 1.7;
+  }
+}
+/* END NORTHSTAR_CONTROLLED_ACCESS_VISIBILITY_V2 */

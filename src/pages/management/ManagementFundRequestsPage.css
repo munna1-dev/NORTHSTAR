@@ -1,0 +1,22 @@
+.management-fund-requests__filter{padding:10px 12px;border:1px solid var(--fs-border);border-radius:9px;background:var(--fs-panel);color:inherit}
+.management-fund-requests__message{margin:12px 0;padding:12px;border:1px solid var(--fs-border);border-radius:9px}
+.management-fund-requests__list{display:grid}
+.management-fund-requests__item{padding:20px;border-bottom:1px solid var(--fs-border)}
+.management-fund-requests__item:last-child{border-bottom:0}
+.management-fund-requests__top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.management-fund-requests__type{text-transform:uppercase;font-size:11px;letter-spacing:.1em;color:var(--fs-muted)}
+.management-fund-requests__top h2{margin:5px 0;font-size:24px}
+.management-fund-requests__top code{font-size:12px;color:var(--fs-muted)}
+.management-fund-requests__details{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0}
+.management-fund-requests__details div{display:grid;gap:4px;min-width:0}
+.management-fund-requests__details small,.management-fund-requests__details span{font-size:12px;color:var(--fs-muted);overflow-wrap:anywhere}
+.management-fund-requests__details strong{font-size:14px;overflow-wrap:anywhere}
+.management-fund-requests__note,.management-fund-requests__settlement{font-size:13px;color:var(--fs-muted);overflow-wrap:anywhere}
+.management-fund-requests__inputs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.management-fund-requests__inputs label{display:grid;gap:6px;font-size:12px;font-weight:600}
+.management-fund-requests__inputs input{min-width:0;padding:10px;border:1px solid var(--fs-border);border-radius:8px;background:transparent;color:inherit}
+.management-fund-requests__actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}
+.management-fund-requests__actions button{padding:10px 13px;border:0;border-radius:8px;background:#102a43;color:#fff;font-weight:650;cursor:pointer}
+.management-fund-requests__actions button:disabled{opacity:.5}
+.management-fund-requests__actions .management-fund-requests__reject{background:rgba(190,65,65,.14);color:#d66}
+@media(max-width:650px){.management-fund-requests__details,.management-fund-requests__inputs{grid-template-columns:1fr}.management-fund-requests__item{padding:15px}}

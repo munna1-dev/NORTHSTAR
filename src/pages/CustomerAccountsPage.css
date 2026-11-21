@@ -202,3 +202,43 @@
     flex-direction: column;
   }
 }
+
+/* NORTHSTAR PORTRAIT PHASE 2 — CUSTOMER ACCOUNTS */
+.customer-accounts-page,
+.customer-account-detail {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.customer-account-detail__identity,
+.customer-account-detail__top {
+  min-width: 0;
+}
+
+.customer-account-detail__number {
+  overflow-wrap: anywhere;
+}
+
+.customer-account-detail__balances strong {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 620px) {
+  .customer-accounts-page {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .customer-account-detail__top {
+    flex-wrap: wrap;
+  }
+
+  .customer-account-detail__identity {
+    overflow-wrap: anywhere;
+  }
+
+  .customer-account-detail__balances {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

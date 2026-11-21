@@ -28,21 +28,9 @@ export async function sendStaffInvitationEmail(input: {
     throw new Error('Email delivery is not configured.')
   }
 
-  const appOrigin = (
-    process.env.APP_ORIGIN || 'https://northstarbank.site'
-  ).replace(/\/+$/, '')
-
-  let origin: URL
-
-  try {
-    origin = new URL(appOrigin)
-  } catch {
-    throw new Error('The application URL is not configured correctly.')
-  }
-
-  if (origin.protocol !== 'https:') {
-    throw new Error('The application URL must use HTTPS.')
-  }
+  // Staff onboarding must always stay on the account portal.
+  // Do not use APP_ORIGIN here because it may point to the mail service.
+  const origin = new URL('https://account.northstarbank.site')
 
   const setupUrl = new URL('/staff/setup', origin)
   setupUrl.searchParams.set('token', input.token)
@@ -63,6 +51,7 @@ export async function sendStaffInvitationEmail(input: {
     },
     body: JSON.stringify({
       from,
+      tracking: { click: false },
       to: [input.to],
       subject: 'Complete your NorthStarBank staff registration',
       text: [

@@ -1259,3 +1259,405 @@ article {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* NORTHSTARBANK_OFFICIAL_GREEN_THEME_V4 */
+:root {
+  --ns-green: #087443;
+  --ns-green-dark: #043D2A;
+  --ns-green-deep: #022C20;
+  --ns-green-light: #16A05D;
+  --ns-mint: #8EE6B7;
+  --ns-mint-soft: #DFF8EA;
+  --ns-bg: #F3F8F5;
+  --ns-surface: #FFFFFF;
+  --ns-text: #10231C;
+  --ns-muted: #65766E;
+  --ns-border: #DCE9E2;
+
+  --primary: var(--ns-green);
+  --primary-color: var(--ns-green);
+  --brand-primary: var(--ns-green);
+  --color-primary: var(--ns-green);
+  --accent: var(--ns-green-light);
+
+  --fs-navy: var(--ns-green-dark);
+  --fs-blue: var(--ns-green);
+  --fs-teal: var(--ns-green-light);
+  --fs-gold: var(--ns-mint);
+  --fs-bg: var(--ns-bg);
+  --fs-white: #FFFFFF;
+  --fs-text: var(--ns-text);
+  --fs-muted: var(--ns-muted);
+  --fs-border: var(--ns-border);
+  --fs-border-strong: var(--ns-green);
+  color-scheme: light;
+}
+
+html, body, #root {
+  color: var(--ns-text);
+  background: var(--ns-bg);
+}
+
+body {
+  color: var(--ns-text);
+  background: var(--ns-bg);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--ns-green-dark);
+}
+
+a {
+  color: var(--ns-green);
+}
+
+a:hover {
+  color: var(--ns-green-dark);
+}
+
+button,
+[role="button"],
+input[type="submit"],
+input[type="button"],
+.public-nav__actions .public-nav__button--primary,
+.home-button--primary,
+.open-account-form > button,
+.signin-card button[type="submit"] {
+  background: var(--ns-green);
+  border-color: var(--ns-green);
+  color: #FFFFFF;
+}
+
+button:hover:not(:disabled),
+[role="button"]:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+.public-nav__actions .public-nav__button--primary:hover,
+.home-button--primary:hover,
+.open-account-form > button:hover:not(:disabled),
+.signin-card button[type="submit"]:hover:not(:disabled) {
+  background: var(--ns-green-dark);
+  border-color: var(--ns-green-dark);
+  color: #FFFFFF;
+}
+
+.public-nav__actions .public-nav__button,
+.home-button--secondary {
+  background: #FFFFFF;
+  border-color: var(--ns-green);
+  color: var(--ns-green-dark);
+}
+
+input, select, textarea {
+  background: #FFFFFF;
+  color: var(--ns-text);
+  border-color: var(--ns-border);
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--ns-green);
+  outline-color: var(--ns-green);
+}
+
+.signin-card,
+.open-account-form,
+.open-account-success,
+.customer-shell__content,
+.customer-shell__panel,
+.management-shell__content,
+.management-shell__panel {
+  background: #FFFFFF;
+  border-color: var(--ns-border);
+  box-shadow: 0 12px 32px rgba(4, 61, 42, .07);
+}
+
+.signin-card__eyebrow,
+.open-account-header > span,
+.open-account-success > span,
+.open-account-success > svg {
+  color: var(--ns-green);
+}
+
+.open-account-security,
+.open-account-reference {
+  background: var(--ns-mint-soft);
+  color: var(--ns-green-dark);
+}
+
+.customer-shell,
+.management-shell {
+  color: var(--ns-text);
+  background: var(--ns-bg);
+}
+
+.customer-shell__header,
+.customer-shell__topbar,
+.management-shell__topbar {
+  background: #FFFFFF;
+  color: var(--ns-text);
+  border-color: var(--ns-border);
+}
+
+.customer-shell__nav a[aria-current="page"],
+.customer-shell__nav a.active {
+  color: var(--ns-green-dark);
+  background: var(--ns-mint-soft);
+}
+
+.customer-shell__nav a:hover {
+  color: var(--ns-green);
+  background: #F1FAF5;
+}
+
+.management-shell__sidebar,
+.management-shell__sidebar-inner {
+  background: var(--ns-green-dark);
+  color: #FFFFFF;
+}
+
+.management-shell__sidebar a {
+  color: rgba(255,255,255,.9);
+}
+
+.management-shell__sidebar a:hover,
+.management-shell__sidebar a[aria-current="page"],
+.management-shell__sidebar a.active {
+  color: #FFFFFF;
+  background: var(--ns-green);
+  box-shadow: inset 3px 0 0 var(--ns-mint);
+}
+
+.brand-mark {
+  color: var(--ns-green);
+}
+
+.brand-mark__icon {
+  background: var(--ns-green);
+  color: #FFFFFF;
+}
+
+table {
+  border-color: var(--ns-border);
+}
+
+thead th,
+table th {
+  color: var(--ns-green-dark);
+  background: var(--ns-mint-soft);
+  border-color: var(--ns-border);
+}
+
+tbody td {
+  border-color: var(--ns-border);
+}
+
+tbody tr:hover {
+  background: #F1FAF5;
+}
+
+hr {
+  border-color: var(--ns-border);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ns-green-light);
+  outline-offset: 2px;
+}
+
+::selection {
+  color: var(--ns-green-deep);
+  background: var(--ns-mint);
+}
+
+/* END NORTHSTARBANK_OFFICIAL_GREEN_THEME_V4 */
+
+/* NORTHSTARBANK COMPLETE PORTRAIT RESPONSIVE REPAIR */
+
+html, body, #root {
+  width: 100%;
+  max-width: 100%;
+}
+
+html, body {
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-width: 320px;
+}
+
+#root,
+.customer-shell,
+.management-shell,
+.customer-shell__main,
+.management-shell__main,
+.customer-shell__content,
+.management-shell__content,
+main, section, article, form {
+  min-width: 0;
+  max-width: 100%;
+}
+
+img, svg, video {
+  max-width: 100%;
+}
+
+input, select, textarea, button {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.customer-shell table,
+.management-shell table,
+.table-responsive,
+.data-table-container {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.customer-shell td,
+.customer-shell th,
+.management-shell td,
+.management-shell th {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 760px) {
+  .public-nav,
+  .home-hero {
+    width: calc(100% - 28px);
+    max-width: 100%;
+  }
+
+  .public-nav {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .home-hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .home-hero h1 {
+    font-size: clamp(30px, 8vw, 44px);
+    overflow-wrap: anywhere;
+  }
+
+  .open-account-page,
+  .signin-page {
+    width: 100%;
+    min-width: 0;
+    padding: 24px 14px;
+  }
+
+  .open-account-form,
+  .open-account-success,
+  .signin-card {
+    width: 100%;
+    min-width: 0;
+    padding: 18px;
+  }
+
+  .open-account-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .customer-shell__brand-logo,
+  .brand-mark__image {
+    width: min(150px, 48vw);
+  }
+
+  .customer-shell__content,
+  .management-shell__content {
+    width: 100%;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .customer-dashboard__overview,
+  .customer-dashboard__accounts,
+  .customer-dashboard__quick-grid,
+  .customer-accounts__list,
+  .beneficiary-list,
+  .customer-grid,
+  .customer-dashboard-grid,
+  .customer-stats-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .customer-shell :is(
+    .customer-page-header,
+    .customer-page__header,
+    .customer-accounts__hero,
+    .customer-transactions__hero,
+    .beneficiaries-header,
+    .customer-dashboard__header
+  ) {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .customer-shell :is(
+    .customer-toolbar,
+    .customer-filters,
+    .customer-transactions__filters,
+    .beneficiary-toolbar
+  ) {
+    width: 100%;
+    min-width: 0;
+    flex-wrap: wrap;
+  }
+
+  .customer-shell :is(
+    .customer-toolbar > *,
+    .customer-filters > *,
+    .customer-transactions__filters > *,
+    .beneficiary-toolbar > *
+  ) {
+    flex: 1 1 100%;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .management-shell__topbar {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .management-shell__title {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  [role="dialog"],
+  .modal,
+  .modal-content {
+    box-sizing: border-box;
+    max-width: calc(100vw - 24px);
+    max-height: calc(100dvh - 24px);
+    overflow: auto;
+  }
+}
+
+@media (max-width: 420px) {
+  .customer-shell__brand-logo,
+  .brand-mark__image {
+    width: min(128px, 44vw);
+  }
+
+  .customer-shell__content,
+  .management-shell__content {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .customer-shell button,
+  .management-shell button {
+    overflow-wrap: anywhere;
+  }
+}
+

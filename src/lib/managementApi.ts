@@ -647,3 +647,52 @@ export async function reviewManagementCardRequest(
     }),
   })
 }
+
+export interface ManagementFundRequest {
+  id: string
+  customer_id: string
+  account_id: string
+  request_type: 'deposit' | 'withdrawal'
+  amount: string
+  currency: string
+  status: string
+  reference: string
+  description: string | null
+  deposit_method: string | null
+  deposit_reference: string | null
+  beneficiary_name: string | null
+  beneficiary_bank: string | null
+  beneficiary_account_number: string | null
+  beneficiary_routing_code: string | null
+  customer_note: string | null
+  review_notes: string | null
+  settlement_reference: string | null
+  created_at: string
+  reviewed_at: string | null
+  completed_at: string | null
+  account_number: string
+  account_status: string
+  customer_number: string
+  first_name: string
+  last_name: string
+  email: string
+}
+
+export async function getManagementFundRequests(): Promise<ManagementFundRequest[]> {
+  const result = await request<{ok:boolean;requests:ManagementFundRequest[];error?:string}>('/api/management/fund-requests')
+  if (!result.ok) throw new Error(result.error || 'Unable to load fund requests.')
+  return result.requests ?? []
+}
+
+export async function reviewManagementFundRequest(
+  id: string,
+  action: 'approve' | 'reject' | 'complete',
+  settlementReference?: string,
+  reviewNote?: string,
+): Promise<void> {
+  const result = await request<{ok:boolean;error?:string}>('/api/management/fund-requests', {
+    method: 'PATCH',
+    body: JSON.stringify({id, action, settlementReference, reviewNote}),
+  })
+  if (!result.ok) throw new Error(result.error || 'Unable to process fund request.')
+}

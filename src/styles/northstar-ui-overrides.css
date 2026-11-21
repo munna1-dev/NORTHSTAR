@@ -3395,3 +3395,129 @@ input[type="radio"] {
     border-radius: 11px;
   }
 }
+
+/* NORTHSTAR PORTRAIT PHASE 4C — CUSTOMERS */
+.management-page:has(.management-customers__toolbar),
+.management-page:has(.management-customers__toolbar) .management-page__header,
+.management-page:has(.management-customers__toolbar) .management-customers__toolbar,
+.management-page:has(.management-customers__toolbar) .management-customers__table-card {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.management-page:has(.management-customers__toolbar) .management-customers__search input,
+.management-page:has(.management-customers__toolbar) .management-customers__filter select {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.management-page:has(.management-customers__toolbar) .management-table-wrap {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.management-page:has(.management-customers__toolbar) .management-table {
+  width: 100%;
+  min-width: 920px;
+  table-layout: auto;
+}
+
+.management-page:has(.management-customers__toolbar) .management-table td {
+  overflow-wrap: anywhere;
+  vertical-align: middle;
+}
+
+.management-page:has(.management-customers__toolbar) .management-customers__customer-button,
+.management-page:has(.management-customers__toolbar) .management-table__primary,
+.management-page:has(.management-customers__toolbar) .management-table__secondary {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.management-page:has(.management-customers__toolbar) .management-drawer {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+.management-page:has(.management-customers__toolbar) .management-drawer__header,
+.management-page:has(.management-customers__toolbar) .management-drawer__body,
+.management-page:has(.management-customers__toolbar) .management-drawer__section {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 760px) {
+  .management-page:has(.management-customers__toolbar) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .management-page:has(.management-customers__toolbar) .management-page__header {
+    width: 100%;
+    min-width: 0;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .management-page:has(.management-customers__toolbar) .management-page__header > div {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .management-page:has(.management-customers__toolbar) .management-page__header-meta {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .management-page:has(.management-customers__toolbar) .management-customers__toolbar {
+    width: 100%;
+    min-width: 0;
+    gap: 12px;
+  }
+
+  .management-page:has(.management-customers__toolbar) .management-customers__table-card {
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .management-page:has(.management-customers__toolbar) .management-table {
+    min-width: 920px;
+  }
+
+  .management-page:has(.management-customers__toolbar) .management-drawer {
+    width: 100%;
+    max-width: 100vw;
+    height: 100%;
+    max-height: 100dvh;
+    overflow-y: auto;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+@media (max-width: 380px) {
+  .management-page:has(.management-customers__toolbar) .management-customers__toolbar {
+    padding: 12px;
+  }
+
+  .management-page:has(.management-customers__toolbar) .management-drawer__header,
+  .management-page:has(.management-customers__toolbar) .management-drawer__body {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+}

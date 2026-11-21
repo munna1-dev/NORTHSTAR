@@ -347,9 +347,9 @@ export default async function handler(
         `
           UPDATE ${table}
           SET
-            status = $1,
+            status = $1::varchar,
             completed_at = CASE
-              WHEN $1 = 'completed' THEN CURRENT_TIMESTAMP
+              WHEN $1::varchar = 'completed'::varchar THEN CURRENT_TIMESTAMP
               ELSE completed_at
             END
           WHERE id = $2

@@ -3,9 +3,9 @@
 */
 
 .customer-shell {
-  --customer-primary: #176b3a;
-  --customer-primary-hover: #12552e;
-  --customer-gold: #b89548;
+  --customer-primary: #087443;
+  --customer-primary-hover: #043D2A;
+  --customer-gold: #B9E769;
   --customer-text: #263238;
   --customer-muted: #68777b;
   --customer-border: #e1e8e4;
@@ -13,7 +13,7 @@
   --customer-background: #f5f8f6;
   --customer-soft: #edf5ef;
   --fs-navy: #263238;
-  --fs-teal: #176b3a;
+  --fs-teal: #087443;
   --fs-muted: #68777b;
   --fs-border: #e1e8e4;
 
@@ -92,7 +92,7 @@
   .customer-transactions__eyebrow,
   .beneficiaries-eyebrow
 ) {
-  color: #176b3a;
+  color: #087443;
   font-size: 12px;
   font-weight: 800;
   letter-spacing: .12em;
@@ -247,7 +247,7 @@
   [role="tab"][aria-selected="true"],
   .customer-tab.active,.tab-button.active,.tabs button.active
 ) {
-  color: #176b3a;
+  color: #087443;
   background: #edf5ef;
 }
 
@@ -283,7 +283,7 @@
 
 .customer-shell :is(input,select,textarea):focus {
   outline: none;
-  border-color: #176b3a;
+  border-color: #087443;
   box-shadow: 0 0 0 3px rgba(23,107,58,.12);
 }
 
@@ -301,8 +301,8 @@
   min-height: 42px;
   padding: 10px 16px;
   color: #fff;
-  background: #176b3a;
-  border: 1px solid #176b3a;
+  background: #087443;
+  border: 1px solid #087443;
   border-radius: 10px;
   font-weight: 700;
 }
@@ -392,7 +392,7 @@
 }
 
 .customer-shell a {
-  color: #176b3a;
+  color: #087443;
 }
 
 /* Accessibility */
@@ -653,11 +653,11 @@
 
 .customer-shell .customer-shell__nav-link--active {
   background: #e9f5ee;
-  color: #176b43;
+  color: #087443;
 }
 
 .customer-shell .customer-shell__brand-mark {
-  background: #176b43;
+  background: #087443;
 }
 
 @media (max-width: 760px) {

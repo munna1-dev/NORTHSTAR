@@ -1,6 +1,6 @@
 .customer-shell {
   min-height: 100vh;
-  background: #f5f7fa;
+  background: #F3F8F5;
   color: var(--customer-text);
 }
 
@@ -78,7 +78,7 @@
   flex: 0 0 auto;
   border: 1px solid var(--fs-border);
   border-radius: 50%;
-  background: #e9f0f4;
+  background: #DFF8EA;
   color: var(--customer-text);
   font-size: 12px;
   font-weight: 800;
@@ -159,7 +159,7 @@
   border: 0;
   border-radius: 9px;
   background: transparent;
-  color: #536273;
+  color: #65766E;
   cursor: pointer;
   font: inherit;
   font-size: 12px;
@@ -169,12 +169,12 @@
 }
 
 .customer-shell__nav-link:hover {
-  background: #f3f6f8;
+  background: #EAF5EF;
   color: var(--customer-text);
 }
 
 .customer-shell__nav-link--active {
-  background: #edf3f7;
+  background: #DFF8EA;
   color: var(--customer-text);
 }
 
@@ -300,5 +300,48 @@
 @media (max-width: 760px) {
   .customer-shell__sidebar {
     padding-bottom: max(24px, env(safe-area-inset-bottom));
+  }
+}
+
+/* NORTHSTAR PORTRAIT PHASE 2 — CUSTOMER SHELL */
+.customer-shell,
+.customer-shell__layout,
+.customer-shell__content {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.customer-shell__header-inner {
+  min-width: 0;
+}
+
+.customer-shell__brand {
+  min-width: 0;
+  max-width: calc(100% - 54px);
+}
+
+.customer-shell__brand-logo {
+  max-width: min(55vw, 210px);
+  height: auto;
+}
+
+@media (max-width: 760px) {
+  .customer-shell__header-inner {
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+  }
+
+  .customer-shell__sidebar {
+    width: min(300px, calc(100vw - 42px));
+    height: calc(100dvh - 66px);
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+  }
+
+  .customer-shell__content {
+    overflow-wrap: anywhere;
+  }
+
+  .customer-shell__footer {
+    padding-bottom: max(13px, env(safe-area-inset-bottom));
   }
 }

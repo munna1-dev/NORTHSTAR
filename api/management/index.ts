@@ -11,6 +11,7 @@ import profile from '../../src/server/api-handlers/management/profile.js'
 import staff from '../../src/server/api-handlers/management/staff/index.js'
 import support from '../../src/server/api-handlers/management/support.js'
 import transactions from '../../src/server/api-handlers/management/transactions.js'
+import fundRequests from '../../src/server/api-handlers/management/fund-requests.js'
 import staffLogin from '../../src/server/api-handlers/staff/auth/login.js'
 import staffLogout from '../../src/server/api-handlers/staff/auth/logout.js'
 import staffMe from '../../src/server/api-handlers/staff/auth/me.js'
@@ -88,6 +89,10 @@ export default async function handler(
 
   if (resource === 'support' && parts.length === 1) {
     return support(req, res)
+  }
+
+  if (resource === 'fund-requests' && parts.length === 1) {
+    return fundRequests(req, res)
   }
 
   if (resource === 'transactions' && parts.length === 1) {

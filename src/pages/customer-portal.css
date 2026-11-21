@@ -77,7 +77,7 @@
 .customer-profile input:focus-visible,
 .customer-profile select:focus-visible,
 .customer-profile textarea:focus-visible {
-  outline: 3px solid rgba(22, 74, 138, .22);
+  outline: 3px solid rgba(8, 116, 67, .24);
   outline-offset: 2px;
 }
 

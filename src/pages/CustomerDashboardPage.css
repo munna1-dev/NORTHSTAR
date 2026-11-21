@@ -567,3 +567,83 @@
     flex-direction: column;
   }
 }
+
+/* NORTHSTAR PORTRAIT PHASE 2 — CUSTOMER DASHBOARD */
+.customer-dashboard,
+.customer-dashboard__overview,
+.customer-dashboard__quick-grid,
+.customer-dashboard__accounts {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.customer-dashboard__overview {
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+}
+
+.customer-dashboard__balance-card,
+.customer-dashboard__account,
+.customer-dashboard__quick-grid a {
+  min-width: 0;
+}
+
+.customer-dashboard__balance-card > strong {
+  overflow-wrap: anywhere;
+}
+
+.customer-dashboard__account-name {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 720px) {
+  .customer-dashboard {
+    box-sizing: border-box;
+    width: 100%;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .customer-dashboard__overview {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .customer-dashboard__header-actions {
+    flex-wrap: wrap;
+  }
+
+  .customer-dashboard__section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 9px;
+  }
+}
+
+@media (max-width: 420px) {
+  .customer-dashboard {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .customer-dashboard__balance-card {
+    padding: 18px;
+  }
+
+  .customer-dashboard__balance-card > strong {
+    font-size: clamp(27px, 8vw, 38px);
+    letter-spacing: -.04em;
+  }
+
+  .customer-dashboard__balance-meta {
+    flex-wrap: wrap;
+  }
+
+  .customer-dashboard__transaction {
+    gap: 10px;
+    padding: 13px 12px;
+  }
+
+  .customer-dashboard__transaction-amount {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}
