@@ -110,7 +110,7 @@ export function CustomerTransferPage() {
 
     const normalizedAmount = amount.trim()
 
-    if (!/^\\d+(\\.\\d{1,2})?$/.test(normalizedAmount)) {
+    if (!/^\d+(\.\d{1,2})?$/.test(normalizedAmount)) {
       setError("Enter a valid amount with up to 2 decimal places.")
       return
     }

@@ -728,3 +728,51 @@ export async function removeCustomerProfileImage(): Promise<void> {
     method: "DELETE",
   })
 }
+
+export interface CustomerFundRequest {
+  id: string
+  account_id: string
+  request_type: 'deposit' | 'withdrawal'
+  amount: string
+  currency: string
+  status: string
+  reference: string
+  description: string | null
+  deposit_method: string | null
+  deposit_reference: string | null
+  beneficiary_name: string | null
+  beneficiary_bank: string | null
+  beneficiary_account_number: string | null
+  customer_note: string | null
+  review_notes: string | null
+  settlement_reference: string | null
+  created_at: string
+  reviewed_at: string | null
+  completed_at: string | null
+}
+
+export async function getCustomerFundRequests(): Promise<CustomerFundRequest[]> {
+  const result = await request<{ok:boolean;requests:CustomerFundRequest[];error?:string}>('/api/customer/fund-requests')
+  if (!result.ok) throw new Error(result.error || 'Unable to load fund requests.')
+  return result.requests ?? []
+}
+
+export async function createCustomerFundRequest(data: {
+  requestType: 'deposit' | 'withdrawal'
+  accountId: string
+  amount: string
+  idempotencyKey: string
+  depositMethod?: string
+  depositReference?: string
+  beneficiaryName?: string
+  beneficiaryBank?: string
+  beneficiaryAccountNumber?: string
+  beneficiaryRoutingCode?: string
+  customerNote?: string
+}): Promise<void> {
+  const result = await request<{ok:boolean;error?:string}>('/api/customer/fund-requests', {
+    method: 'POST',
+    body: data,
+  })
+  if (!result.ok) throw new Error(result.error || 'Unable to submit fund request.')
+}

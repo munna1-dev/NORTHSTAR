@@ -49,6 +49,17 @@ export interface UserProfile {
   status: UserStatus
   role: PortalRole
   profileImageUrl?: string | null
+  username?: string | null
+  dateOfBirth?: string | null
+  addressLine1?: string | null
+  addressLine2?: string | null
+  city?: string | null
+  stateCode?: string | null
+  postalCode?: string | null
+  countryCode?: string | null
+  kycStatus?: 'pending' | 'verified' | 'rejected' | null
+  kycVerifiedAt?: string | null
+  createdAt?: string | null
   staffId?: string | null
   staffStatus?: string | null
   department?: string | null

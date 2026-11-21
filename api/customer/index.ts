@@ -18,6 +18,7 @@ import settings from '../../src/server/api-handlers/customer/settings.js'
 import support from '../../src/server/api-handlers/customer/support.js'
 import transactions from '../../src/server/api-handlers/customer/transactions.js'
 import transfers from '../../src/server/api-handlers/customer/transfers.js'
+import fundRequests from '../../src/server/api-handlers/customer/fund-requests.js'
 
 export default async function handler(
   req: VercelRequest,
@@ -74,6 +75,10 @@ export default async function handler(
 
   if (resource === 'password' && parts.length === 1) {
     return password(req, res)
+  }
+
+  if (resource === 'fund-requests' && parts.length === 1) {
+    return fundRequests(req, res)
   }
 
   if (resource === 'payments' && parts.length === 1) {

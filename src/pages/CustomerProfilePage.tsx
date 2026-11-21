@@ -32,7 +32,10 @@ export function CustomerProfilePage() {
   const [imageBusy, setImageBusy] = useState(false)
   const [imageMessage, setImageMessage] = useState("")
   const [imageError, setImageError] = useState("")
+  const [imageVersion, setImageVersion] = useState(0)
+  const [imageLoadFailed, setImageLoadFailed] = useState(false)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
+  const cameraInputRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
     let mounted = true
@@ -103,6 +106,8 @@ export function CustomerProfilePage() {
       )
 
       setCustomer(updatedCustomer)
+      setImageLoadFailed(false)
+      setImageVersion((version) => version + 1)
       setImageMessage("Profile picture updated successfully.")
     } catch (uploadError) {
       setImageError(
@@ -131,6 +136,8 @@ export function CustomerProfilePage() {
         ...customer,
         profileImageUrl: null,
       })
+      setImageLoadFailed(false)
+      setImageVersion((version) => version + 1)
       setImageMessage("Profile picture removed.")
     } catch (removeError) {
       setImageError(
@@ -181,7 +188,7 @@ export function CustomerProfilePage() {
     `${customer.firstName.charAt(0)}${customer.lastName.charAt(0)}`.toUpperCase()
 
   const profileImageSrc = customer.profileImageUrl
-    ? `${customer.profileImageUrl}?v=${encodeURIComponent(customer.id)}`
+    ? `${customer.profileImageUrl}?v=${imageVersion}`
     : null
 
   return (
@@ -204,10 +211,11 @@ export function CustomerProfilePage() {
           <div className="customer-profile__identity-main">
             <div className="customer-profile__avatar-wrap">
               <div className="customer-profile__avatar">
-                {profileImageSrc ? (
+                {profileImageSrc && !imageLoadFailed ? (
                   <img
                     src={profileImageSrc}
                     alt={`${customer.firstName} ${customer.lastName}`}
+                    onError={() => setImageLoadFailed(true)}
                   />
                 ) : (
                   initials
@@ -217,9 +225,9 @@ export function CustomerProfilePage() {
               <button
                 className="customer-profile__avatar-button"
                 type="button"
-                onClick={() => fileInputRef.current?.click()}
+                onClick={() => cameraInputRef.current?.click()}
                 disabled={imageBusy}
-                aria-label="Change profile picture"
+                aria-label="Take a profile picture with camera"
                 title="Change profile picture"
               >
                 <Camera size={15} />
@@ -230,6 +238,15 @@ export function CustomerProfilePage() {
                 className="customer-profile__file-input"
                 type="file"
                 accept="image/jpeg,image/png,image/webp"
+                onChange={handleProfileImageChange}
+                disabled={imageBusy}
+              />
+              <input
+                ref={cameraInputRef}
+                className="customer-profile__file-input"
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                capture="user"
                 onChange={handleProfileImageChange}
                 disabled={imageBusy}
               />
@@ -269,11 +286,21 @@ export function CustomerProfilePage() {
             <button
               className="customer-profile__primary-button"
               type="button"
-              onClick={() => fileInputRef.current?.click()}
+              onClick={() => cameraInputRef.current?.click()}
               disabled={imageBusy}
             >
               <Camera size={16} />
-              {imageBusy ? "Updating…" : "Change picture"}
+              {imageBusy ? "Updating…" : "Take photo"}
+            </button>
+
+            <button
+              className="customer-profile__secondary-button"
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={imageBusy}
+            >
+              <ImagePlus size={16} />
+              Choose from gallery
             </button>
 
             {customer.profileImageUrl ? (
@@ -342,6 +369,25 @@ export function CustomerProfilePage() {
             </div>
 
             <div>
+              <span>Username</span>
+              <strong>{customer.username || "Not available"}</strong>
+            </div>
+
+            <div>
+              <span>Date of birth</span>
+              <strong>{customer.dateOfBirth || "Not provided"}</strong>
+            </div>
+
+            <div>
+              <span>Account created</span>
+              <strong>
+                {customer.createdAt
+                  ? new Date(customer.createdAt).toLocaleDateString()
+                  : "Not available"}
+              </strong>
+            </div>
+
+            <div>
               <span>Account status</span>
               <strong>{customer.status}</strong>
             </div>
@@ -350,6 +396,77 @@ export function CustomerProfilePage() {
               <span>Customer role</span>
               <strong>{customer.role}</strong>
             </div>
+          </div>
+        </section>
+
+        <section className="customer-profile__card">
+          <div className="customer-profile__section-heading">
+            <UserRound size={19} />
+            <div>
+              <span>RESIDENTIAL INFORMATION</span>
+              <h2>Registered address</h2>
+            </div>
+          </div>
+
+          <div className="customer-profile__details">
+            <div>
+              <span>Address</span>
+              <strong>{customer.addressLine1 || "Not provided"}</strong>
+            </div>
+            <div>
+              <span>Apartment / unit</span>
+              <strong>{customer.addressLine2 || "Not provided"}</strong>
+            </div>
+            <div>
+              <span>City</span>
+              <strong>{customer.city || "Not provided"}</strong>
+            </div>
+            <div>
+              <span>State / region</span>
+              <strong>{customer.stateCode || "Not provided"}</strong>
+            </div>
+            <div>
+              <span>Postal code</span>
+              <strong>{customer.postalCode || "Not provided"}</strong>
+            </div>
+            <div>
+              <span>Country code</span>
+              <strong>{customer.countryCode || "Not provided"}</strong>
+            </div>
+          </div>
+        </section>
+
+        <section className="customer-profile__card">
+          <div className="customer-profile__section-heading">
+            <ShieldCheck size={19} />
+            <div>
+              <span>IDENTITY VERIFICATION</span>
+              <h2>Know Your Customer (KYC)</h2>
+            </div>
+          </div>
+
+          <div className="customer-profile__kyc">
+            <span
+              className={`customer-profile__kyc-status customer-profile__kyc-status--${customer.kycStatus || "unavailable"}`}
+            >
+              {customer.kycStatus
+                ? customer.kycStatus.replace("_", " ")
+                : "Not available"}
+            </span>
+            <p>
+              {customer.kycStatus === "verified"
+                ? "Your identity verification has been marked as verified."
+                : customer.kycStatus === "rejected"
+                  ? "Your identity verification was not approved. Please contact NorthStarBank support for assistance."
+                  : customer.kycStatus === "pending"
+                    ? "Your identity verification is pending review."
+                    : "Verification information is currently unavailable."}
+            </p>
+            {customer.kycVerifiedAt ? (
+              <p>
+                Verified on {new Date(customer.kycVerifiedAt).toLocaleDateString()}
+              </p>
+            ) : null}
           </div>
         </section>
 

@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import { PublicHome } from "./pages/PublicHome"
+import { StaffWelcomePage } from "./pages/StaffWelcomePage"
 import { PersonalPage } from "./pages/PersonalPage"
 import { BusinessPage } from "./pages/BusinessPage"
 import { AboutPage } from "./pages/AboutPage"
@@ -12,6 +13,7 @@ import { OpenAccountPage } from "./pages/OpenAccountPage"
 import { CustomerDashboardPage } from "./pages/CustomerDashboardPage"
 import { CustomerAccountsPage } from "./pages/CustomerAccountsPage"
 import { CustomerTransactionsPage } from "./pages/CustomerTransactionsPage"
+import { CustomerFundRequestsPage } from "./pages/CustomerFundRequestsPage"
 import { CustomerTransferPage } from "./pages/CustomerTransferPage"
 import { CustomerPaymentsPage } from "./pages/CustomerPaymentsPage"
 import { CustomerProfilePage } from "./pages/CustomerProfilePage"
@@ -30,6 +32,7 @@ import { ManagementCardRequestsPage } from "./pages/management/ManagementCardReq
 import { ManagementCustomersPage } from "./pages/management/ManagementCustomersPage"
 import { ManagementAccountsPage } from "./pages/management/ManagementAccountsPage"
 import { ManagementTransactionsPage } from "./pages/management/ManagementTransactionsPage"
+import { ManagementFundRequestsPage } from "./pages/management/ManagementFundRequestsPage"
 import { ManagementOperationsPage } from "./pages/management/ManagementOperationsPage"
 import { ManagementSupportPage } from "./pages/management/ManagementSupportPage"
 import { ManagementAuditPage } from "./pages/management/ManagementAuditPage"
@@ -42,7 +45,14 @@ function App() {
     <BrowserRouter>
       <SessionSecurity />
       <Routes>
-        <Route path="/" element={<PublicHome />} />
+        <Route
+          path="/"
+          element={
+            window.location.hostname === "account.northstarbank.site"
+              ? <StaffWelcomePage />
+              : <PublicHome />
+          }
+        />
         <Route path="/personal" element={<PersonalPage />} />
         <Route path="/business" element={<BusinessPage />} />
         <Route path="/about" element={<AboutPage />} />
@@ -57,6 +67,7 @@ function App() {
         <Route path="/customer" element={<ProtectedRoute><CustomerDashboardPage /></ProtectedRoute>} />
         <Route path="/customer/accounts" element={<ProtectedRoute><CustomerAccountsPage /></ProtectedRoute>} />
         <Route path="/customer/transactions" element={<ProtectedRoute><CustomerTransactionsPage /></ProtectedRoute>} />
+        <Route path="/customer/fund-requests" element={<ProtectedRoute><CustomerFundRequestsPage /></ProtectedRoute>} />
         <Route path="/customer/transfer" element={<ProtectedRoute><CustomerTransferPage /></ProtectedRoute>} />
         <Route path="/customer/payments" element={<ProtectedRoute><CustomerPaymentsPage /></ProtectedRoute>} />
         <Route path="/customer/profile" element={<ProtectedRoute><CustomerProfilePage /></ProtectedRoute>} />
@@ -130,6 +141,7 @@ function App() {
             </ManagementRoute>
           }
         />
+        <Route path="/management/fund-requests" element={<ManagementRoute permissions={["deposits.view", "withdrawals.view"]}><ManagementFundRequestsPage /></ManagementRoute>} />
         <Route
           path="/management/operations"
           element={

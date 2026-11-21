@@ -1,12 +1,12 @@
 .management-shell {
-  --fs-navy: #12552E;
-  --fs-blue: #176B3A;
-  --fs-teal: #176B3A;
-  --fs-gold: #B9E769;
-  --fs-text: #17251C;
-  --fs-muted: #637267;
-  --fs-border: #DCE7DC;
-  --fs-bg: #F5F8F5;
+  --fs-navy: #043D2A;
+  --fs-blue: #087443;
+  --fs-teal: #087443;
+  --fs-gold: #8EE6B7;
+  --fs-text: #10231C;
+  --fs-muted: #65766E;
+  --fs-border: #DCE9E2;
+  --fs-bg: #F3F8F5;
   --fs-white: #FFFFFF;
 
   min-height: 100vh;
@@ -24,7 +24,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: #12552E;
+  background: #043D2A;
   color: #FFFFFF;
   border-right: 1px solid rgba(255,255,255,.1);
   z-index: 40;
@@ -50,7 +50,7 @@
 }
 
 .management-shell__brand span {
-  color: #D8EADB;
+  color: #DFF8EA;
   font-size: 10px;
   letter-spacing: .04em;
   text-transform: uppercase;
@@ -70,7 +70,7 @@
 
 .management-shell__section-label {
   padding: 18px 20px 7px;
-  color: #C6DFC9;
+  color: #8EE6B7;
   font-size: 9px;
   font-weight: 800;
   letter-spacing: .15em;
@@ -107,7 +107,7 @@
   align-items: center;
   gap: 11px;
   padding: 0 12px;
-  color: #E4F0E5;
+  color: #DFF8EA;
   border-radius: 8px;
   text-decoration: none;
   font-size: 13px;
@@ -122,8 +122,8 @@
 
 .management-shell__nav-link--active {
   background: #FFFFFF;
-  color: #12552E;
-  box-shadow: inset 3px 0 0 #B9E769;
+  color: #043D2A;
+  box-shadow: inset 3px 0 0 #8EE6B7;
 }
 
 .management-shell__nav-link svg {
@@ -135,7 +135,7 @@
   gap: 9px;
   margin: auto 12px 12px;
   padding: 12px;
-  color: #D8EADB;
+  color: #DFF8EA;
   font-size: 11px;
   line-height: 1.5;
   border: 1px solid rgba(255,255,255,.15);
@@ -145,7 +145,7 @@
 
 .management-shell__security svg {
   flex: 0 0 auto;
-  color: #B9E769;
+  color: #8EE6B7;
 }
 
 .management-shell__security div {
@@ -194,7 +194,7 @@
   gap: 18px;
   padding: 0 28px;
   background: #FFFFFF;
-  border-bottom: 1px solid #DCE7DC;
+  border-bottom: 1px solid #DCE9E2;
   box-shadow: 0 2px 8px rgba(18,85,46,.05);
 }
 
@@ -203,10 +203,10 @@
   width: 40px;
   height: 40px;
   place-items: center;
-  border: 1px solid #DCE7DC;
+  border: 1px solid #DCE9E2;
   border-radius: 8px;
   background: #FFFFFF;
-  color: #12552E;
+  color: #043D2A;
   cursor: pointer;
 }
 
@@ -216,14 +216,14 @@
 }
 
 .management-shell__title span {
-  color: #176B3A;
+  color: #087443;
   font-size: 9px;
   font-weight: 850;
   letter-spacing: .14em;
 }
 
 .management-shell__title strong {
-  color: #12552E;
+  color: #043D2A;
   font-size: 14px;
 }
 
@@ -240,12 +240,12 @@
 }
 
 .management-shell__user strong {
-  color: #17251C;
+  color: #10231C;
   font-size: 12px;
 }
 
 .management-shell__user span {
-  color: #637267;
+  color: #65766E;
   font-size: 10px;
   text-transform: capitalize;
 }
@@ -257,7 +257,7 @@
   place-items: center;
   flex: 0 0 auto;
   border-radius: 50%;
-  background: #176B3A;
+  background: #087443;
   color: #FFFFFF;
   font-size: 12px;
   font-weight: 800;
@@ -278,7 +278,7 @@
   display: grid;
   place-items: center;
   padding: 40px 20px;
-  color: #637267;
+  color: #65766E;
 }
 
 @media (max-width: 900px) {
@@ -351,41 +351,41 @@
 
 /* NorthStarBank management page design consistency */
 .management-shell {
-  --brand-primary: #176B3A;
-  --brand-primary-dark: #12552E;
-  --brand-primary-soft: #EAF5E9;
+  --brand-primary: #087443;
+  --brand-primary-dark: #043D2A;
+  --brand-primary-soft: #DFF8EA;
   --surface: #FFFFFF;
-  --border: #DCE7DC;
-  --text: #17251C;
-  --muted: #637267;
-  --fs-border-strong: #B9D5BD;
+  --border: #DCE9E2;
+  --text: #10231C;
+  --muted: #65766E;
+  --fs-border-strong: #B8DCC7;
 }
 
 /* Application statuses */
 .management-shell .management-status {
-  background: #F1F5F1;
-  color: #405447;
+  background: #F3F8F5;
+  color: #405E50;
 }
 
 .management-shell .management-status--under_review {
-  background: #EAF5E9;
-  color: #176B3A;
-  border-color: #D5E9D8;
+  background: #DFF8EA;
+  color: #087443;
+  border-color: #DCE9E2;
 }
 
 .management-shell .management-status--approved {
-  background: #E9F8F1;
-  color: #126B55;
+  background: #E5F7ED;
+  color: #087443;
 }
 
 /* Dashboard metric icons */
 .management-shell .management-dashboard__metric-icon {
-  background: #EAF5E9;
-  color: #176B3A;
+  background: #DFF8EA;
+  color: #087443;
 }
 
 .management-shell .management-dashboard__metric > svg {
-  color: #637267;
+  color: #65766E;
 }
 
 /* Staff page */
@@ -393,24 +393,93 @@
 .management-shell .management-staff__metrics article,
 .management-shell .management-staff__workspace {
   background: #FFFFFF;
-  border-color: #DCE7DC;
+  border-color: #DCE9E2;
 }
 
 .management-shell .management-staff__tabs {
-  background: #F5F8F5;
-  border-color: #DCE7DC;
+  background: #F3F8F5;
+  border-color: #DCE9E2;
 }
 
 .management-shell .management-staff__tabs button.is-active {
-  background: #176B3A;
+  background: #087443;
   color: #FFFFFF;
 }
 
 .management-shell .management-eyebrow,
 .management-shell .metric-icon {
-  color: #176B3A;
+  color: #087443;
 }
 
 .management-shell .metric-icon {
-  background: #EAF5E9;
+  background: #DFF8EA;
+}
+
+/* Official horizontal NorthStarBank logo in the management sidebar */
+.management-shell__brand .brand-mark__image {
+  width: 138px;
+  max-width: 138px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+/* NORTHSTAR PORTRAIT PHASE 2 — MANAGEMENT SHELL */
+.management-shell,
+.management-shell__main,
+.management-shell__content {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.management-shell__topbar,
+.management-shell__title {
+  min-width: 0;
+}
+
+.management-shell__title strong {
+  overflow-wrap: anywhere;
+}
+
+.management-shell__brand .brand-mark__image {
+  max-width: min(138px, 42vw);
+}
+
+@media (max-width: 900px) {
+  .management-shell__sidebar {
+    width: min(300px, calc(100vw - 42px));
+    height: 100dvh;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .management-shell__nav {
+    overscroll-behavior: contain;
+  }
+
+  .management-shell__topbar {
+    min-width: 0;
+    gap: 10px;
+  }
+
+  .management-shell__content {
+    width: 100%;
+    box-sizing: border-box;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 560px) {
+  .management-shell__topbar {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .management-shell__content {
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: max(28px, env(safe-area-inset-bottom));
+  }
+
+  .management-shell__title strong {
+    font-size: 13px;
+  }
 }

@@ -1,8 +1,8 @@
 /* NORTHSTAR CUSTOMER PORTAL — PROFESSIONAL LAYOUT SYSTEM */
 .customer-shell {
-  --customer-primary: #176b3a;
-  --customer-primary-hover: #12552e;
-  --customer-accent: #b89548;
+  --customer-primary: #087443;
+  --customer-primary-hover: #043D2A;
+  --customer-accent: #B9E769;
   --customer-text: #263238;
   --customer-muted: #68777b;
   --customer-border: #e1e8e4;
@@ -20,7 +20,7 @@
 .customer-shell *::before,
 .customer-shell *::after {
   --fs-navy: #263238 !important;
-  --fs-teal: #176b3a !important;
+  --fs-teal: #087443 !important;
   --fs-muted: #68777b !important;
   --fs-border: #e1e8e4 !important;
   --fs-shadow-sm: 0 3px 12px rgba(30, 60, 40, .05) !important;
@@ -43,12 +43,12 @@
 }
 
 .customer-shell__brand-mark {
-  background: #176b3a !important;
+  background: #087443 !important;
 }
 
 .customer-shell__nav-link--active {
   background: #edf5ef !important;
-  border-left: 3px solid #176b3a !important;
+  border-left: 3px solid #087443 !important;
 }
 
 .customer-shell__sidebar {
@@ -145,7 +145,7 @@
 .customer-profile__eyebrow,
 .settings-eyebrow,
 .statements-page__kicker {
-  color: #176b3a !important;
+  color: #087443 !important;
   font-size: 10px;
   font-weight: 850;
   letter-spacing: .13em;
@@ -265,7 +265,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #176b3a !important;
+  color: #087443 !important;
   font-weight: 700;
   text-decoration: none;
 }
@@ -286,8 +286,8 @@
 }
 
 .beneficiary-primary-button {
-  border: 1px solid #176b3a;
-  background: #176b3a;
+  border: 1px solid #087443;
+  background: #087443;
   color: #fff;
 }
 
@@ -301,7 +301,7 @@
 }
 
 .beneficiary-security-icon {
-  color: #176b3a;
+  color: #087443;
 }
 
 .beneficiary-toolbar {
@@ -349,9 +349,9 @@
 }
 
 .beneficiary-filters button.active {
-  border-color: #176b3a;
+  border-color: #087443;
   background: #edf5ef;
-  color: #176b3a;
+  color: #087443;
 }
 
 .beneficiary-list {
@@ -411,7 +411,7 @@
   border-radius: 999px;
   padding: 5px 9px;
   background: #edf5ef;
-  color: #176b3a;
+  color: #087443;
   font-size: 11px;
   font-weight: 800;
 }
@@ -434,12 +434,12 @@
 
 .customer-dashboard__balance-card {
   border-radius: 17px;
-  background: linear-gradient(135deg, #176b3a, #23864d) !important;
+  background: linear-gradient(135deg, #087443, #23864d) !important;
   box-shadow: 0 12px 28px rgba(23, 107, 58, .13) !important;
 }
 
 .customer-dashboard__primary-action {
-  background: #176b3a !important;
+  background: #087443 !important;
   color: #fff !important;
 }
 

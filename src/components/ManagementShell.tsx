@@ -12,6 +12,7 @@ import {
   ShieldCheck,
   UserCog,
   Users,
+  Wallet,
   UserRound,
   X,
 } from 'lucide-react'
@@ -54,6 +55,7 @@ const navigationGroups: Array<{ label: string; items: NavigationItem[] }> = [
     label: "FINANCIAL OPERATIONS",
     items: [
       { label: "Transactions", href: "/management/transactions", icon: ReceiptText, permissions: ["transactions.view"] },
+      { label: "Deposit & withdrawal requests", href: "/management/fund-requests", icon: Wallet, permissions: ["deposits.view", "withdrawals.view"] },
       { label: "Transfers & Payments", href: "/management/operations", icon: CreditCard, permissions: ["transfers.view", "payments.view"] },
     ],
   },
@@ -95,9 +97,8 @@ export function ManagementShell({
         }
       >
         <div className="management-shell__brand">
-          <BrandMark compact />
+          <BrandMark />
           <div>
-            <strong>NorthStarBank</strong>
             <span>
               {staff.role === 'super_manager'
                 ? 'Super Manager'

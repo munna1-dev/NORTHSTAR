@@ -137,6 +137,7 @@ export function CustomerDashboardPage() {
   const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState("")
   const [showBalances, setShowBalances] = useState(true)
+  const [failedProfileImageUrl, setFailedProfileImageUrl] = useState<string | null>(null)
 
   const fetchDashboardData = useCallback(
     async (): Promise<DashboardResults> => {
@@ -328,6 +329,40 @@ export function CustomerDashboardPage() {
 
   return (
     <main className="customer-dashboard">
+      <section className="customer-dashboard__profile-hero">
+        <div className="customer-dashboard__profile-identity">
+          <div className="customer-dashboard__profile-avatar">
+            {profile?.profileImageUrl && failedProfileImageUrl !== profile.profileImageUrl ? (
+              <img
+                src={profile.profileImageUrl}
+                alt={`${profile.firstName} ${profile.lastName}`}
+                onError={() => setFailedProfileImageUrl(profile?.profileImageUrl || null)}
+              />
+            ) : (
+              <span>
+                {profile?.firstName?.charAt(0) || "C"}
+                {profile?.lastName?.charAt(0) || ""}
+              </span>
+            )}
+          </div>
+
+          <div className="customer-dashboard__profile-copy">
+            <span className="customer-dashboard__profile-label">
+              YOUR NORTHSTARBANK PROFILE
+            </span>
+            <h2>{profile?.firstName || "Customer"} {profile?.lastName || ""}</h2>
+            <p>Welcome to your personal banking space.</p>
+            <span className="customer-dashboard__profile-number">
+              Customer #{profile?.customerNumber || "—"}
+            </span>
+          </div>
+        </div>
+
+        <Link to="/customer/profile" className="customer-dashboard__profile-link">
+          Manage profile <ArrowRight size={16} aria-hidden="true" />
+        </Link>
+      </section>
+
       <header className="customer-dashboard__header">
         <div>
           <p className="customer-dashboard__eyebrow">
