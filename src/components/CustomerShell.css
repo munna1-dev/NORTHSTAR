@@ -303,45 +303,296 @@
   }
 }
 
-/* NORTHSTAR PORTRAIT PHASE 2 — CUSTOMER SHELL */
+/* NORTHSTAR CUSTOMER REDESIGN V2 */
+:root {
+  --nsb-green: #087443;
+  --nsb-green-dark: #075b36;
+  --nsb-green-soft: #eaf5ee;
+  --nsb-ink: #18372a;
+  --nsb-muted: #687b70;
+  --nsb-border: #e2ebe5;
+  --nsb-surface: #ffffff;
+  --nsb-page: #f5f8f6;
+}
+
 .customer-shell,
-.customer-shell__layout,
-.customer-shell__content {
-  min-width: 0;
-  max-width: 100%;
+.customer-shell * {
+  box-sizing: border-box;
+}
+
+.customer-shell {
+  min-height: 100vh;
+  background: var(--nsb-page);
+  color: var(--nsb-ink);
+}
+
+.customer-shell__header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255,255,255,.97);
+  border-bottom: 1px solid var(--nsb-border);
 }
 
 .customer-shell__header-inner {
-  min-width: 0;
-}
-
-.customer-shell__brand {
-  min-width: 0;
-  max-width: calc(100% - 54px);
+  width: 100%;
+  max-width: 1600px;
+  min-height: 72px;
+  padding: 10px clamp(16px, 3vw, 34px);
+  margin: 0 auto;
 }
 
 .customer-shell__brand-logo {
-  max-width: min(55vw, 210px);
+  width: clamp(150px, 18vw, 210px);
+  max-width: 55vw;
   height: auto;
 }
 
-@media (max-width: 760px) {
+.customer-shell__layout {
+  display: grid;
+  grid-template-columns: 248px minmax(0, 1fr);
+  width: 100%;
+  max-width: 1600px;
+  min-height: calc(100vh - 72px);
+  margin: 0 auto;
+}
+
+.customer-shell__sidebar {
+  position: sticky;
+  top: 72px;
+  height: calc(100vh - 72px);
+  min-height: 0;
+  overflow-y: auto;
+  padding: 25px 15px;
+  background: #fff;
+  border-right: 1px solid var(--nsb-border);
+}
+
+.customer-shell__nav-group {
+  display: grid;
+  gap: 5px;
+  margin-bottom: 24px;
+}
+
+.customer-shell__nav-label {
+  margin: 5px 10px 9px;
+  color: #819087;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .13em;
+}
+
+.customer-shell__nav-link {
+  min-height: 45px;
+  border-radius: 11px;
+  color: #52665b;
+  font-size: 13px;
+  font-weight: 650;
+  transition: background .18s ease, color .18s ease;
+}
+
+.customer-shell__nav-link:hover,
+.customer-shell__nav-link--active {
+  background: var(--nsb-green-soft);
+  color: var(--nsb-green-dark);
+}
+
+.customer-shell__nav-link--active {
+  box-shadow: inset 3px 0 0 var(--nsb-green);
+}
+
+.customer-shell__content {
+  min-width: 0;
+  width: 100%;
+  padding: 0 clamp(16px, 3vw, 38px);
+}
+
+.customer-shell__footer {
+  background: #fff;
+  border-top: 1px solid var(--nsb-border);
+  color: var(--nsb-muted);
+}
+
+.customer-shell__menu-button {
+  border-radius: 12px;
+  color: var(--nsb-green-dark);
+}
+
+.customer-shell__overlay {
+  display: none;
+}
+
+/* All customer pages share the same page width and spacing. */
+.customer-dashboard,
+.customer-accounts,
+.customer-transactions,
+.customer-transfer-page,
+.customer-payments-page,
+.customer-cards-page,
+.customer-notifications-page,
+.beneficiaries-page,
+.statements-page,
+.customer-support-page,
+.customer-profile,
+.customer-security-page,
+.settings-page {
+  width: 100%;
+  max-width: 1240px;
+  min-width: 0;
+  margin: 0 auto;
+  padding: 34px 0 54px;
+  box-sizing: border-box;
+}
+
+.customer-shell__content h1,
+.customer-shell__content h2,
+.customer-shell__content h3,
+.customer-shell__content p,
+.customer-shell__content strong,
+.customer-shell__content span {
+  overflow-wrap: anywhere;
+}
+
+.customer-shell__content input,
+.customer-shell__content select,
+.customer-shell__content textarea,
+.customer-shell__content button {
+  max-width: 100%;
+}
+
+.customer-shell__content img {
+  max-width: 100%;
+}
+
+.customer-shell__content button,
+.customer-shell__content a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.customer-shell__content :focus-visible {
+  outline: 3px solid rgba(8,116,67,.25);
+  outline-offset: 3px;
+}
+
+/* Responsive layout: tablet and phone navigation becomes a drawer. */
+@media (max-width: 1024px) {
   .customer-shell__header-inner {
-    padding-left: max(12px, env(safe-area-inset-left));
-    padding-right: max(12px, env(safe-area-inset-right));
+    min-height: 66px;
+    padding: 9px 16px;
+  }
+
+  .customer-shell__user {
+    display: none;
+  }
+
+  .customer-shell__menu-button {
+    display: inline-flex;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    border: 1px solid var(--nsb-border);
+    background: #fff;
+  }
+
+  .customer-shell__layout {
+    display: block;
+    min-height: calc(100vh - 66px);
   }
 
   .customer-shell__sidebar {
-    width: min(300px, calc(100vw - 42px));
-    height: calc(100dvh - 66px);
-    padding-bottom: max(20px, env(safe-area-inset-bottom));
+    position: fixed;
+    top: 66px;
+    bottom: 0;
+    left: 0;
+    z-index: 120;
+    display: flex;
+    width: min(310px, 86vw);
+    height: auto;
+    min-height: 0;
+    padding: 22px 16px max(24px, env(safe-area-inset-bottom));
+    transform: translateX(-110%);
+    transition: transform .22s ease;
+    box-shadow: 16px 0 40px rgba(13,45,29,.13);
+  }
+
+  .customer-shell__sidebar--open {
+    transform: translateX(0);
+  }
+
+  .customer-shell__overlay {
+    position: fixed;
+    inset: 66px 0 0;
+    z-index: 110;
+    display: block;
+    width: 100%;
+    height: calc(100vh - 66px);
+    border: 0;
+    background: rgba(12,32,22,.36);
   }
 
   .customer-shell__content {
-    overflow-wrap: anywhere;
+    width: 100%;
+    padding: 0 clamp(16px, 4vw, 28px);
+  }
+
+  .customer-dashboard,
+  .customer-accounts,
+  .customer-transactions,
+  .customer-transfer-page,
+  .customer-payments-page,
+  .customer-cards-page,
+  .customer-notifications-page,
+  .beneficiaries-page,
+  .statements-page,
+  .customer-support-page,
+  .customer-profile,
+  .customer-security-page,
+  .settings-page {
+    padding-top: 25px;
+    padding-bottom: 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  .customer-shell__content {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .customer-dashboard,
+  .customer-accounts,
+  .customer-transactions,
+  .customer-transfer-page,
+  .customer-payments-page,
+  .customer-cards-page,
+  .customer-notifications-page,
+  .beneficiaries-page,
+  .statements-page,
+  .customer-support-page,
+  .customer-profile,
+  .customer-security-page,
+  .settings-page {
+    padding-top: 20px;
+    padding-bottom: 32px;
   }
 
   .customer-shell__footer {
-    padding-bottom: max(13px, env(safe-area-inset-bottom));
+    padding: 14px;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .customer-shell__content form {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .customer-shell__content input,
+  .customer-shell__content select,
+  .customer-shell__content textarea {
+    min-width: 0;
+    width: 100%;
   }
 }
