@@ -36,6 +36,7 @@ export default async function handler(
         SELECT
           c.username,
           c.created_at,
+          c.profile_image_path,
           p.date_of_birth,
           p.address_line1,
           p.address_line2,
@@ -67,6 +68,9 @@ export default async function handler(
       ok: true,
       customer: {
         ...customerResponse(customer),
+        profileImageUrl: profile.profile_image_path
+          ? '/api/customer/profile-image'
+          : null,
         username: profile.username,
         dateOfBirth: profile.date_of_birth
           ? String(profile.date_of_birth).slice(0, 10)

@@ -194,14 +194,29 @@ export default async function handler(
     }
 
     if (req.method === 'GET') {
-      if (!customer.profile_image_path) {
+      const db = getDb()
+      const imageRecord = await db.query(
+        `
+          SELECT profile_image_path
+          FROM customers
+          WHERE id = $1
+          LIMIT 1
+        `,
+        [customer.id],
+      )
+      const imagePath = imageRecord.rows[0]?.profile_image_path as
+        | string
+        | null
+        | undefined
+
+      if (!imagePath) {
         return res.status(404).json({
           ok: false,
           error: 'No profile image.',
         })
       }
 
-      const result = await get(customer.profile_image_path, {
+      const result = await get(imagePath, {
         access: 'private',
         useCache: false,
       })
@@ -226,7 +241,20 @@ export default async function handler(
     }
 
     if (req.method === 'DELETE') {
-      const oldPath = customer.profile_image_path
+      const db = getDb()
+      const imageRecord = await db.query(
+        `
+          SELECT profile_image_path
+          FROM customers
+          WHERE id = $1
+          LIMIT 1
+        `,
+        [customer.id],
+      )
+      const oldPath = imageRecord.rows[0]?.profile_image_path as
+        | string
+        | null
+        | undefined
 
       if (!oldPath) {
         return res.status(200).json({ ok: true })
@@ -237,8 +265,6 @@ export default async function handler(
       } catch (deleteError) {
         console.error('Unable to remove profile image blob:', deleteError)
       }
-
-      const db = getDb()
 
       await db.query(
         `
