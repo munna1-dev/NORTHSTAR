@@ -1,18 +1,15 @@
 import {
   Camera,
   CheckCircle2,
-  ImagePlus,
   Mail,
   Phone,
   ShieldCheck,
-  Trash2,
   UserRound,
 } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import {
   getCustomerProfile,
-  removeCustomerProfileImage,
   uploadCustomerProfileImage,
 } from "../lib/customerApi"
 import { signOutCustomer } from "../lib/session"
@@ -35,7 +32,6 @@ export function CustomerProfilePage() {
   const [imageVersion, setImageVersion] = useState(0)
   const [imageLoadFailed, setImageLoadFailed] = useState(false)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
-  const cameraInputRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
     let mounted = true
@@ -120,35 +116,6 @@ export function CustomerProfilePage() {
     }
   }
 
-  async function handleRemoveProfileImage() {
-    if (!customer?.profileImageUrl || imageBusy) {
-      return
-    }
-
-    setImageError("")
-    setImageMessage("")
-    setImageBusy(true)
-
-    try {
-      await removeCustomerProfileImage()
-
-      setCustomer({
-        ...customer,
-        profileImageUrl: null,
-      })
-      setImageLoadFailed(false)
-      setImageVersion((version) => version + 1)
-      setImageMessage("Profile picture removed.")
-    } catch (removeError) {
-      setImageError(
-        removeError instanceof Error
-          ? removeError.message
-          : "Unable to remove your profile picture.",
-      )
-    } finally {
-      setImageBusy(false)
-    }
-  }
 
   async function handleSignOut() {
     await signOutCustomer()
@@ -225,9 +192,9 @@ export function CustomerProfilePage() {
               <button
                 className="customer-profile__avatar-button"
                 type="button"
-                onClick={() => cameraInputRef.current?.click()}
+                onClick={() => fileInputRef.current?.click()}
                 disabled={imageBusy}
-                aria-label="Take a profile picture with camera"
+                aria-label="Change profile picture"
                 title="Change profile picture"
               >
                 <Camera size={15} />
@@ -238,15 +205,6 @@ export function CustomerProfilePage() {
                 className="customer-profile__file-input"
                 type="file"
                 accept="image/jpeg,image/png,image/webp"
-                onChange={handleProfileImageChange}
-                disabled={imageBusy}
-              />
-              <input
-                ref={cameraInputRef}
-                className="customer-profile__file-input"
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-                capture="user"
                 onChange={handleProfileImageChange}
                 disabled={imageBusy}
               />
@@ -266,55 +224,12 @@ export function CustomerProfilePage() {
           >
             {customer.status}
           </span>
-        </section>
 
-        <section className="customer-profile__card customer-profile__image-card">
-          <div className="customer-profile__section-heading">
-            <ImagePlus size={19} />
-            <div>
-              <span>PROFILE PICTURE</span>
-              <h2>Personalize your profile</h2>
-            </div>
-          </div>
-
-          <p className="customer-profile__muted-copy">
-            Use a clear personal photo. JPEG, PNG, and WebP images up
-            to 5 MB are supported.
-          </p>
-
-          <div className="customer-profile__image-actions">
-            <button
-              className="customer-profile__primary-button"
-              type="button"
-              onClick={() => cameraInputRef.current?.click()}
-              disabled={imageBusy}
-            >
-              <Camera size={16} />
-              {imageBusy ? "Updating…" : "Take photo"}
-            </button>
-
-            <button
-              className="customer-profile__secondary-button"
-              type="button"
-              onClick={() => fileInputRef.current?.click()}
-              disabled={imageBusy}
-            >
-              <ImagePlus size={16} />
-              Choose from gallery
-            </button>
-
-            {customer.profileImageUrl ? (
-              <button
-                className="customer-profile__secondary-button customer-profile__secondary-button--danger"
-                type="button"
-                onClick={() => void handleRemoveProfileImage()}
-                disabled={imageBusy}
-              >
-                <Trash2 size={16} />
-                Remove
-              </button>
-            ) : null}
-          </div>
+          {imageBusy ? (
+            <p className="customer-profile__muted-copy" role="status">
+              Updating profile picture…
+            </p>
+          ) : null}
 
           {imageMessage ? (
             <div className="customer-profile__image-message" role="status">
