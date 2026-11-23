@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 import { getCurrentStaff } from '../lib/session'
 import type { StaffProfile } from '../lib/session'
+import { ManagementStaffContext } from '../lib/managementStaffContext'
 import { ManagementShell } from './ManagementShell'
 
 interface ManagementRouteProps {
@@ -93,8 +94,10 @@ export function ManagementRoute({
   }
 
   return (
-    <ManagementShell staff={staff}>
-      {children}
-    </ManagementShell>
+    <ManagementStaffContext.Provider value={staff}>
+      <ManagementShell staff={staff}>
+        {children}
+      </ManagementShell>
+    </ManagementStaffContext.Provider>
   )
 }

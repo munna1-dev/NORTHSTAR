@@ -696,3 +696,70 @@ export async function reviewManagementFundRequest(
   })
   if (!result.ok) throw new Error(result.error || 'Unable to process fund request.')
 }
+
+export interface ManagementKycDocument {
+  id: string
+  customer_id: string | null
+  application_id: string | null
+  document_type: string
+  document_status: 'pending' | 'approved' | 'rejected'
+  original_filename: string
+  mime_type: string
+  file_size_bytes: number | string
+  document_last4: string | null
+  uploaded_at: string
+  reviewed_at: string | null
+  review_notes: string | null
+  reviewed_by_staff_id: string | null
+  customer_number: string | null
+  first_name: string | null
+  last_name: string | null
+  email: string | null
+  customer_kyc_status: string | null
+}
+
+export async function getManagementKycDocuments(
+  status?: string,
+  search?: string,
+): Promise<ManagementKycDocument[]> {
+  const params = new URLSearchParams()
+  if (status) params.set('status', status)
+  if (search?.trim()) params.set('search', search.trim())
+
+  const query = params.toString()
+  const result = await request<{
+    ok: true
+    documents: ManagementKycDocument[]
+  }>(`/api/management/kyc${query ? `?${query}` : ''}`)
+
+  return result.documents
+}
+
+export async function updateManagementKycDocument(
+  documentId: string,
+  status: 'approved' | 'rejected',
+  reviewNotes?: string,
+): Promise<void> {
+  await request('/api/management/kyc', {
+    method: 'PATCH',
+    body: JSON.stringify({ documentId, status, reviewNotes }),
+  })
+}
+
+export async function getManagementKycDocumentFile(
+  documentId: string,
+): Promise<Blob> {
+  const response = await fetch(
+    `/api/management/kyc?id=${encodeURIComponent(documentId)}`,
+    { credentials: 'include', cache: 'no-store' },
+  )
+
+  if (!response.ok) {
+    const payload = await response.json().catch(() => null) as
+      | { error?: string }
+      | null
+    throw new Error(payload?.error ?? 'Unable to retrieve the private document.')
+  }
+
+  return response.blob()
+}

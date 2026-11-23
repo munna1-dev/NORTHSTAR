@@ -28,6 +28,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute"
 import { ManagementRoute } from "./components/ManagementRoute"
 import { ManagementDashboardPage } from "./pages/management/ManagementDashboardPage"
 import { ManagementApplicationsPage } from "./pages/management/ManagementApplicationsPage"
+import { ManagementKycPage } from "./pages/management/ManagementKycPage"
 import { ManagementCardRequestsPage } from "./pages/management/ManagementCardRequestsPage"
 import { ManagementCustomersPage } from "./pages/management/ManagementCustomersPage"
 import { ManagementAccountsPage } from "./pages/management/ManagementAccountsPage"
@@ -105,6 +106,15 @@ function App() {
           element={
             <ManagementRoute permission="applications.view">
               <ManagementApplicationsPage />
+            </ManagementRoute>
+          }
+        />
+
+        <Route
+          path="/management/kyc"
+          element={
+            <ManagementRoute permission="kyc.view">
+              <ManagementKycPage />
             </ManagementRoute>
           }
         />
