@@ -25,6 +25,34 @@ export default async function handler(
   req: VercelRequest,
   res: VercelResponse,
 ) {
+  const northstarAllowedOrigins = [
+    'https://localhost',
+    'capacitor://localhost',
+  ]
+  const requestOrigin = req.headers.origin
+
+  res.setHeader('Vary', 'Origin')
+
+  if (
+    typeof requestOrigin === 'string' &&
+    northstarAllowedOrigins.includes(requestOrigin)
+  ) {
+    res.setHeader('Access-Control-Allow-Origin', requestOrigin)
+    res.setHeader(
+      'Access-Control-Allow-Methods',
+      'GET, POST, PUT, PATCH, DELETE, OPTIONS',
+    )
+    res.setHeader(
+      'Access-Control-Allow-Headers',
+      'Authorization, Content-Type, Accept, X-Northstar-Client',
+    )
+    res.setHeader('Access-Control-Max-Age', '600')
+  }
+
+  if (req.method === 'OPTIONS') {
+    return res.status(204).end()
+  }
+
   const pathname = new URL(req.url ?? '/', 'http://localhost').pathname
   const queryPath = typeof req.query.path === 'string' ? req.query.path : ''
 

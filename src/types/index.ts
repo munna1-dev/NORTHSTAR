@@ -49,6 +49,7 @@ export interface UserProfile {
   status: UserStatus
   role: PortalRole
   profileImageUrl?: string | null
+  profileImageVersion?: string | number | null
   username?: string | null
   dateOfBirth?: string | null
   addressLine1?: string | null

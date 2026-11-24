@@ -13,6 +13,7 @@ export interface AuthenticatedCustomer {
   two_factor_enabled: boolean
   profile_image_url: string | null
   profile_image_path: string | null
+  updated_at: string | Date | null
 }
 
 export async function requireCustomer(
@@ -39,6 +40,9 @@ export function customerResponse(customer: AuthenticatedCustomer) {
     role: customer.role,
     profileImageUrl: customer.profile_image_path
       ? '/api/customer/profile-image'
+      : null,
+    profileImageVersion: customer.updated_at
+      ? new Date(String(customer.updated_at)).getTime()
       : null,
     twoFactorEnabled: customer.two_factor_enabled,
   }

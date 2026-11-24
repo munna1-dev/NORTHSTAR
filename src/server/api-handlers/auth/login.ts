@@ -134,6 +134,12 @@ export default async function handler(
         role: customer.role,
         twoFactorEnabled: customer.two_factor_enabled,
       },
+      ...(req.headers['x-northstar-client'] === 'native' &&
+        ['https://localhost', 'capacitor://localhost'].includes(
+          String(req.headers.origin ?? ''),
+        )
+        ? { sessionToken: token }
+        : {}),
     })
   } catch (error) {
     console.error('Customer login failed:', error)

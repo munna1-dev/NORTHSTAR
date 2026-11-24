@@ -33,3 +33,12 @@ dist-ssr
 # Local PostgreSQL migration backups
 *.postgres-backup
 .env.local
+
+# Android generated files
+android/.gradle/
+android/**/build/
+android/local.properties
+android/.cxx/
+android/captures/
+android/app/src/main/assets/public/
+android/app/src/main/assets/capacitor.config.json

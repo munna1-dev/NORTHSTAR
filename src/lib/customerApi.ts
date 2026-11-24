@@ -1,3 +1,4 @@
+import { getCustomerAuthorizationHeaders, clearCustomerSessionToken } from './nativeSession'
 import type {
   BankAccount,
   BankCard,
@@ -109,6 +110,7 @@ async function request<T extends object>(
     credentials: "include",
     headers: {
       Accept: "application/json",
+      ...(await getCustomerAuthorizationHeaders()),
       ...(options.body !== undefined
         ? {
             "Content-Type": "application/json",
@@ -139,6 +141,7 @@ async function request<T extends object>(
   }
 
   if (response.status === 401) {
+    await clearCustomerSessionToken().catch(() => undefined)
     window.dispatchEvent(
       new CustomEvent("northstar:auth-unauthorized"),
     )
@@ -698,6 +701,65 @@ export async function changeCustomerPassword(
   )
 }
 
+export type CustomerKycDocumentType =
+  | "passport"
+  | "drivers_license"
+  | "national_id"
+  | "residence_permit"
+
+export async function uploadCustomerKycDocument(
+  customerId: string,
+  documentType: CustomerKycDocumentType,
+  file: File,
+): Promise<void> {
+  const allowedTypes = [
+    "application/pdf",
+    "image/jpeg",
+    "image/png",
+  ]
+  const maxSize = 10 * 1024 * 1024
+
+  if (!allowedTypes.includes(file.type)) {
+    throw new Error("Choose a PDF, JPEG, or PNG document.")
+  }
+
+  if (file.size <= 0 || file.size > maxSize) {
+    throw new Error("Identity documents must be 10 MB or smaller.")
+  }
+
+  const { upload } = await import("@vercel/blob/client")
+  const extension =
+    file.type === "application/pdf"
+      ? "pdf"
+      : file.type === "image/jpeg"
+        ? "jpg"
+        : "png"
+
+  const pathname =
+    `customer-kyc/${customerId}/${documentType}-identity-${Date.now()}.${extension}`
+
+  const uploaded = await upload(pathname, file, {
+    access: "private",
+    handleUploadUrl: "/api/customer/kyc",
+    contentType: file.type,
+    clientPayload: JSON.stringify({ documentType }),
+  })
+
+  await request<{ ok: boolean; document?: unknown }>(
+    "/api/customer/kyc",
+    {
+      method: "POST",
+      body: {
+        action: "confirm",
+        documentType,
+        pathname: uploaded.pathname,
+        originalFilename: file.name,
+      },
+    },
+  )
+
+}
+
 export async function uploadCustomerProfileImage(
   customerId: string,
   file: File,
@@ -714,13 +776,32 @@ export async function uploadCustomerProfileImage(
   const pathname =
     `customer-profile/${customerId}/profile-${Date.now()}.${extension}`
 
-  await upload(pathname, file, {
+  const uploaded = await upload(pathname, file, {
     access: "private",
     handleUploadUrl: "/api/customer/profile-image",
     contentType: file.type,
   })
 
-  return getCustomerProfile()
+  await request<{ ok: boolean }>("/api/customer/profile-image", {
+    method: "POST",
+    body: {
+      action: "confirm",
+      pathname: uploaded.pathname,
+    },
+  })
+
+  const updatedCustomer = await getCustomerProfile()
+
+  window.dispatchEvent(
+    new CustomEvent("northstar:customer-profile-image-updated", {
+      detail: {
+        profileImageUrl: updatedCustomer.profileImageUrl ?? null,
+        profileImageVersion: updatedCustomer.profileImageVersion ?? Date.now(),
+      },
+    }),
+  )
+
+  return updatedCustomer
 }
 
 export async function removeCustomerProfileImage(): Promise<void> {

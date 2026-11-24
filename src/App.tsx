@@ -1,3 +1,4 @@
+import { Capacitor } from '@capacitor/core'
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import { PublicHome } from "./pages/PublicHome"
 import { StaffWelcomePage } from "./pages/StaffWelcomePage"
@@ -42,6 +43,7 @@ import { ManagementProfilePage } from "./pages/management/ManagementProfilePage"
 import { SessionSecurity } from "./components/SessionSecurity"
 
 function App() {
+  const isNativeApp = Capacitor.isNativePlatform()
   return (
     <BrowserRouter>
       <SessionSecurity />
@@ -60,10 +62,14 @@ function App() {
         <Route path="/support" element={<SupportPage />} />
         <Route path="/login" element={<SignInPage />} />
         <Route path="/signin" element={<Navigate to="/login" replace />} />
-        <Route path="/staff/register" element={<StaffRegisterPage />} />
-        <Route path="/staff/setup" element={<StaffSetupPage />} />
-        <Route path="/staff" element={<StaffSignInPage />} />
-        <Route path="/admin" element={<StaffSignInPage />} />
+        {!isNativeApp && (
+          <>
+            <Route path="/staff/register" element={<StaffRegisterPage />} />
+            <Route path="/staff/setup" element={<StaffSetupPage />} />
+            <Route path="/staff" element={<StaffSignInPage />} />
+            <Route path="/admin" element={<StaffSignInPage />} />
+          </>
+        )}
         <Route path="/open-account" element={<OpenAccountPage />} />
         <Route path="/customer" element={<ProtectedRoute><CustomerDashboardPage /></ProtectedRoute>} />
         <Route path="/customer/accounts" element={<ProtectedRoute><CustomerAccountsPage /></ProtectedRoute>} />
@@ -194,6 +200,7 @@ function App() {
             </ManagementRoute>
           }
         />
+        <Route path="*" element={<Navigate to={isNativeApp ? "/login" : "/"} replace />} />
       </Routes>
     </BrowserRouter>
   )

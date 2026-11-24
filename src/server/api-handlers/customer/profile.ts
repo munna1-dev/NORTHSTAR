@@ -37,6 +37,7 @@ export default async function handler(
           c.username,
           c.created_at,
           c.profile_image_path,
+          c.updated_at,
           p.date_of_birth,
           p.address_line1,
           p.address_line2,
@@ -70,6 +71,9 @@ export default async function handler(
         ...customerResponse(customer),
         profileImageUrl: profile.profile_image_path
           ? '/api/customer/profile-image'
+          : null,
+        profileImageVersion: profile.updated_at
+          ? new Date(String(profile.updated_at)).getTime()
           : null,
         username: profile.username,
         dateOfBirth: profile.date_of_birth

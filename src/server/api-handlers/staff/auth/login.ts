@@ -158,6 +158,12 @@ export default async function handler(
           ? '/api/staff/profile-image'
           : null,
       },
+      ...(req.headers['x-northstar-client'] === 'native' &&
+        ['https://localhost', 'capacitor://localhost'].includes(
+          String(req.headers.origin ?? ''),
+        )
+        ? { sessionToken: token }
+        : {}),
     })
   } catch (error) {
     console.error('Staff login failed:', error)

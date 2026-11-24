@@ -12,6 +12,13 @@ function hashToken(token: string): string {
 }
 
 export function getSessionToken(request: VercelRequest): string | null {
+  const authorization = request.headers.authorization
+  const bearer = typeof authorization === 'string'
+    ? authorization.match(/^Bearer ([a-f0-9]{64})$/i)?.[1] ?? null
+    : null
+
+  if (bearer) return bearer
+
   const cookieHeader = request.headers.cookie
   if (!cookieHeader) {
     return null
@@ -145,7 +152,8 @@ export async function getCustomerFromSession(
         role,
         two_factor_enabled,
         profile_image_url,
-        profile_image_path
+        profile_image_path,
+        updated_at
       FROM customers
       WHERE id = $1
         AND status = 'active'
