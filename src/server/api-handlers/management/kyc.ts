@@ -225,6 +225,7 @@ export default async function handler(
     const client = await db.connect()
 
     let customerId: string | null = null
+    let customerProfileVerified = false
 
     try {
       await client.query('BEGIN')
@@ -274,9 +275,27 @@ export default async function handler(
         throw new Error('KYC document review could not be saved.')
       }
 
-      // Deliberately do not mark the entire customer profile verified here.
-      // Document approval alone does not establish that all bank KYC
-      // requirements have been satisfied.
+      // Automatically verify customer-owned profiles after an
+      // eligible identity document is approved. Keep this update inside
+      // the same transaction as the document decision and audit record.
+      if (status === 'approved' && customerId) {
+        const profileUpdate = await client.query(
+          `UPDATE customer_profiles
+           SET kyc_status = 'verified',
+               kyc_verified_at = CURRENT_TIMESTAMP
+           WHERE customer_id = $1
+           RETURNING customer_id`,
+          [customerId],
+        )
+
+        if (profileUpdate.rowCount !== 1) {
+          throw new Error(
+            'KYC document approved but customer profile verification could not be saved.',
+          )
+        }
+
+        customerProfileVerified = true
+      }
 
       // Keep the staff audit record in the same transaction as the
       // document decision so neither can succeed without the other.
@@ -308,6 +327,7 @@ export default async function handler(
             customerId,
             status,
             reviewNotes,
+            customerProfileVerified,
             actorStaffId: user.id,
           }),
         ],
