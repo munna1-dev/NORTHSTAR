@@ -161,15 +161,6 @@ export default async function handler(
         [status, reviewNotes || null, user.id, requestId],
       )
 
-      await client.query('COMMIT')
-    } catch (transactionError) {
-      await client.query('ROLLBACK')
-      throw transactionError
-    } finally {
-      client.release()
-    }
-
-    try {
       await writeStaffAuditLog(
         req,
         user.id,
@@ -178,9 +169,15 @@ export default async function handler(
         requestId,
         `Card request ${status} by management user.`,
         { requestId, status, reviewNotes },
+        client,
       )
-    } catch (auditError) {
-      console.error('Card request audit logging failed:', auditError)
+
+      await client.query('COMMIT')
+    } catch (transactionError) {
+      await client.query('ROLLBACK')
+      throw transactionError
+    } finally {
+      client.release()
     }
 
     return res.status(200).json({

@@ -371,6 +371,21 @@ export default async function handler(
           )
         }
 
+        await writeStaffAuditLog(
+          req,
+          user.id,
+          `application.${status}`,
+          'account_application',
+          applicationId,
+          `Account application ${status} by management user.`,
+          {
+            applicationId,
+            status,
+            reviewNotes,
+          },
+          client,
+        )
+
         await client.query('COMMIT')
       } catch (error) {
         await client.query('ROLLBACK')
@@ -378,20 +393,6 @@ export default async function handler(
       } finally {
         client.release()
       }
-
-      await writeStaffAuditLog(
-        req,
-        user.id,
-        `application.${status}`,
-        'account_application',
-        applicationId,
-        `Account application ${status} by management user.`,
-        {
-          applicationId,
-          status,
-          reviewNotes,
-        },
-      )
 
       return res.status(200).json({
         ok: true,

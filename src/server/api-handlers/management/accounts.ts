@@ -229,26 +229,23 @@ export default async function handler(
         [status, accountId],
       )
 
-      await client.query('COMMIT')
+      await writeStaffAuditLog(
+        request,
+        managementUser.id,
+        'account.status_changed',
+        'account',
+        accountId,
+        `Account ${account.account_number} status changed from ${account.status} to ${status}.`,
+        {
+          accountNumber: account.account_number,
+          customerNumber: account.customer_number,
+          previousStatus: account.status,
+          newStatus: status,
+        },
+        client,
+      )
 
-      try {
-        await writeStaffAuditLog(
-          request,
-          managementUser.id,
-          'account.status_changed',
-          'account',
-          accountId,
-          `Account ${account.account_number} status changed from ${account.status} to ${status}.`,
-          {
-            accountNumber: account.account_number,
-            customerNumber: account.customer_number,
-            previousStatus: account.status,
-            newStatus: status,
-          },
-        )
-      } catch (auditError) {
-        console.error('Account status audit failed:', auditError)
-      }
+      await client.query('COMMIT')
 
       return response.status(200).json({
         ok: true,
