@@ -648,6 +648,15 @@ export async function reviewManagementCardRequest(
   })
 }
 
+export async function issueManagementCardRequest(
+  requestId: string,
+): Promise<void> {
+  await request('/api/management/card-requests', {
+    method: 'PATCH',
+    body: JSON.stringify({ requestId, action: 'issue' }),
+  })
+}
+
 export interface ManagementFundRequest {
   id: string
   customer_id: string
