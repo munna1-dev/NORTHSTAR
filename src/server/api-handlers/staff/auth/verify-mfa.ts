@@ -126,7 +126,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     `, [staffId])
 
     res.setHeader('Set-Cookie', staffSessionCookie(token))
-    return res.status(200).json({ ok: true })
+    return res.status(200).json({
+      ok: true,
+      ...(req.headers['x-northstar-client'] === 'native' &&
+        ['https://localhost', 'capacitor://localhost'].includes(
+          String(req.headers.origin ?? ''),
+        )
+        ? { sessionToken: token }
+        : {}),
+    })
   } catch (error) {
     console.error('Staff MFA verification failed:', error)
     return res.status(500).json({

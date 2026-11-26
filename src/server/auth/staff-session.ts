@@ -11,6 +11,13 @@ function hashToken(token: string): string {
 }
 
 function getStaffSessionToken(request: VercelRequest): string | null {
+  const authorization = request.headers.authorization
+  const bearer = typeof authorization === 'string'
+    ? authorization.match(/^Bearer ([a-f0-9]{64})$/i)?.[1] ?? null
+    : null
+
+  if (bearer) return bearer
+
   const cookieHeader = request.headers.cookie
 
   if (!cookieHeader) {

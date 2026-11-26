@@ -23,6 +23,8 @@ export type ManagementPermission =
   | 'applications.approve'
   | 'applications.reject'
   | 'applications.kyc'
+  | 'kyc.view'
+  | 'kyc.review'
   | 'accounts.view'
   | 'accounts.activate'
   | 'accounts.freeze'

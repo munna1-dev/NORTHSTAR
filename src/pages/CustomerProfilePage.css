@@ -548,3 +548,99 @@
     flex: 1 1 auto;
   }
 }
+
+
+.customer-profile__avatar-remove-button {
+  position: absolute;
+  left: -3px;
+  bottom: -2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #b42318;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(16, 42, 67, 0.18);
+}
+
+.customer-profile__avatar-remove-button:hover {
+  background: #912018;
+}
+
+.customer-profile__avatar-remove-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Private identity document submission */
+.customer-profile__kyc-upload {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid #e5edf4;
+}
+
+.customer-profile__kyc-upload label {
+  color: #334e68;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.customer-profile__kyc-upload select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  background: #fff;
+  color: #102a43;
+  font: inherit;
+}
+
+.customer-profile__kyc-file-input {
+  display: none;
+}
+
+.customer-profile__kyc-upload-button {
+  min-height: 44px;
+  padding: 11px 16px;
+  border: 0;
+  border-radius: 9px;
+  background: #102a43;
+  color: #fff;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.customer-profile__kyc-upload-button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.customer-profile__kyc-help,
+.customer-profile__kyc-success,
+.customer-profile__kyc-error {
+  margin: 0;
+  font-size: 0.76rem;
+  line-height: 1.55;
+}
+
+.customer-profile__kyc-help {
+  color: #627d98;
+}
+
+.customer-profile__kyc-success {
+  color: #26734d;
+}
+
+.customer-profile__kyc-error {
+  color: #b42318;
+}

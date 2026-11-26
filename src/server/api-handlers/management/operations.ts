@@ -391,30 +391,27 @@ export default async function handler(
           throw new Error('Updated operation could not be loaded.')
         }
 
-      await client.query('COMMIT')
+      await writeStaffAuditLog(
+        request,
+        managementUser.id,
+        `${operationType}.status_changed`,
+        operationType,
+        operationId,
+        `${operationType} status changed from pending to ${status}.`,
+        {
+          previousStatus: operation.status,
+          newStatus: status,
+          amount: operation.amount,
+          currency: operation.currency,
+          reference: operation.reference,
+          transactionId,
+          settlement:
+            operationType === 'payment' && status === 'completed',
+        },
+        client,
+      )
 
-      try {
-        await writeStaffAuditLog(
-          request,
-          managementUser.id,
-          `${operationType}.status_changed`,
-          operationType,
-          operationId,
-          `${operationType} status changed from pending to ${status}.`,
-          {
-            previousStatus: operation.status,
-            newStatus: status,
-            amount: operation.amount,
-            currency: operation.currency,
-            reference: operation.reference,
-            transactionId,
-            settlement:
-              operationType === 'payment' && status === 'completed',
-          },
-        )
-      } catch (auditError) {
-        console.error('Operation audit failed:', auditError)
-      }
+      await client.query('COMMIT')
 
       return response.status(200).json({
         ok: true,

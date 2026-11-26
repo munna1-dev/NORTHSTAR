@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import {
   getManagementCardRequests,
+  issueManagementCardRequest,
   reviewManagementCardRequest,
   type ManagementCardRequest,
 } from '../../lib/managementApi'
@@ -76,6 +77,22 @@ export function ManagementCardRequestsPage() {
       await loadRequests()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unable to review this request.')
+    } finally {
+      setSavingId('')
+    }
+  }
+
+  async function issue(item: ManagementCardRequest) {
+    setSavingId(item.id)
+    setError('')
+    setMessage('')
+
+    try {
+      await issueManagementCardRequest(item.id)
+      setMessage('Internal card record issued. Processor activation is still required.')
+      await loadRequests()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unable to issue this card.')
     } finally {
       setSavingId('')
     }
@@ -171,7 +188,17 @@ export function ManagementCardRequestsPage() {
             )}
 
             {item.status === 'approved' && (
-              <p>Approved for the separate card-issuance process. No card was created by this review.</p>
+              <div className="management-card-requests__review">
+                <p>Approved and ready for internal card-record issuance.</p>
+                <button
+                  type="button"
+                  disabled={savingId === item.id}
+                  onClick={() => void issue(item)}
+                >
+                  {savingId === item.id ? 'Issuing…' : 'Issue card record'}
+                </button>
+                <p>Issued records remain pending until a card processor activates them.</p>
+              </div>
             )}
           </article>
         ))}

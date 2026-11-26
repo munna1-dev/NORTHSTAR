@@ -12,6 +12,7 @@ import notificationsReadAll from '../../src/server/api-handlers/customer/notific
 import password from '../../src/server/api-handlers/customer/password.js'
 import payments from '../../src/server/api-handlers/customer/payments.js'
 import profileImage from '../../src/server/api-handlers/customer/profile-image.js'
+import kyc from '../../src/server/api-handlers/customer/kyc.js'
 import profile from '../../src/server/api-handlers/customer/profile.js'
 import security from '../../src/server/api-handlers/customer/security.js'
 import settings from '../../src/server/api-handlers/customer/settings.js'
@@ -24,6 +25,34 @@ export default async function handler(
   req: VercelRequest,
   res: VercelResponse,
 ) {
+  const northstarAllowedOrigins = [
+    'https://localhost',
+    'capacitor://localhost',
+  ]
+  const requestOrigin = req.headers.origin
+
+  res.setHeader('Vary', 'Origin')
+
+  if (
+    typeof requestOrigin === 'string' &&
+    northstarAllowedOrigins.includes(requestOrigin)
+  ) {
+    res.setHeader('Access-Control-Allow-Origin', requestOrigin)
+    res.setHeader(
+      'Access-Control-Allow-Methods',
+      'GET, POST, PUT, PATCH, DELETE, OPTIONS',
+    )
+    res.setHeader(
+      'Access-Control-Allow-Headers',
+      'Authorization, Content-Type, Accept, X-Northstar-Client',
+    )
+    res.setHeader('Access-Control-Max-Age', '600')
+  }
+
+  if (req.method === 'OPTIONS') {
+    return res.status(204).end()
+  }
+
   const pathname = new URL(req.url ?? '/', 'http://localhost').pathname
   const queryPath = typeof req.query.path === 'string' ? req.query.path : ''
 
@@ -83,6 +112,14 @@ export default async function handler(
 
   if (resource === 'payments' && parts.length === 1) {
     return payments(req, res)
+  }
+
+  if (resource === 'kyc') {
+    if (parts.length === 1) return kyc(req, res)
+    if (parts.length === 3 && action === 'documents' && id) {
+      req.query.id = id
+      return kyc(req, res)
+    }
   }
 
   if (resource === 'profile-image' && parts.length === 1) {

@@ -602,21 +602,18 @@ export default async function handler(
               [reviewNotes, user.id, applicationId],
             )
 
-            await client.query('COMMIT')
+            await writeStaffAuditLog(
+              request,
+              user.id,
+              'staff_application.rejected',
+              'staff_application',
+              applicationId,
+              'Staff application rejected by Super Manager.',
+              { applicationId, reviewNotes },
+              client,
+            )
 
-            try {
-              await writeStaffAuditLog(
-                            request,
-                            user.id,
-                            'staff_application.rejected',
-                            'staff_application',
-                            applicationId,
-                            'Staff application rejected by Super Manager.',
-                            { applicationId, reviewNotes },
-                          )
-            } catch {
-              console.error('Staff application audit logging failed.')
-            }
+            await client.query('COMMIT')
 
             return json(response, 200, {
               success: true,
@@ -838,29 +835,26 @@ export default async function handler(
 
           department = application.requested_department ?? null
 
-          await client.query('COMMIT')
+          await writeStaffAuditLog(
+            request,
+            user.id,
+            'staff_application.approved',
+            'staff_application',
+            applicationId,
+            'Staff application approved. Invitation issued for password setup.',
+            {
+              applicationId,
+              staffId,
+              staffNumber,
+              staffEmail,
+              role: requestedRole,
+              department,
+              employeeNumber,
+            },
+            client,
+          )
 
-          try {
-            await writeStaffAuditLog(
-                        request,
-                        user.id,
-                        'staff_application.approved',
-                        'staff_application',
-                        applicationId,
-                        'Staff application approved. Invitation issued for password setup.',
-                        {
-                          applicationId,
-                          staffId,
-                          staffNumber,
-                          staffEmail,
-                          role: requestedRole,
-                          department,
-                          employeeNumber,
-                        },
-                      )
-          } catch {
-            console.error('Staff application audit logging failed.')
-          }
+          await client.query('COMMIT')
         }
       } catch (cause) {
         await client.query('ROLLBACK')

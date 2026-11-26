@@ -17,7 +17,7 @@ import {
   ShieldCheck,
   X,
 } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import type { ReactNode } from "react"
 import { Link, NavLink, useNavigate } from "react-router-dom"
 import { signOutCustomer } from "../lib/session"
@@ -60,7 +60,57 @@ const navigationGroups = [
 
 export function CustomerShell({ children, customer }: CustomerShellProps) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [profileImageOverride, setProfileImageOverride] = useState<{
+    customerId: string
+    url: string | null
+    version: string
+  } | null>(null)
+  const [failedProfileImageKey, setFailedProfileImageKey] = useState<string | null>(null)
   const navigate = useNavigate()
+
+  const hasProfileImageOverride =
+    profileImageOverride?.customerId === customer.id
+
+  const profileImageUrl = hasProfileImageOverride
+    ? profileImageOverride.url
+    : customer.profileImageUrl ?? null
+
+  const profileImageVersion = hasProfileImageOverride
+    ? profileImageOverride.version
+    : String(customer.profileImageVersion ?? customer.id)
+
+  const profileImageKey = `${profileImageUrl ?? ''}:${profileImageVersion}`
+
+  useEffect(() => {
+    function handleProfileImageUpdate(event: Event) {
+      const detail = (
+        event as CustomEvent<{
+          profileImageUrl?: string | null
+          profileImageVersion?: string | number | null
+        }>
+      ).detail
+
+      if (!detail) return
+
+      setProfileImageOverride({
+        customerId: customer.id,
+        url: detail.profileImageUrl ?? null,
+        version: String(detail.profileImageVersion ?? Date.now()),
+      })
+    }
+
+    window.addEventListener(
+      "northstar:customer-profile-image-updated",
+      handleProfileImageUpdate,
+    )
+
+    return () => {
+      window.removeEventListener(
+        "northstar:customer-profile-image-updated",
+        handleProfileImageUpdate,
+      )
+    }
+  }, [customer.id])
 
   async function handleSignOut() {
     await signOutCustomer()
@@ -92,10 +142,11 @@ export function CustomerShell({ children, customer }: CustomerShellProps) {
 
           <div className="customer-shell__user">
             <div className="customer-shell__user-avatar">
-              {customer.profileImageUrl ? (
+              {profileImageUrl && failedProfileImageKey !== profileImageKey ? (
                 <img
-                  src={`${customer.profileImageUrl}?v=${encodeURIComponent(customer.id)}`}
+                  src={`${profileImageUrl}?v=${encodeURIComponent(profileImageVersion)}`}
                   alt=""
+                  onError={() => setFailedProfileImageKey(profileImageKey)}
                 />
               ) : (
                 <>

@@ -90,24 +90,6 @@ function getAccountLabel(account: BankAccount) {
   return `${type} • ${account.accountNumber}`
 }
 
-function getOpeningBalance(
-  account: BankAccount,
-  statementTransactions: Transaction[],
-) {
-  if (statementTransactions.length === 0) {
-    return account.currentBalance
-  }
-
-  const netMovement = statementTransactions.reduce((total, transaction) => {
-    const amount = Math.abs(transaction.amount)
-
-    return isCreditTransaction(transaction)
-      ? total + amount
-      : total - amount
-  }, 0)
-
-  return account.currentBalance - netMovement
-}
 
 export function CustomerStatementsPage() {
   const [accounts, setAccounts] = useState<BankAccount[]>([])
@@ -259,13 +241,10 @@ export function CustomerStatementsPage() {
         0,
       )
 
-      const openingBalance = getOpeningBalance(
-        account,
-        orderedTransactions,
-      )
-
-      const closingBalance =
-        openingBalance + deposits - withdrawals
+      // Historical balances are not authoritative until supplied by
+      // a complete server-side ledger statement service.
+      const openingBalance = 0
+      const closingBalance = 0
 
       result.push({
         id: `${statementAccountId}-${monthKey}`,

@@ -36,6 +36,3 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_staff_invitation_one_unused_token_per_staf
 CREATE INDEX IF NOT EXISTS idx_staff_invitation_tokens_expiry
   ON public.staff_invitation_tokens (expires_at);
 
-INSERT INTO public.schema_migrations (version)
-VALUES ('021')
-ON CONFLICT (version) DO NOTHING;

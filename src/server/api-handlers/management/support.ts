@@ -90,23 +90,28 @@ export default async function handler(
       return error(response, 400, 'Invalid ticket status.')
     }
 
-    const result = await db.query(
-      `
-        UPDATE support_tickets
-        SET
-          status = $1,
-          updated_at = CURRENT_TIMESTAMP
-        WHERE id = $2
-        RETURNING *
-      `,
-      [status, ticketId],
-    )
-
-    if (result.rowCount !== 1) {
-      return error(response, 404, 'Support ticket not found.')
-    }
+    const client = await db.connect()
 
     try {
+      await client.query('BEGIN')
+
+      const result = await client.query(
+        `
+          UPDATE support_tickets
+          SET
+            status = $1,
+            updated_at = CURRENT_TIMESTAMP
+          WHERE id = $2
+          RETURNING *
+        `,
+        [status, ticketId],
+      )
+
+      if (result.rowCount !== 1) {
+        await client.query('ROLLBACK')
+        return error(response, 404, 'Support ticket not found.')
+      }
+
       await writeStaffAuditLog(
         request,
         managementUser.id,
@@ -115,15 +120,25 @@ export default async function handler(
         ticketId,
         `Support ticket status changed to ${status}.`,
         { newStatus: status },
+        client,
       )
-    } catch (auditError) {
-      console.error('Support audit failed:', auditError)
-    }
 
-    return response.status(200).json({
-      ok: true,
-      ticket: result.rows[0],
-    })
+      await client.query('COMMIT')
+
+      return response.status(200).json({
+        ok: true,
+        ticket: result.rows[0],
+      })
+    } catch (cause) {
+      try {
+        await client.query('ROLLBACK')
+      } catch {
+        // Preserve the original error.
+      }
+      throw cause
+    } finally {
+      client.release()
+    }
   }
 
   response.setHeader('Allow', 'GET, PATCH')

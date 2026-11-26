@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 import type { VercelRequest } from '@vercel/node'
-import { getDb } from '../db/client.js'
+import { getDb, type DbClient } from '../db/client.js'
 
 function getClientIp(request: VercelRequest): string | null {
   const forwarded = request.headers['x-forwarded-for']
@@ -66,8 +66,9 @@ export async function writeStaffAuditLog(
   resourceId: string | null,
   description: string,
   metadata: Record<string, unknown> = {},
+  transactionClient?: DbClient,
 ): Promise<void> {
-  const db = getDb();
+  const db = transactionClient ?? getDb();
 
   await db.query(
     `

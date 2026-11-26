@@ -1,7 +1,6 @@
 import {
   Camera,
   CheckCircle2,
-  ImagePlus,
   Mail,
   Phone,
   ShieldCheck,
@@ -14,6 +13,8 @@ import {
   getCustomerProfile,
   removeCustomerProfileImage,
   uploadCustomerProfileImage,
+  uploadCustomerKycDocument,
+  type CustomerKycDocumentType,
 } from "../lib/customerApi"
 import { signOutCustomer } from "../lib/session"
 import type { UserProfile } from "../types"
@@ -35,7 +36,12 @@ export function CustomerProfilePage() {
   const [imageVersion, setImageVersion] = useState(0)
   const [imageLoadFailed, setImageLoadFailed] = useState(false)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
-  const cameraInputRef = useRef<HTMLInputElement | null>(null)
+  const [kycDocumentType, setKycDocumentType] =
+    useState<CustomerKycDocumentType>("national_id")
+  const [kycBusy, setKycBusy] = useState(false)
+  const [kycMessage, setKycMessage] = useState("")
+  const [kycError, setKycError] = useState("")
+  const kycFileInputRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
     let mounted = true
@@ -120,10 +126,61 @@ export function CustomerProfilePage() {
     }
   }
 
-  async function handleRemoveProfileImage() {
-    if (!customer?.profileImageUrl || imageBusy) {
+
+  async function handleKycDocumentChange(
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) {
+    const file = event.target.files?.[0]
+    event.target.value = ""
+
+    if (!file || !customer || kycBusy) return
+
+    setKycError("")
+    setKycMessage("")
+
+    if (!["application/pdf", "image/jpeg", "image/png"].includes(file.type)) {
+      setKycError("Choose a PDF, JPEG, or PNG document.")
       return
     }
+
+    if (file.size <= 0 || file.size > 10 * 1024 * 1024) {
+      setKycError("Identity documents must be 10 MB or smaller.")
+      return
+    }
+
+    setKycBusy(true)
+
+    try {
+      await uploadCustomerKycDocument(
+        customer.id,
+        kycDocumentType,
+        file,
+      )
+
+      setKycMessage("Your identity document was submitted successfully.")
+
+      // Refresh profile separately; a refresh failure must not hide
+      // the successful document submission confirmation.
+      try {
+        setCustomer(await getCustomerProfile())
+      } catch {
+        // The document submission itself was already confirmed.
+      }
+    } catch (uploadError) {
+      setKycError(
+        uploadError instanceof Error
+          ? uploadError.message
+          : "Unable to submit your identity document.",
+      )
+    } finally {
+      setKycBusy(false)
+    }
+  }
+
+  async function handleRemoveProfileImage() {
+    if (!customer?.profileImageUrl || imageBusy) return
+
+    if (!window.confirm("Remove your profile picture?")) return
 
     setImageError("")
     setImageMessage("")
@@ -136,8 +193,19 @@ export function CustomerProfilePage() {
         ...customer,
         profileImageUrl: null,
       })
+
       setImageLoadFailed(false)
       setImageVersion((version) => version + 1)
+
+      window.dispatchEvent(
+        new CustomEvent("northstar:customer-profile-image-updated", {
+          detail: {
+            profileImageUrl: null,
+            profileImageVersion: Date.now(),
+          },
+        }),
+      )
+
       setImageMessage("Profile picture removed.")
     } catch (removeError) {
       setImageError(
@@ -149,6 +217,7 @@ export function CustomerProfilePage() {
       setImageBusy(false)
     }
   }
+
 
   async function handleSignOut() {
     await signOutCustomer()
@@ -225,28 +294,32 @@ export function CustomerProfilePage() {
               <button
                 className="customer-profile__avatar-button"
                 type="button"
-                onClick={() => cameraInputRef.current?.click()}
+                onClick={() => fileInputRef.current?.click()}
                 disabled={imageBusy}
-                aria-label="Take a profile picture with camera"
+                aria-label="Change profile picture"
                 title="Change profile picture"
               >
                 <Camera size={15} />
               </button>
+
+              {customer.profileImageUrl ? (
+                <button
+                  className="customer-profile__avatar-remove-button"
+                  type="button"
+                  onClick={handleRemoveProfileImage}
+                  disabled={imageBusy}
+                  aria-label="Remove profile picture"
+                  title="Remove profile picture"
+                >
+                  <Trash2 size={14} />
+                </button>
+              ) : null}
 
               <input
                 ref={fileInputRef}
                 className="customer-profile__file-input"
                 type="file"
                 accept="image/jpeg,image/png,image/webp"
-                onChange={handleProfileImageChange}
-                disabled={imageBusy}
-              />
-              <input
-                ref={cameraInputRef}
-                className="customer-profile__file-input"
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-                capture="user"
                 onChange={handleProfileImageChange}
                 disabled={imageBusy}
               />
@@ -266,55 +339,12 @@ export function CustomerProfilePage() {
           >
             {customer.status}
           </span>
-        </section>
 
-        <section className="customer-profile__card customer-profile__image-card">
-          <div className="customer-profile__section-heading">
-            <ImagePlus size={19} />
-            <div>
-              <span>PROFILE PICTURE</span>
-              <h2>Personalize your profile</h2>
-            </div>
-          </div>
-
-          <p className="customer-profile__muted-copy">
-            Use a clear personal photo. JPEG, PNG, and WebP images up
-            to 5 MB are supported.
-          </p>
-
-          <div className="customer-profile__image-actions">
-            <button
-              className="customer-profile__primary-button"
-              type="button"
-              onClick={() => cameraInputRef.current?.click()}
-              disabled={imageBusy}
-            >
-              <Camera size={16} />
-              {imageBusy ? "Updating…" : "Take photo"}
-            </button>
-
-            <button
-              className="customer-profile__secondary-button"
-              type="button"
-              onClick={() => fileInputRef.current?.click()}
-              disabled={imageBusy}
-            >
-              <ImagePlus size={16} />
-              Choose from gallery
-            </button>
-
-            {customer.profileImageUrl ? (
-              <button
-                className="customer-profile__secondary-button customer-profile__secondary-button--danger"
-                type="button"
-                onClick={() => void handleRemoveProfileImage()}
-                disabled={imageBusy}
-              >
-                <Trash2 size={16} />
-                Remove
-              </button>
-            ) : null}
-          </div>
+          {imageBusy ? (
+            <p className="customer-profile__muted-copy" role="status">
+              Updating profile picture…
+            </p>
+          ) : null}
 
           {imageMessage ? (
             <div className="customer-profile__image-message" role="status">
@@ -466,6 +496,65 @@ export function CustomerProfilePage() {
               <p>
                 Verified on {new Date(customer.kycVerifiedAt).toLocaleDateString()}
               </p>
+            ) : null}
+
+            {customer.kycStatus !== "verified" ? (
+              <div className="customer-profile__kyc-upload">
+                <label htmlFor="customer-kyc-document-type">
+                  Identity document type
+                </label>
+                <select
+                  id="customer-kyc-document-type"
+                  value={kycDocumentType}
+                  onChange={(event) =>
+                    setKycDocumentType(
+                      event.target.value as CustomerKycDocumentType,
+                    )
+                  }
+                  disabled={kycBusy}
+                >
+                  <option value="national_id">National ID</option>
+                  <option value="passport">International passport</option>
+                  <option value="drivers_license">Driver's licence</option>
+                  <option value="residence_permit">Residence permit</option>
+                </select>
+
+                <input
+                  ref={kycFileInputRef}
+                  className="customer-profile__kyc-file-input"
+                  type="file"
+                  accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
+                  onChange={handleKycDocumentChange}
+                  disabled={kycBusy}
+                  aria-label="Choose identity document"
+                />
+
+                <button
+                  className="customer-profile__kyc-upload-button"
+                  type="button"
+                  onClick={() => kycFileInputRef.current?.click()}
+                  disabled={kycBusy}
+                >
+                  {kycBusy ? "Uploading document…" : "Choose document and submit"}
+                </button>
+
+                <p className="customer-profile__kyc-help">
+                  Accepted formats: PDF, JPEG, and PNG. Maximum file size: 10 MB.
+                  Your document is submitted privately for review.
+                </p>
+
+                {kycMessage ? (
+                  <p className="customer-profile__kyc-success" role="status">
+                    {kycMessage}
+                  </p>
+                ) : null}
+
+                {kycError ? (
+                  <p className="customer-profile__kyc-error" role="alert">
+                    {kycError}
+                  </p>
+                ) : null}
+              </div>
             ) : null}
           </div>
         </section>

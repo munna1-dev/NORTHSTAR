@@ -115,48 +115,67 @@ export default async function handler(
     return error(response, 400, 'Phone number is too long.')
   }
 
-  const result = await db.query(
-    `
-      UPDATE staff
-      SET
-        first_name = $1,
-        last_name = $2,
-        phone = NULLIF($3, ''),
-        updated_at = NOW()
-      WHERE id = $4
-      RETURNING
-        id,
-        staff_number,
-        first_name,
-        last_name,
-        email,
-        phone,
-        status,
-        employee_number,
-        department,
-        two_factor_enabled
-    `,
-    [firstName, lastName, phone, managementUser.id],
-  )
+  const client = await db.connect()
 
-  if (result.rowCount !== 1) {
-    return error(response, 404, 'Management profile not found.')
+  try {
+    await client.query('BEGIN')
+
+    const result = await client.query(
+      `
+        UPDATE staff
+        SET
+          first_name = $1,
+          last_name = $2,
+          phone = NULLIF($3, ''),
+          updated_at = NOW()
+        WHERE id = $4
+        RETURNING
+          id,
+          staff_number,
+          first_name,
+          last_name,
+          email,
+          phone,
+          status,
+          employee_number,
+          department,
+          two_factor_enabled
+      `,
+      [firstName, lastName, phone, managementUser.id],
+    )
+
+    if (result.rowCount !== 1) {
+      await client.query('ROLLBACK')
+      return error(response, 404, 'Management profile not found.')
+    }
+
+    await writeStaffAuditLog(
+      request,
+      managementUser.id,
+      'management.profile.update',
+      'staff',
+      managementUser.id,
+      'Management profile updated.',
+      {
+        fields: ['first_name', 'last_name', 'phone'],
+      },
+      client,
+    )
+
+    await client.query('COMMIT')
+
+    return response.status(200).json({
+      ok: true,
+      profile: { ...result.rows[0], can_update: true },
+    })
+  } catch (cause) {
+    try {
+      await client.query('ROLLBACK')
+    } catch {
+      // Preserve the original error.
+    }
+    throw cause
+  } finally {
+    client.release()
   }
-
-  await writeStaffAuditLog(
-    request,
-    managementUser.id,
-    'management.profile.update',
-    'staff',
-    managementUser.id,
-    'Management profile updated.',
-    {
-      fields: ['first_name', 'last_name', 'phone'],
-    },
-  )
-
-  return response.status(200).json({
-    ok: true,
-    profile: { ...result.rows[0], can_update: true },
-  })
 }

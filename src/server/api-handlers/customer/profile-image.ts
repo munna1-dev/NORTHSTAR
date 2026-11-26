@@ -83,55 +83,10 @@ export default async function handler(
               throw new Error('Invalid profile image.')
             }
 
-            const db = getDb()
-
-            const existing = await db.query(
-              `
-                SELECT profile_image_path
-                FROM customers
-                WHERE id = $1
-                  AND status = 'active'
-                LIMIT 1
-              `,
-              [authorization.customerId],
-            )
-
-            if (existing.rowCount !== 1) {
-              await del(blob.pathname)
-              throw new Error('Customer account not found.')
-            }
-
-            const oldPath = existing.rows[0].profile_image_path as
-              | string
-              | null
-
-            const result = await db.query(
-              `
-                UPDATE customers
-                SET profile_image_path = $1,
-                    profile_image_url = NULL,
-                    updated_at = CURRENT_TIMESTAMP
-                WHERE id = $2
-                  AND status = 'active'
-              `,
-              [blob.pathname, authorization.customerId],
-            )
-
-            if (result.rowCount !== 1) {
-              await del(blob.pathname)
-              throw new Error('Unable to save profile image.')
-            }
-
-            if (oldPath && oldPath !== blob.pathname) {
-              try {
-                await del(oldPath)
-              } catch (cleanupError) {
-                console.error(
-                  'Unable to remove previous profile image:',
-                  cleanupError,
-                )
-              }
-            }
+            // Do not update the customer record here.
+            // The authenticated browser confirmation is the only operation
+            // allowed to save the active profile image path.
+            // This prevents delayed callbacks from restoring deleted images.
           },
         })
 
@@ -152,6 +107,92 @@ export default async function handler(
           ok: false,
           error: 'Not authenticated.',
         })
+      }
+
+      // Explicit confirmation from the authenticated browser after upload.
+      // This avoids depending on the asynchronous Blob completion callback.
+      if (
+        typeof req.body === 'object' &&
+        req.body !== null &&
+        'action' in req.body &&
+        (req.body as { action?: unknown }).action === 'confirm'
+      ) {
+        const pathname = (req.body as { pathname?: unknown }).pathname
+        const expectedPrefix = `${PREFIX}${customer.id}/`
+
+        if (
+          typeof pathname !== 'string' ||
+          !pathname.startsWith(expectedPrefix) ||
+          pathname.slice(expectedPrefix.length).includes('/') ||
+          pathname.includes('..')
+        ) {
+          return res.status(400).json({
+            ok: false,
+            error: 'Invalid profile image path.',
+          })
+        }
+
+        const uploaded = await head(pathname)
+
+        if (
+          !ALLOWED_TYPES.includes(uploaded.contentType) ||
+          uploaded.size > MAX_FILE_SIZE
+        ) {
+          try {
+            await del(pathname)
+          } catch (cleanupError) {
+            console.error('Unable to remove invalid profile image:', cleanupError)
+          }
+
+          return res.status(400).json({
+            ok: false,
+            error: 'The uploaded image type or size is not allowed.',
+          })
+        }
+
+        const db = getDb()
+        const saved = await db.query(
+          `
+            WITH current_image AS (
+              SELECT id, profile_image_path
+              FROM customers
+              WHERE id = $2
+                AND status = 'active'
+              FOR UPDATE
+            ),
+            updated_customer AS (
+              UPDATE customers AS c
+              SET profile_image_path = $1,
+                  profile_image_url = NULL,
+                  updated_at = CURRENT_TIMESTAMP
+              FROM current_image AS previous
+              WHERE c.id = previous.id
+              RETURNING previous.profile_image_path AS old_path
+            )
+            SELECT old_path FROM updated_customer
+          `,
+          [pathname, customer.id],
+        )
+
+        if (saved.rowCount !== 1) {
+          return res.status(404).json({
+            ok: false,
+            error: 'Customer account not found.',
+          })
+        }
+
+        const oldPath = saved.rows[0].old_path as string | null
+
+        // Delete the previous image only after the new path is saved.
+        if (oldPath && oldPath !== pathname) {
+          try {
+            await del(oldPath)
+          } catch (cleanupError) {
+            console.error('Unable to remove previous profile image:', cleanupError)
+          }
+        }
+
+        return res.status(200).json({ ok: true })
       }
 
       const response = await handleUpload({
@@ -194,14 +235,29 @@ export default async function handler(
     }
 
     if (req.method === 'GET') {
-      if (!customer.profile_image_path) {
+      const db = getDb()
+      const imageRecord = await db.query(
+        `
+          SELECT profile_image_path
+          FROM customers
+          WHERE id = $1
+          LIMIT 1
+        `,
+        [customer.id],
+      )
+      const imagePath = imageRecord.rows[0]?.profile_image_path as
+        | string
+        | null
+        | undefined
+
+      if (!imagePath) {
         return res.status(404).json({
           ok: false,
           error: 'No profile image.',
         })
       }
 
-      const result = await get(customer.profile_image_path, {
+      const result = await get(imagePath, {
         access: 'private',
         useCache: false,
       })
@@ -226,7 +282,48 @@ export default async function handler(
     }
 
     if (req.method === 'DELETE') {
-      const oldPath = customer.profile_image_path
+      const db = getDb()
+      const client = await db.connect()
+      let oldPath: string | null = null
+
+      try {
+        await client.query('BEGIN')
+
+        const imageRecord = await client.query(
+          `
+            SELECT profile_image_path
+            FROM customers
+            WHERE id = $1
+              AND status = 'active'
+            FOR UPDATE
+          `,
+          [customer.id],
+        )
+
+        oldPath = (imageRecord.rows[0]?.profile_image_path as
+          | string
+          | null
+          | undefined) ?? null
+
+        await client.query(
+          `
+            UPDATE customers
+            SET profile_image_path = NULL,
+                profile_image_url = NULL,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE id = $1
+              AND status = 'active'
+          `,
+          [customer.id],
+        )
+
+        await client.query('COMMIT')
+      } catch (databaseError) {
+        await client.query('ROLLBACK')
+        throw databaseError
+      } finally {
+        client.release()
+      }
 
       if (!oldPath) {
         return res.status(200).json({ ok: true })
@@ -237,19 +334,6 @@ export default async function handler(
       } catch (deleteError) {
         console.error('Unable to remove profile image blob:', deleteError)
       }
-
-      const db = getDb()
-
-      await db.query(
-        `
-          UPDATE customers
-          SET profile_image_path = NULL,
-              profile_image_url = NULL,
-              updated_at = CURRENT_TIMESTAMP
-          WHERE id = $1
-        `,
-        [customer.id],
-      )
 
       await writeAuditLog(
         req,

@@ -1,3 +1,4 @@
+import { isNativeApp, getCustomerAuthorizationHeaders, saveCustomerSessionToken, clearCustomerSessionToken } from './nativeSession'
 import type { UserProfile } from '../types'
 
 interface AuthMeResponse {
@@ -14,10 +15,12 @@ export async function getCurrentCustomer(): Promise<UserProfile | null> {
       credentials: 'include',
       headers: {
         Accept: 'application/json',
+        ...(await getCustomerAuthorizationHeaders()),
       },
     })
 
     if (response.status === 401) {
+      await clearCustomerSessionToken().catch(() => undefined)
       window.dispatchEvent(
         new CustomEvent('northstar:auth-unauthorized'),
       )
@@ -30,6 +33,7 @@ export async function getCurrentCustomer(): Promise<UserProfile | null> {
     const result = (await response.json()) as AuthMeResponse
 
     if (!result.ok || !result.authenticated || !result.customer) {
+      await clearCustomerSessionToken().catch(() => undefined)
       return null
     }
 
@@ -54,6 +58,7 @@ export async function signInCustomer(
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
+        ...(isNativeApp() ? { 'X-Northstar-Client': 'native' } : {}),
       },
       body: JSON.stringify({
         identifier,
@@ -64,6 +69,7 @@ export async function signInCustomer(
     const result = (await response.json()) as {
       ok: boolean
       customer?: UserProfile
+      sessionToken?: string
       error?: string
     }
 
@@ -72,6 +78,17 @@ export async function signInCustomer(
         ok: false,
         error: result.error ?? 'Unable to sign in.',
       }
+    }
+
+    if (isNativeApp()) {
+      if (!result.sessionToken) {
+        return {
+          ok: false,
+          error: 'Secure mobile sign-in could not be established. Please try again.',
+        }
+      }
+
+      await saveCustomerSessionToken(result.sessionToken)
     }
 
     return result
@@ -90,10 +107,13 @@ export async function signOutCustomer(): Promise<void> {
       credentials: 'include',
       headers: {
         Accept: 'application/json',
+        ...(await getCustomerAuthorizationHeaders()),
       },
     })
   } catch {
     // The server session may already be unavailable.
+  } finally {
+    await clearCustomerSessionToken().catch(() => undefined)
   }
 }
 

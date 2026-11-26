@@ -46,6 +46,7 @@ const navigationGroups: Array<{ label: string; items: NavigationItem[] }> = [
     label: "CUSTOMER OPERATIONS",
     items: [
       { label: "Applications", href: "/management/applications", icon: ClipboardCheck, permissions: ["applications.view"] },
+      { label: "KYC Review", href: "/management/kyc", icon: ClipboardCheck, permissions: ["kyc.view"] },
       { label: "Customers", href: "/management/customers", icon: Users, permissions: ["customers.view"] },
       { label: "Accounts", href: "/management/accounts", icon: Building2, permissions: ["accounts.view"] },
       { label: "Card Requests", href: "/management/card-requests", icon: CreditCard, permissions: ["cards.view"] },
